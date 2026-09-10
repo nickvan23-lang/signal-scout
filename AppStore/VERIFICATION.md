@@ -28,6 +28,6 @@ Verified on September 9, 2026 with Xcode 26.5 and the iOS 26.5 SDK.
 
 ## Evidence boundary
 
-The archive currently uses an Apple Development identity and development provisioning profile. It is a valid local archive, but it is not yet an App Store-distribution-signed upload. Distribution export, product creation, sandbox subscription testing, build upload, and App Review submission require the Apple account gates in `SUBMISSION_CHECKLIST.md`.
+The upload-ready IPA at `Export/SignalScout-1.3-4.ipa` is signed with `Apple Distribution: NICHOLAS ALAN VANDERVELDEN (YJTLRBVNSM)` and the App Store provisioning profile for `com.nicholasvandervelden.SignalScout`. Its SHA-256 digest is `6d156040db11887e85b2183440b9adc24e8906767a5181350c31a95c8041d3e1`. Product creation, sandbox subscription testing, build upload/processing, and App Review submission remain tracked in `SUBMISSION_CHECKLIST.md`.
 
 The simulator validates UI, subscription-state logic, and deterministic signal analysis. Live BLE reception was previously validated on the paired iPhone using the installed pre-subscription build; the final subscription build has intentionally not replaced that usable phone build before the App Store product is available.

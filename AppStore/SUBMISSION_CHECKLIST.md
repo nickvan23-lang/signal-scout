@@ -26,12 +26,18 @@
 ## Actions ready after those gates
 
 - [x] Publish the public privacy/support site and verify each URL.
-- [ ] Register the explicit App ID if Apple has not already created it.
-- [ ] Create the App Store app record; use the documented fallback name only if required.
-- [ ] Create the Signal Scout Pro subscription group and monthly product.
-- [ ] Set the United States storefront price to $4.99 per month and configure availability.
-- [ ] Add subscription localization and upload `Screenshots/04-subscription-review.png` as its App Review screenshot.
-- [ ] Export/re-sign the archive for App Store Connect and upload build 4.
+- [x] Register the explicit App ID `com.nicholasvandervelden.SignalScout`.
+- [x] Create the App Store app record as `Signal Scout - BLE Finder` (Apple app ID `6810531496`) after the preferred name was unavailable.
+- [x] Create the Signal Scout Pro subscription group (group ID `22373268`).
+- [x] Create the `Signal Scout Pro Monthly` one-month product (Apple ID `6810541300`, product ID `com.nicholasvandervelden.SignalScout.monthly`).
+- [x] Set the United States base storefront price to $4.99 per month.
+- [x] Limit initial availability to the United States (1 of 175 storefronts).
+- [x] Upload `Screenshots/04-subscription-review.png` as the subscription App Review screenshot.
+- [x] Add the English (U.S.) subscription and subscription-group localizations.
+- [x] Save the subscription App Review notes covering the no-account flow, one-time 60-second preview, anonymous BLE labels, StoreKit purchase, restore, and subscription management.
+- [x] Export/re-sign build 4 for App Store Connect distribution.
+- [x] Upload build 4 to App Store Connect (`Upload succeeded` on September 9, 2026).
+- [x] Wait for Apple to finish processing build 4; it is available for selection as version 1.3, build 4.
 - [ ] Run a StoreKit sandbox purchase, restore, expiration, and relaunch test on the physical iPhone.
 - [ ] Enter metadata, screenshots, privacy answers, age-rating answers, and review notes.
 - [ ] Select the uploaded build and subscription, then submit both for App Review.

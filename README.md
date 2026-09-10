@@ -1,6 +1,6 @@
 # Signal Scout
 
-Signal Scout is a privacy-conscious iPhone utility for finding nearby Bluetooth Low Energy devices that are actively advertising. Its Live Signal Field maps every advertisement onto relative-strength rings, offers an expanded pannable and zoomable full-screen map, and provides warmer-and-colder guidance while you move.
+Signal Scout is a privacy-conscious iPhone utility for narrowing the search for lost headphones, earbuds, and other Bluetooth Low Energy devices that are actively advertising. Its Live Signal Field maps every advertisement onto relative-strength rings, offers an expanded pannable and zoomable full-screen map, and provides warmer-and-colder guidance while you move.
 
 Support, privacy, and subscription information is published at [nickvan23-lang.github.io/signal-scout](https://nickvan23-lang.github.io/signal-scout/).
 

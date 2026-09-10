@@ -2,7 +2,9 @@
 
 ## Identity
 
-- App name: Signal Scout
+- App Store name: Signal Scout - BLE Finder
+- On-device display name: Signal Scout
+- Apple app ID: `6810531496`
 - Primary language: English (U.S.)
 - Bundle ID: `com.nicholasvandervelden.SignalScout`
 - SKU: `SIGNALSCOUT-IOS-2026`
@@ -13,19 +15,23 @@
 
 ## Product page
 
-Subtitle: `Find nearby BLE signals`
+Subtitle: `Find Lost Headphones & Devices`
 
 Promotional text:
 
-`See anonymous Bluetooth signals move across a live relative-strength map, then follow warmer-and-colder guidance to narrow your search.`
+`Find lost headphones and other nearby Bluetooth devices using a live anonymous signal map and warmer-or-colder guidance as you move.`
 
 Description:
 
-`Signal Scout helps you locate Bluetooth Low Energy devices that are actively advertising near your iPhone.`
+`Misplaced headphones, earbuds, or another Bluetooth device? Signal Scout helps you narrow the search for Bluetooth Low Energy devices that are actively advertising near your iPhone.`
 
 `LIVE SIGNAL FIELD`
 
 `See every visible signal as an anonymous dot. Stronger signals move toward the phone while weaker signals move outward. Expand the field, pan, zoom, and tap any signal to begin focused tracking.`
+
+`FIND LOST HEADPHONES AND DEVICES`
+
+`Choose an anonymous nearby signal, then walk slowly to see whether its Bluetooth signal is trending warmer or colder. This can help narrow the search for misplaced headphones, earbuds, trackers, and other BLE accessories that are still advertising.`
 
 `WARMER-AND-COLDER GUIDANCE`
 
@@ -41,7 +47,7 @@ Description:
 
 `Bluetooth RSSI provides approximate relative strength, not a true direction or exact physical distance. Signal Scout can detect only BLE devices that are actively advertising and visible through iOS.`
 
-Keywords: `bluetooth,BLE,signal,RSSI,finder,scanner,proximity,tracker,device,map,utility`
+Keywords: `bluetooth,BLE,headphones,earbuds,finder,signal,RSSI,lost,scanner,proximity,tracker,device,map`
 
 Support URL: `https://nickvan23-lang.github.io/signal-scout/support.html`
 
@@ -56,15 +62,22 @@ Terms of Use: `https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 - Type: Auto-renewable subscription
 - Subscription group reference name: Signal Scout Pro
 - Subscription group display name: Signal Scout Pro
+- Subscription group ID: `22373268`
 - Reference name: Signal Scout Pro Monthly
 - Product ID: `com.nicholasvandervelden.SignalScout.monthly`
+- Apple subscription ID: `6810541300`
 - Duration: 1 month
 - U.S. price: $4.99
+- Initial availability: United States only
 - Family Sharing: Off
 - Free trial or introductory offer: None
 - Localization display name: Signal Scout Pro Monthly
-- Localization description: `Unlimited access to the live signal field, full-screen map, and warmer-and-colder Bluetooth guidance.`
+- Localization description: `Unlimited lost-device signal mapping and guidance.`
 - Review screenshot: `Screenshots/04-subscription-review.png` showing the localized price, purchase and restore controls, renewal disclosure, privacy, support, and terms links
+
+Subscription review notes saved in App Store Connect:
+
+`Signal Scout requires no account. Tap Start 60-Second Free Preview to begin the one-time preview; this does not start a purchase. The app intentionally shows only anonymous BLE signal labels. After the preview ends, purchase this monthly subscription through StoreKit. Restore Purchases and Manage Subscription controls are available on the paywall.`
 
 ## App Review notes
 
@@ -90,7 +103,7 @@ The app contains no user-generated content, messaging, advertising, web browsing
 
 The app does not implement proprietary or non-exempt encryption. It uses Apple system frameworks and HTTPS links only. `ITSAppUsesNonExemptEncryption` is set to `NO`. Final export-compliance responses remain the Account Holder's legal declaration.
 
-## Name fallback if the primary name is unavailable
+## App Store name decision
 
-- Preferred fallback: `Signal Scout - BLE Finder`
-- Do not change the on-device display name without a corresponding metadata review.
+- `Signal Scout` was unavailable in App Store Connect, so the app record was created as `Signal Scout - BLE Finder`.
+- Keep the on-device display name `Signal Scout`; the App Store name adds search context without crowding the installed icon label.
