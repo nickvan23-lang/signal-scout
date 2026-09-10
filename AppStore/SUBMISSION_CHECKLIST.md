@@ -42,7 +42,7 @@
 - [x] Save the App Review contact, mark sign-in as not required, and select manual release.
 - [x] Associate processed build 4 with iOS version 1.3.
 - [ ] Run a StoreKit sandbox purchase, restore, expiration, and relaunch test on the physical iPhone.
-- [ ] Complete and save App Privacy and age-rating questionnaires.
+- [x] Complete and save App Privacy and age-rating questionnaires. App Privacy was published as `Data Not Collected`; App Store Connect assigned a global `4+` rating with its automatic regional equivalents.
 - [ ] Confirm Content Rights and export-compliance declarations as the Account Holder.
 - [ ] Select the uploaded build and subscription, then submit both for App Review.
 - [ ] Monitor processing and App Review; resolve any Apple feedback without making unsupported claims.

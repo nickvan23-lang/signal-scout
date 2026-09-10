@@ -94,10 +94,12 @@ Subscription review notes saved in App Store Connect:
 - BLE records: anonymous, in memory, on device, not transmitted
 - Preview start time: local UserDefaults only, not transmitted
 - Purchase and entitlement processing: Apple StoreKit
+- App Store Connect status: Published as `Data Not Collected` on September 10, 2026
+- App Store Connect privacy policy URL: `https://nickvan23-lang.github.io/signal-scout/privacy.html`
 
 ## Age-rating questionnaire evidence
 
-The app contains no user-generated content, messaging, advertising, web browsing, gambling, contests, violence, sexual content, profanity, drugs, horror, medical treatment, or unrestricted web access. Expected rating: 4+, subject to App Store Connect's current questionnaire result.
+The app contains no user-generated content, messaging, advertising, web browsing, gambling, contests, violence, sexual content, profanity, drugs, horror, medical treatment, or unrestricted web access. The questionnaire was completed and saved on September 10, 2026. App Store Connect assigned a global `4+` rating, with its automatic regional equivalents of `All` in Brazil and `00+` in Korea.
 
 ## Export compliance evidence
 
