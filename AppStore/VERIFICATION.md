@@ -4,16 +4,18 @@ Verified on September 9, 2026 with Xcode 26.5 and the iOS 26.5 SDK.
 
 ## Passed gates
 
-- iPhone 17 Pro Max simulator test run: 12 tests passed, 0 failed, 0 skipped.
+- iPhone 17 Pro Max simulator test run: 12 tests passed, 0 failed, 0 skipped (`Test-SignalScout-2026.09.09_8-51-24--0700.xcresult`).
 - Generic iOS Release build: passed.
 - Xcode static analysis: passed with no reported diagnostics.
-- iPhone-only archive: `Archives/SignalScout-1.3-4-iPhone.xcarchive` created successfully.
+- iPhone-only archive: `Archives/SignalScout-1.3-4-iPhone-final.xcarchive` created successfully.
 - Archive identity: `com.nicholasvandervelden.SignalScout`, version 1.3, build 4, arm64, device family 1.
 - Archive code signature integrity: `codesign --verify --deep --strict` passed.
 - Privacy manifest: `plutil -lint SignalScout/PrivacyInfo.xcprivacy` passed.
-- Release-binary audit: screenshot-mode arguments and sample identifiers are absent.
+- Release-binary audit: screenshot-mode arguments, the screenshot-only `$4.99` fixture, and sample identifiers are absent.
 - Source privacy audit: no use of `peripheral.name`, advertised local-name keys, or manufacturer-data keys.
-- App Store screenshots: three 1320 by 2868 PNG files captured from an iPhone 17 Pro Max simulator.
+- Product screenshots: three 1320 by 2868 PNG files captured from an iPhone 17 Pro Max simulator.
+- Subscription review screenshot: `Screenshots/04-subscription-review.png`, 1320 by 2868, captured from the same simulator and showing the renewal disclosure, restore control, terms, privacy, support, and `$4.99 per month` purchase control.
+- Screenshot pricing fixture: implemented inside `#if DEBUG` solely to render the configured price when StoreKit is unavailable in the simulator; the Release archive continues to use `Product.displayPrice` and contains none of the fixture strings.
 
 ## Functional scope
 

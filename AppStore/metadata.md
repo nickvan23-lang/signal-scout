@@ -64,7 +64,7 @@ Terms of Use: `https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 - Free trial or introductory offer: None
 - Localization display name: Signal Scout Pro Monthly
 - Localization description: `Unlimited access to the live signal field, full-screen map, and warmer-and-colder Bluetooth guidance.`
-- Review screenshot: subscription screen showing the localized price and purchase control
+- Review screenshot: `Screenshots/04-subscription-review.png` showing the localized price, purchase and restore controls, renewal disclosure, privacy, support, and terms links
 
 ## App Review notes
 

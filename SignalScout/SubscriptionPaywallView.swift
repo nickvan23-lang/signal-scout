@@ -72,9 +72,9 @@ struct SubscriptionPaywallView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(ScoutPalette.cyan)
                 .foregroundStyle(ScoutPalette.background)
-                .disabled(subscription.monthlyProduct == nil || subscription.isPurchasing)
+                .disabled(!subscription.isMonthlyProductAvailable || subscription.isPurchasing)
 
-                if subscription.monthlyProduct == nil {
+                if !subscription.isMonthlyProductAvailable {
                     Button("Retry App Store") {
                         Task { await subscription.loadProducts() }
                     }
@@ -119,15 +119,15 @@ struct SubscriptionPaywallView: View {
         .background(ScoutPalette.background.ignoresSafeArea())
         .preferredColorScheme(.dark)
         .task {
-            if subscription.monthlyProduct == nil {
+            if !subscription.isMonthlyProductAvailable {
                 await subscription.loadProducts()
             }
         }
     }
 
     private var purchaseButtonTitle: String {
-        if let product = subscription.monthlyProduct {
-            return "Subscribe — \(product.displayPrice) per month"
+        if let displayPrice = subscription.monthlyDisplayPrice {
+            return "Subscribe — \(displayPrice) per month"
         }
         return "Loading App Store Price…"
     }

@@ -10,8 +10,8 @@
 - [x] Privacy manifest and export-compliance plist key
 - [x] App Store metadata draft and review notes
 - [x] Public privacy policy/support/marketing site published and verified
-- [x] Three product screenshots at 1320 by 2868
-- [x] iPhone-only archive 1.3 (4)
+- [x] Three product screenshots and one subscription-review screenshot at 1320 by 2868
+- [x] Verified iPhone-only archive 1.3 (4) at `Archives/SignalScout-1.3-4-iPhone-final.xcarchive`
 - [x] Twelve automated tests and static analysis
 
 ## Account Holder actions required in Apple systems
@@ -30,7 +30,7 @@
 - [ ] Create the App Store app record; use the documented fallback name only if required.
 - [ ] Create the Signal Scout Pro subscription group and monthly product.
 - [ ] Set the United States storefront price to $4.99 per month and configure availability.
-- [ ] Add subscription localization and its App Review screenshot.
+- [ ] Add subscription localization and upload `Screenshots/04-subscription-review.png` as its App Review screenshot.
 - [ ] Export/re-sign the archive for App Store Connect and upload build 4.
 - [ ] Run a StoreKit sandbox purchase, restore, expiration, and relaunch test on the physical iPhone.
 - [ ] Enter metadata, screenshots, privacy answers, age-rating answers, and review notes.

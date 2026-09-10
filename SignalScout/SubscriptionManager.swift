@@ -52,6 +52,17 @@ final class SubscriptionManager: ObservableObject {
 
     var isSubscribed: Bool { access == .subscribed }
 
+    var monthlyDisplayPrice: String? {
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-SignalScoutPaywallScreenshotMode") {
+            return "$4.99"
+        }
+#endif
+        return monthlyProduct?.displayPrice
+    }
+
+    var isMonthlyProductAvailable: Bool { monthlyDisplayPrice != nil }
+
     var previewSecondsRemaining: Int? {
         guard case .preview(let seconds) = access else { return nil }
         return seconds
@@ -66,6 +77,11 @@ final class SubscriptionManager: ObservableObject {
         guard !hasPrepared else { return }
         hasPrepared = true
 #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-SignalScoutPaywallScreenshotMode") {
+            access = .locked
+            message = nil
+            return
+        }
         if ProcessInfo.processInfo.arguments.contains("-SignalScoutScreenshotMode") {
             access = .preview(secondsRemaining: 60)
             return
