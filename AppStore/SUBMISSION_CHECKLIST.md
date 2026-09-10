@@ -17,10 +17,10 @@
 ## Account Holder actions required in Apple systems
 
 - [ ] Accept the updated Apple Developer Program License Agreement.
-- [ ] Confirm or update the legal-entity information required for paid apps.
-- [ ] Request and sign the Paid Apps Agreement.
+- [x] Confirm the existing legal-entity information required for paid apps without changing it (verified September 10, 2026).
+- [x] Request and sign the Paid Apps Agreement. Apple accepted it on September 10, 2026; its current status is `Pending User Info` until banking and U.S. tax setup are completed.
 - [ ] Complete banking and tax setup for paid proceeds.
-- [ ] Complete the EU Digital Services Act trader-status workflow if distributing in the EU.
+- [x] Complete Digital Services Act status as non-trader. App Store Connect shows the declaration as `Active`; initial storefront availability remains United States only.
 - [ ] Confirm export-compliance answers as legal declarations.
 
 ## Actions ready after those gates
@@ -43,6 +43,7 @@
 - [x] Associate processed build 4 with iOS version 1.3.
 - [ ] Run a StoreKit sandbox purchase, restore, expiration, and relaunch test on the physical iPhone.
 - [x] Complete and save App Privacy and age-rating questionnaires. App Privacy was published as `Data Not Collected`; App Store Connect assigned a global `4+` rating with its automatic regional equivalents.
-- [ ] Confirm Content Rights and export-compliance declarations as the Account Holder.
+- [x] Confirm Content Rights as `No, this app does not contain, show, or access third-party content` (saved September 10, 2026).
+- [ ] Confirm any remaining export-compliance declaration requested during submission as the Account Holder. Build 1.3 (4) already reports `App Uses Non-Exempt Encryption: No`.
 - [ ] Select the uploaded build and subscription, then submit both for App Review.
 - [ ] Monitor processing and App Review; resolve any Apple feedback without making unsupported claims.

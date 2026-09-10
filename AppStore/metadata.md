@@ -105,6 +105,15 @@ The app contains no user-generated content, messaging, advertising, web browsing
 
 The app does not implement proprietary or non-exempt encryption. It uses Apple system frameworks and HTTPS links only. `ITSAppUsesNonExemptEncryption` is set to `NO`. Final export-compliance responses remain the Account Holder's legal declaration.
 
+## App Store Connect submission status
+
+- The existing legal-entity information was confirmed unchanged on September 10, 2026.
+- Digital Services Act status is active as non-trader; initial availability remains United States only.
+- Content Rights is saved as: `No, this app does not contain, show, or access third-party content.`
+- The Paid Apps Agreement was accepted on September 10, 2026 and is `Pending User Info` until banking and U.S. tax setup are completed.
+- iOS version 1.3, build 4, and the Signal Scout Pro subscription group remain `Prepare for Submission`, with active `Add for Review` controls.
+- The App Review queue is empty. Nothing has been submitted to Apple for review yet, and manual release remains selected.
+
 ## App Store name decision
 
 - `Signal Scout` was unavailable in App Store Connect, so the app record was created as `Signal Scout - BLE Finder`.
