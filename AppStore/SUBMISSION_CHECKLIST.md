@@ -38,7 +38,11 @@
 - [x] Export/re-sign build 4 for App Store Connect distribution.
 - [x] Upload build 4 to App Store Connect (`Upload succeeded` on September 9, 2026).
 - [x] Wait for Apple to finish processing build 4; it is available for selection as version 1.3, build 4.
+- [x] Save the English (U.S.) product-page text, URLs, version 1.3, copyright, and App Review notes.
+- [x] Save the App Review contact, mark sign-in as not required, and select manual release.
+- [x] Associate processed build 4 with iOS version 1.3.
 - [ ] Run a StoreKit sandbox purchase, restore, expiration, and relaunch test on the physical iPhone.
-- [ ] Enter metadata, screenshots, privacy answers, age-rating answers, and review notes.
+- [ ] Complete and save App Privacy and age-rating questionnaires.
+- [ ] Confirm Content Rights and export-compliance declarations as the Account Holder.
 - [ ] Select the uploaded build and subscription, then submit both for App Review.
 - [ ] Monitor processing and App Review; resolve any Apple feedback without making unsupported claims.

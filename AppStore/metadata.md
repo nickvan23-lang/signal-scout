@@ -10,7 +10,7 @@
 - SKU: `SIGNALSCOUT-IOS-2026`
 - Version: 1.3
 - Primary category: Utilities
-- Secondary category: None
+- Secondary category: Productivity (existing App Store Connect setting; not changed in the approved metadata batch)
 - Copyright: 2026 Nicholas Alan Vandervelden
 
 ## Product page
