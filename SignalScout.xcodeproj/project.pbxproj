@@ -1,0 +1,464 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		06071DC292825AE2C76F39D6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9BF167A66F2126F44C2652A8 /* PrivacyInfo.xcprivacy */; };
+		120CCD380CBA37415C1CD559 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECC3200EBA5139571EE0C035 /* Assets.xcassets */; };
+		22FBB09C640B9CB16D40E0CA /* SignalAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B44DAB30D21DEE37D276D /* SignalAnalysis.swift */; };
+		559CE5039BFE0E1399BF2B06 /* SignalScoutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD8586CC886D4B40BC39881 /* SignalScoutApp.swift */; };
+		B0B7D0CAFBC2306762185E59 /* SignalTrendAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455C0754BE0429F85548C175 /* SignalTrendAnalyzerTests.swift */; };
+		BD9ACF8BEC3D97CE3B604B9D /* BluetoothScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6337DAF5CCDC7CF4A512BB /* BluetoothScanner.swift */; };
+		C0F5BCBFF22D51B56FA8A333 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D8A04FF3D2824FD819DA0F /* RootView.swift */; };
+		CDF24B27E67ECE71E9BBD946 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ECB7116990924DE7AF6E5F /* SubscriptionManager.swift */; };
+		CFE8FE04F61E47DA0EED116C /* SignalMapLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CCE4FB6970F7CEDC5ADCC /* SignalMapLayout.swift */; };
+		F7AFCC62EA413D1966E597D0 /* SubscriptionPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF6369E4488587790A1BF7B /* SubscriptionPaywallView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BAAC348131041C3253973F9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E7F37B4C1219999C99238819 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 777AF534B9AC355E623BA25A;
+			remoteInfo = SignalScout;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		154768A06E42DE444A066078 /* SignalScoutTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SignalScoutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		455C0754BE0429F85548C175 /* SignalTrendAnalyzerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalTrendAnalyzerTests.swift; sourceTree = "<group>"; };
+		68912C979C343129FBEE500A /* SignalScout.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SignalScout.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A6337DAF5CCDC7CF4A512BB /* BluetoothScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothScanner.swift; sourceTree = "<group>"; };
+		9BF167A66F2126F44C2652A8 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A2D8A04FF3D2824FD819DA0F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		CA2CCE4FB6970F7CEDC5ADCC /* SignalMapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalMapLayout.swift; sourceTree = "<group>"; };
+		D1ECB7116990924DE7AF6E5F /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		DAF6369E4488587790A1BF7B /* SubscriptionPaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPaywallView.swift; sourceTree = "<group>"; };
+		EBD8586CC886D4B40BC39881 /* SignalScoutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalScoutApp.swift; sourceTree = "<group>"; };
+		ECC3200EBA5139571EE0C035 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FC9B44DAB30D21DEE37D276D /* SignalAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalAnalysis.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		3A9CD019D64A0AB907DBEB29 /* SignalScoutTests */ = {
+			isa = PBXGroup;
+			children = (
+				455C0754BE0429F85548C175 /* SignalTrendAnalyzerTests.swift */,
+			);
+			path = SignalScoutTests;
+			sourceTree = "<group>";
+		};
+		5DFD338F7C9DB2CEA890485A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68912C979C343129FBEE500A /* SignalScout.app */,
+				154768A06E42DE444A066078 /* SignalScoutTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		75E53CAED56C3F086C3CB61A /* SignalScout */ = {
+			isa = PBXGroup;
+			children = (
+				ECC3200EBA5139571EE0C035 /* Assets.xcassets */,
+				6A6337DAF5CCDC7CF4A512BB /* BluetoothScanner.swift */,
+				9BF167A66F2126F44C2652A8 /* PrivacyInfo.xcprivacy */,
+				A2D8A04FF3D2824FD819DA0F /* RootView.swift */,
+				FC9B44DAB30D21DEE37D276D /* SignalAnalysis.swift */,
+				CA2CCE4FB6970F7CEDC5ADCC /* SignalMapLayout.swift */,
+				EBD8586CC886D4B40BC39881 /* SignalScoutApp.swift */,
+				D1ECB7116990924DE7AF6E5F /* SubscriptionManager.swift */,
+				DAF6369E4488587790A1BF7B /* SubscriptionPaywallView.swift */,
+			);
+			path = SignalScout;
+			sourceTree = "<group>";
+		};
+		E5BD87E1CDB73B4B151B5C49 = {
+			isa = PBXGroup;
+			children = (
+				75E53CAED56C3F086C3CB61A /* SignalScout */,
+				3A9CD019D64A0AB907DBEB29 /* SignalScoutTests */,
+				5DFD338F7C9DB2CEA890485A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		52670121FD1E15592C8A0664 /* SignalScoutTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9E5320567A483491559FBEB /* Build configuration list for PBXNativeTarget "SignalScoutTests" */;
+			buildPhases = (
+				903745D5817C39C288C770FA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3111CCFBE231A41243E09D63 /* PBXTargetDependency */,
+			);
+			name = SignalScoutTests;
+			packageProductDependencies = (
+			);
+			productName = SignalScoutTests;
+			productReference = 154768A06E42DE444A066078 /* SignalScoutTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		777AF534B9AC355E623BA25A /* SignalScout */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 24720B60B0BC0651E87CB262 /* Build configuration list for PBXNativeTarget "SignalScout" */;
+			buildPhases = (
+				80383BA5856E90E9CCAA45D5 /* Sources */,
+				622D30EF23307737B5EA0C01 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SignalScout;
+			packageProductDependencies = (
+			);
+			productName = SignalScout;
+			productReference = 68912C979C343129FBEE500A /* SignalScout.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E7F37B4C1219999C99238819 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					52670121FD1E15592C8A0664 = {
+						DevelopmentTeam = YJTLRBVNSM;
+						ProvisioningStyle = Automatic;
+					};
+					777AF534B9AC355E623BA25A = {
+						DevelopmentTeam = YJTLRBVNSM;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2E14845574586936E0DCFBC7 /* Build configuration list for PBXProject "SignalScout" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = E5BD87E1CDB73B4B151B5C49;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 5DFD338F7C9DB2CEA890485A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				777AF534B9AC355E623BA25A /* SignalScout */,
+				52670121FD1E15592C8A0664 /* SignalScoutTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		622D30EF23307737B5EA0C01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				120CCD380CBA37415C1CD559 /* Assets.xcassets in Resources */,
+				06071DC292825AE2C76F39D6 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		80383BA5856E90E9CCAA45D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD9ACF8BEC3D97CE3B604B9D /* BluetoothScanner.swift in Sources */,
+				C0F5BCBFF22D51B56FA8A333 /* RootView.swift in Sources */,
+				22FBB09C640B9CB16D40E0CA /* SignalAnalysis.swift in Sources */,
+				CFE8FE04F61E47DA0EED116C /* SignalMapLayout.swift in Sources */,
+				559CE5039BFE0E1399BF2B06 /* SignalScoutApp.swift in Sources */,
+				CDF24B27E67ECE71E9BBD946 /* SubscriptionManager.swift in Sources */,
+				F7AFCC62EA413D1966E597D0 /* SubscriptionPaywallView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		903745D5817C39C288C770FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0B7D0CAFBC2306762185E59 /* SignalTrendAnalyzerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3111CCFBE231A41243E09D63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 777AF534B9AC355E623BA25A /* SignalScout */;
+			targetProxy = BAAC348131041C3253973F9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		06B87105845560D37AB63B8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Signal Scout";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Signal Scout uses Bluetooth to show nearby advertising devices and help you follow changes in signal strength while you search.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nicholasvandervelden.SignalScout;
+				PRODUCT_NAME = SignalScout;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		52FE508F6D2730A72594F359 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nicholasvandervelden.SignalScoutTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SignalScout.app/SignalScout";
+			};
+			name = Release;
+		};
+		6086EE60BB8B565F9DEFF619 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = YJTLRBVNSM;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8AF4164CC67493242181B53E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YJTLRBVNSM;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		9CC94EE3EE4B9A407FBD99DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nicholasvandervelden.SignalScoutTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SignalScout.app/SignalScout";
+			};
+			name = Debug;
+		};
+		FB3FF1D0FF4CD15AFCA12198 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Signal Scout";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Signal Scout uses Bluetooth to show nearby advertising devices and help you follow changes in signal strength while you search.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nicholasvandervelden.SignalScout;
+				PRODUCT_NAME = SignalScout;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		24720B60B0BC0651E87CB262 /* Build configuration list for PBXNativeTarget "SignalScout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB3FF1D0FF4CD15AFCA12198 /* Debug */,
+				06B87105845560D37AB63B8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2E14845574586936E0DCFBC7 /* Build configuration list for PBXProject "SignalScout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6086EE60BB8B565F9DEFF619 /* Debug */,
+				8AF4164CC67493242181B53E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E9E5320567A483491559FBEB /* Build configuration list for PBXNativeTarget "SignalScoutTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CC94EE3EE4B9A407FBD99DE /* Debug */,
+				52FE508F6D2730A72594F359 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E7F37B4C1219999C99238819 /* Project object */;
+}

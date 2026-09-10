@@ -1,0 +1,52 @@
+name: SignalScout
+options:
+  bundleIdPrefix: com.nicholas
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "26.5"
+settings:
+  base:
+    DEVELOPMENT_TEAM: YJTLRBVNSM
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "5.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    SUPPORTS_MACCATALYST: NO
+targets:
+  SignalScout:
+    type: application
+    platform: iOS
+    sources:
+      - path: SignalScout
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nicholasvandervelden.SignalScout
+        PRODUCT_NAME: SignalScout
+        TARGETED_DEVICE_FAMILY: "1"
+        CURRENT_PROJECT_VERSION: 4
+        MARKETING_VERSION: 1.3
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Signal Scout
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription: Signal Scout uses Bluetooth to show nearby advertising devices and help you follow changes in signal strength while you search.
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIRequiresFullScreen: YES
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    scheme:
+      testTargets:
+        - SignalScoutTests
+  SignalScoutTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: SignalScoutTests
+    dependencies:
+      - target: SignalScout
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nicholasvandervelden.SignalScoutTests
+        GENERATE_INFOPLIST_FILE: YES
