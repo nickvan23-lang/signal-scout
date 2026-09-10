@@ -9,7 +9,7 @@
 - [x] Auto-renewal disclosure, privacy link, support link, and Apple standard EULA link
 - [x] Privacy manifest and export-compliance plist key
 - [x] App Store metadata draft and review notes
-- [x] Privacy policy/support/marketing site ready for publication
+- [x] Public privacy policy/support/marketing site published and verified
 - [x] Three product screenshots at 1320 by 2868
 - [x] iPhone-only archive 1.3 (4)
 - [x] Twelve automated tests and static analysis
@@ -25,7 +25,7 @@
 
 ## Actions ready after those gates
 
-- [ ] Publish the public privacy/support site and verify each URL.
+- [x] Publish the public privacy/support site and verify each URL.
 - [ ] Register the explicit App ID if Apple has not already created it.
 - [ ] Create the App Store app record; use the documented fallback name only if required.
 - [ ] Create the Signal Scout Pro subscription group and monthly product.
