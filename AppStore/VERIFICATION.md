@@ -1,4 +1,24 @@
-# Signal Scout 1.3 (4) verification
+# Signal Scout 1.3 (5) verification status
+
+Prepared October 3, 2026 from main commit `3c5272c5404f944b9f7bcb0bfae1d7c510d8b306`. The new build number is 5; marketing version remains 1.3. This is a source patch, not a compiled or uploaded binary.
+
+## Current free-release checks
+
+- `python3 scripts/check_free_release.py`: 14 portable source-contract checks passed on Linux, covering direct launch, absent StoreKit/paywall/preview code, version consistency, retained support/privacy/terms links, scanner initialization, anonymous-device constraints, privacy manifest, XML/JSON parsing, project source references, retained test references, and local website links/contact copy.
+- Source inspection confirms no payment or entitlement prerequisite. An old preview timestamp is no longer read or written and cannot control access.
+- BluetoothScanner, SignalAnalysis, and SignalMapLayout are unchanged from the base commit. The ten existing signal/map/privacy XCTest cases remain; the two obsolete preview-clock tests were removed.
+- The privacy manifest no longer declares the removed UserDefaults access.
+- No screenshot PNG files have been changed or recaptured.
+
+## Not yet run for build 5
+
+The Linux preparation environment has neither Swift nor Xcode. No iOS compilation, XCTest execution, Xcode analysis, simulator UI test, physical-device BLE test, archive, code-signature validation, Release-binary inspection, upload, or Apple processing has been performed for build 5. The required latest-OS physical-device recording is also pending. Follow `SUBMISSION_CHECKLIST.md` before submitting.
+
+The previous build's results below are preserved only as historical evidence. They do not validate build 5 and describe subscription behavior that has now been removed from source. Apple rejected build 4 on September 15, 2026 and requested a new binary.
+
+---
+
+# Historical record: Signal Scout 1.3 (4) verification
 
 Verified on September 9, 2026 with Xcode 26.5 and the iOS 26.5 SDK.
 

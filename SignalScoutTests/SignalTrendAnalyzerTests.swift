@@ -95,22 +95,4 @@ final class SignalTrendAnalyzerTests: XCTestCase {
         )
         XCTAssertEqual(device.anonymousLabel, "Signal 5678")
     }
-
-    func testPreviewClockStartsAtSixtySeconds() {
-        XCTAssertEqual(
-            SubscriptionManager.remainingPreviewSeconds(startedAt: 1_000, now: 1_000),
-            60
-        )
-    }
-
-    func testPreviewClockDoesNotResetAcrossElapsedTime() {
-        XCTAssertEqual(
-            SubscriptionManager.remainingPreviewSeconds(startedAt: 1_000, now: 1_059.2),
-            1
-        )
-        XCTAssertEqual(
-            SubscriptionManager.remainingPreviewSeconds(startedAt: 1_000, now: 1_061),
-            0
-        )
-    }
 }

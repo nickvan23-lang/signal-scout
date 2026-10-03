@@ -1,5 +1,9 @@
 # Signal Scout App Store metadata
 
+## Release state
+
+Prepared free-access release: version 1.3, build 5. Source changes are prepared; build 5 is not yet compiled, tested on iOS, uploaded, or selected. Apple rejected build 4 on September 15, 2026 and requested a new binary. Do not submit the old binary with these new free-access claims.
+
 ## Identity
 
 - App Store name: Signal Scout - BLE Finder
@@ -9,112 +13,125 @@
 - Bundle ID: `com.nicholasvandervelden.SignalScout`
 - SKU: `SIGNALSCOUT-IOS-2026`
 - Version: 1.3
+- Build: 5
 - Primary category: Utilities
-- Secondary category: Productivity (existing App Store Connect setting; not changed in the approved metadata batch)
+- Secondary category: Productivity (historical App Store Connect setting)
 - Copyright: 2026 Nicholas Alan Vandervelden
 
-## Product page
+## Product page draft
 
 Subtitle: `Find Lost Headphones & Devices`
 
 Promotional text:
 
-`Find lost headphones and other nearby Bluetooth devices using a live anonymous signal map and warmer-or-colder guidance as you move.`
+Compare anonymous BLE signal strength with a live map, a signal chart, and warmer-or-colder guidance while searching for a device you own or have permission to locate.
 
 Description:
 
-`Misplaced headphones, earbuds, or another Bluetooth device? Signal Scout helps you narrow the search for Bluetooth Low Energy devices that are actively advertising near your iPhone.`
+Signal Scout helps you compare nearby Bluetooth Low Energy signal strength while searching for a device you own or have permission to locate. The device must be actively advertising and visible to your iPhone.
 
-`LIVE SIGNAL FIELD`
+LIVE SIGNAL MAP AND DEVICE LIST
 
-`See every visible signal as an anonymous dot. Stronger signals move toward the phone while weaker signals move outward. Expand the field, pan, zoom, and tap any signal to begin focused tracking.`
+See nearby BLE advertisements as anonymous signal labels with measured RSSI in dBm. On the live map, stronger signals appear closer to the center and weaker signals appear farther out. Switch to the device list, or expand the map to pan, zoom, and tap a signal for focused tracking.
 
-`FIND LOST HEADPHONES AND DEVICES`
+WARMER-AND-COLDER GUIDANCE
 
-`Choose an anonymous nearby signal, then walk slowly to see whether its Bluetooth signal is trending warmer or colder. This can help narrow the search for misplaced headphones, earbuds, trackers, and other BLE accessories that are still advertising.`
+Select a signal and move slowly. Signal Scout smooths noisy readings and compares changes over time to show getting warmer, getting colder, or about the same. A recent-signal chart and haptic feedback help you compare positions. You can reset the trend when trying another direction.
 
-`WARMER-AND-COLDER GUIDANCE`
+ANONYMOUS SIGNALS
 
-`Signal Scout smooths noisy Bluetooth readings and compares signal trends while you move. Clear guidance, a recent-signal chart, and optional haptics help you test one direction at a time.`
+Signal Scout does not identify a device's owner, read device names, or show manufacturer information. Nearby devices receive generic labels such as Signal A1F3. When possible, move a device you control close to your iPhone and compare how its signal changes to help identify the relevant signal. Other nearby devices may also appear.
 
-`PRIVATE BY DESIGN`
+FREE ACCESS
 
-`Device names and manufacturer information are never shown or retained. Scanning and analysis happen on your phone. Signal Scout includes no developer account, analytics, advertising, location tracking, or signal uploads.`
+All features are available without payment, a subscription, an account, or a time limit. Open the app and allow Bluetooth access to begin scanning.
 
-`60-SECOND PREVIEW`
+PRIVATE BY DESIGN
 
-`Start a one-time 60-second preview without purchasing. Signal Scout Pro is available as a $4.99 monthly auto-renewable subscription.`
+Bluetooth scanning and signal analysis happen on your iPhone. Signal Scout has no account system, analytics, advertising, location tracking, or signal uploads. Temporary signal records stay in memory and are not sent to the developer.
 
-`Bluetooth RSSI provides approximate relative strength, not a true direction or exact physical distance. Signal Scout can detect only BLE devices that are actively advertising and visible through iOS.`
+IMPORTANT LIMITATIONS
 
-Keywords: `bluetooth,BLE,headphones,earbuds,finder,signal,RSSI,lost,scanner,proximity,tracker,device,map`
+Bluetooth RSSI indicates approximate relative signal strength, not an exact distance or compass direction. A dot's angle on the map is a visual layout position, not a measured bearing. Walls, reflections, orientation, and transmit power can affect readings. Signal Scout cannot locate a powered-off device or guarantee that headphones, earbuds, speakers, trackers, or other accessories will be visible. Devices that are asleep, in a closed charging case, already connected, or not actively advertising may not appear. This app does not identify people or provide their location.
 
-Support URL: `https://nickvan23-lang.github.io/signal-scout/support.html`
+Support: https://nickvan23-lang.github.io/signal-scout/support.html
+Privacy Policy: https://nickvan23-lang.github.io/signal-scout/privacy.html
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 
-Privacy Policy URL: `https://nickvan23-lang.github.io/signal-scout/privacy.html`
+Keywords: `bluetooth,BLE,headphones,earbuds,finder,signal,RSSI,lost,device,map,misplaced,earphones,speaker`
 
-Marketing URL: `https://nickvan23-lang.github.io/signal-scout/`
+What's New:
 
-Terms of Use: `https://www.apple.com/legal/internet-services/itunes/dev/stdeula/`
+All signal-scanning, map, and tracking features are now available without a subscription or time limit. Open directly to the scanner, with Support, Privacy Policy, and Terms of Use in Scanner options.
 
-## Subscription
+The haptics wording is intentional: `BluetoothScanner.provideFeedback(for:)` triggers haptic feedback on warmer/colder transitions. The source has no in-app haptics toggle, so the description must not call it optional.
+
+## App Review notes draft: pending actual build and recording
+
+Prepared free-access resubmission: version 1.3, build 5. This draft describes the prepared source changes. Build 5 has not yet been compiled, tested on a device, archived, uploaded, or selected for review. Do not use the rejected build 4 to evaluate the free-access changes.
+
+1. Physical-device recording
+The requested physical-device recording has not yet been supplied. Before resubmission, provide a recording on a real iPhone running the latest public iOS, beginning at normal app launch and showing the complete flow below. Include the actual device model, OS version, and build number. The app has no accounts or user-generated content. The prepared free build has no paid access, purchase, restore, subscription, or time limit.
+
+2. Purpose and audience
+Signal Scout is an iPhone utility for people searching for BLE accessories they own or have permission to locate. It compares signal strength from actively advertising BLE devices to help narrow a search. It does not identify a person or device owner. Signals have generic labels rather than device names. RSSI is approximate: the map's radial position represents relative strength, and the angle is a visual lane rather than a bearing. It cannot locate silent, powered-off, or otherwise non-advertising devices.
+
+3. Setup and main features
+Enable Bluetooth, launch the app, and allow Bluetooth access when iOS asks. No sign-in, sample file, code, purchase, or trial activation is required. The scanner starts when Bluetooth is ready. Use an actively advertising BLE accessory owned by the tester. Where possible, bring it near the phone and compare the anonymous signal whose RSSI strengthens.
+Use Live Map or Device List to inspect signals. Expand the map to pan and zoom, then tap a signal to track it. Walk slowly to see smoothed RSSI, warmer/colder guidance, a recent-signal chart, and haptic feedback. Reset the trend to try another direction. Stop tracking to return to scanning. Scanner options provide pause/resume, clear inactive devices, Support, Privacy Policy, and Terms of Use. Verify access continues beyond 60 seconds and after relaunch. If no signal appears, wake the accessory and confirm it is advertising; many headphones stop advertising while connected, asleep, or in a closed case.
+
+4. External services and platforms
+Core scanning uses Apple's CoreBluetooth on the iPhone; analysis and map layout are on device. There is no developer backend, account service, analytics, advertising, location service, AI service, or signal upload. The free build removes StoreKit product and entitlement requests. Support/privacy pages and Apple's standard EULA are external links opened only when selected. Temporary BLE records remain in memory.
+
+5. Regional differences
+The prepared source has no regional feature or content variations. Functionality is the same in every storefront where the app is made available; actual availability is set in App Store Connect.
+
+6. Authorization and protected material
+This app is a general-purpose BLE signal-strength utility, not a regulated financial, medical, gambling, or government service. It uses Apple system frameworks and does not display protected third-party content. No service login or authorization document is required for its core features.
+
+The historical product com.nicholasvandervelden.SignalScout.monthly is not used by the free build and must not be included in this review submission. Its App Store Connect record is preserved. The description and screenshots must match the new free build before resubmission.
+
+## Privacy and content evidence
+
+- App or third-party partners collect data: No
+- Tracking and location permission: None
+- Analytics/advertising SDKs, developer backend, account system: None
+- BLE records: anonymous, in memory, on device, not transmitted
+- Preview start time: no longer read or written; a timestamp left by an earlier installation is ignored
+- StoreKit purchase and entitlement calls: removed from free source
+- Privacy questionnaire was published as `Data Not Collected` on September 10, 2026; verify current state before submission
+- Privacy URL: `https://nickvan23-lang.github.io/signal-scout/privacy.html`
+- Historical age-rating result: global `4+`, `All` in Brazil, `00+` in Korea; verify current state before submission
+- Content Rights was saved as `No, this app does not contain, show, or access third-party content.`
+- No proprietary or non-exempt encryption is implemented; `ITSAppUsesNonExemptEncryption` remains `NO`. Final legal/export declarations remain with the Account Holder.
+
+## Apple state observed October 3, 2026
+
+- Base app price changed from $4.99 to the free tier; Current Price verified as $0.00.
+- Free Apps Agreement: Active.
+- Paid Apps Agreement: Pending User Info, with banking and U.S. tax information missing; no changes made to that setup.
+- Historical subscription removed from the unsubmitted review draft, not deleted. Its status remains Prepare for Submission.
+- App storefront availability needs confirmation; do not treat historical subscription availability as the app's storefront setup.
+- Build 4 remains Rejected. Build 5 and the physical-device recording are not supplied yet.
+- The current release checklist supersedes the September 10 checklist, whose submission status predates the later submission and rejection.
+
+## Historical subscription record: not part of this free release
+
+Preserve the record and history in Apple systems; do not submit it with this release.
 
 - Type: Auto-renewable subscription
-- Subscription group reference name: Signal Scout Pro
-- Subscription group display name: Signal Scout Pro
-- Subscription group ID: `22373268`
+- Group: Signal Scout Pro, ID `22373268`
 - Reference name: Signal Scout Pro Monthly
 - Product ID: `com.nicholasvandervelden.SignalScout.monthly`
 - Apple subscription ID: `6810541300`
-- Duration: 1 month
-- U.S. price: $4.99
-- Initial availability: United States only
-- Family Sharing: Off
-- Free trial or introductory offer: None
-- Localization display name: Signal Scout Pro Monthly
-- Localization description: `Unlimited lost-device signal mapping and guidance.`
-- Review screenshot: `Screenshots/04-subscription-review.png` showing the localized price, purchase and restore controls, renewal disclosure, privacy, support, and terms links
+- Duration and historical U.S. price: 1 month, $4.99
+- Historical subscription availability: United States only
+- Historical Family Sharing: Off; no introductory offer
+- Historical localization description: `Unlimited lost-device signal mapping and guidance.`
+- Historical review screenshot: `Screenshots/04-subscription-review.png`; do not attach to the free release
 
-Subscription review notes saved in App Store Connect:
-
-`Signal Scout requires no account. Tap Start 60-Second Free Preview to begin the one-time preview; this does not start a purchase. The app intentionally shows only anonymous BLE signal labels. After the preview ends, purchase this monthly subscription through StoreKit. Restore Purchases and Manage Subscription controls are available on the paywall.`
-
-## App Review notes
-
-`Signal Scout does not require an account. On first launch, tap Start 60-Second Free Preview; the countdown begins only after the tap. Allow Bluetooth access when iOS asks. The app intentionally replaces device names with anonymous labels. The radial position of each dot represents smoothed RSSI; angular position is a visual lane and is explicitly not presented as physical direction. After the one-time preview expires, use Apple's sandbox purchase sheet to test com.nicholasvandervelden.SignalScout.monthly. Restore Purchases and Apple subscription-management links are present on the paywall.`
-
-## Privacy questionnaire evidence
-
-- App or third-party partners collect data: No
-- Tracking: No
-- Location permission: Not requested
-- Analytics SDK: None
-- Advertising SDK: None
-- Developer-operated network service: None
-- BLE records: anonymous, in memory, on device, not transmitted
-- Preview start time: local UserDefaults only, not transmitted
-- Purchase and entitlement processing: Apple StoreKit
-- App Store Connect status: Published as `Data Not Collected` on September 10, 2026
-- App Store Connect privacy policy URL: `https://nickvan23-lang.github.io/signal-scout/privacy.html`
-
-## Age-rating questionnaire evidence
-
-The app contains no user-generated content, messaging, advertising, web browsing, gambling, contests, violence, sexual content, profanity, drugs, horror, medical treatment, or unrestricted web access. The questionnaire was completed and saved on September 10, 2026. App Store Connect assigned a global `4+` rating, with its automatic regional equivalents of `All` in Brazil and `00+` in Korea.
-
-## Export compliance evidence
-
-The app does not implement proprietary or non-exempt encryption. It uses Apple system frameworks and HTTPS links only. `ITSAppUsesNonExemptEncryption` is set to `NO`. Final export-compliance responses remain the Account Holder's legal declaration.
-
-## App Store Connect submission status
-
-- The existing legal-entity information was confirmed unchanged on September 10, 2026.
-- Digital Services Act status is active as non-trader; initial availability remains United States only.
-- Content Rights is saved as: `No, this app does not contain, show, or access third-party content.`
-- The Paid Apps Agreement was accepted on September 10, 2026 and is `Pending User Info` until banking and U.S. tax setup are completed.
-- iOS version 1.3, build 4, and the Signal Scout Pro subscription group remain `Prepare for Submission`, with active `Add for Review` controls.
-- The App Review queue is empty. Nothing has been submitted to Apple for review yet, and manual release remains selected.
+These identifiers are retained for historical reference only. The free source contains no subscription purchase, restore, entitlement, preview countdown, or price fixture. Installing this free version does not itself cancel any existing Apple-managed subscription.
 
 ## App Store name decision
 
-- `Signal Scout` was unavailable in App Store Connect, so the app record was created as `Signal Scout - BLE Finder`.
-- Keep the on-device display name `Signal Scout`; the App Store name adds search context without crowding the installed icon label.
+`Signal Scout` was unavailable in App Store Connect, so the app record was created as `Signal Scout - BLE Finder`. The on-device display name remains `Signal Scout`.

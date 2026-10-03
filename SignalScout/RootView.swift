@@ -17,27 +17,8 @@ private enum ScannerPresentation: String, CaseIterable, Identifiable {
 }
 
 struct RootView: View {
-    @EnvironmentObject private var subscription: SubscriptionManager
-
     var body: some View {
-        Group {
-            switch subscription.access {
-            case .loading:
-                ZStack {
-                    ScoutPalette.background.ignoresSafeArea()
-                    ProgressView("Checking App Store…")
-                        .tint(ScoutPalette.cyan)
-                        .foregroundStyle(ScoutPalette.secondary)
-                }
-            case .preview, .subscribed:
-                ScoutFeatureView()
-            case .previewAvailable, .locked:
-                SubscriptionPaywallView()
-            }
-        }
-        .task {
-            await subscription.prepare()
-        }
+        ScoutFeatureView()
     }
 }
 
@@ -77,7 +58,6 @@ private struct ScoutFeatureView: View {
 
 private struct ScannerView: View {
     @EnvironmentObject private var scanner: BluetoothScanner
-    @EnvironmentObject private var subscription: SubscriptionManager
     @State private var presentation: ScannerPresentation = .map
     @State private var isShowingFullScreenMap = false
 
@@ -85,9 +65,6 @@ private struct ScannerView: View {
         ScrollView {
             LazyVStack(spacing: 14) {
                 header
-                if let remaining = subscription.previewSecondsRemaining {
-                    PreviewCountdownBanner(secondsRemaining: remaining)
-                }
                 statusCard
 
                 Picker("Scanner presentation", selection: $presentation) {
@@ -138,7 +115,7 @@ private struct ScannerView: View {
                         scanner.clearInactiveDevices()
                     }
                     Divider()
-                    Link("Manage Subscription", destination: URL(string: "https://apps.apple.com/account/subscriptions")!)
+                    Link("Terms of Use", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
                     Link("Privacy Policy", destination: URL(string: "https://nickvan23-lang.github.io/signal-scout/privacy.html")!)
                     Link("Support", destination: URL(string: "https://nickvan23-lang.github.io/signal-scout/support.html")!)
                 } label: {
@@ -215,27 +192,6 @@ private struct ScannerView: View {
         .font(.footnote)
         .foregroundStyle(ScoutPalette.secondary)
         .padding(.top, 6)
-    }
-}
-
-private struct PreviewCountdownBanner: View {
-    let secondsRemaining: Int
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: "timer")
-            Text("Free preview")
-                .font(.subheadline.bold())
-            Spacer()
-            Text("\(secondsRemaining)s")
-                .font(.system(.headline, design: .monospaced, weight: .bold))
-                .contentTransition(.numericText())
-        }
-        .foregroundStyle(ScoutPalette.background)
-        .padding(.horizontal, 15)
-        .frame(minHeight: 48)
-        .background(ScoutPalette.amber, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .accessibilityLabel("Free preview, \(secondsRemaining) seconds remaining")
     }
 }
 
@@ -346,7 +302,6 @@ private struct LiveSignalMap: View {
 
 private struct FullScreenSignalMap: View {
     @EnvironmentObject private var scanner: BluetoothScanner
-    @EnvironmentObject private var subscription: SubscriptionManager
     @Environment(\.dismiss) private var dismiss
     @State private var zoom: CGFloat = 0.58
     @GestureState private var gestureScale: CGFloat = 1
@@ -433,15 +388,9 @@ private struct FullScreenSignalMap: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Live Signal Field")
                     .font(.system(.title2, design: .rounded, weight: .bold))
-                if let remaining = subscription.previewSecondsRemaining {
-                    Text("\(scanner.devices.count) signals · preview \(remaining)s")
-                        .font(.caption)
-                        .foregroundStyle(ScoutPalette.amber)
-                } else {
-                    Text("\(scanner.devices.count) visible BLE signals")
-                        .font(.caption)
-                        .foregroundStyle(ScoutPalette.secondary)
-                }
+                Text("\(scanner.devices.count) visible BLE signals")
+                    .font(.caption)
+                    .foregroundStyle(ScoutPalette.secondary)
             }
 
             Spacer()
@@ -874,5 +823,4 @@ private struct SignalChart: View {
 
 #Preview {
     RootView()
-        .environmentObject(SubscriptionManager())
 }
