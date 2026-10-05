@@ -107,8 +107,15 @@ class FreeReleaseSourceTests(unittest.TestCase):
         self.assertEqual(manifest["NSPrivacyAccessedAPITypes"], [])
 
     def test_xml_and_json_files_parse(self):
-        for extension in ("*.plist", "*.xcprivacy", "*.xcscheme", "*.xcworkspacedata"):
-            for path in ROOT.rglob(extension):
+        # Check source configuration, excluding generated apps and Xcode evidence.
+        # Xcode outputs binary plists, which are valid plists but are not XML.
+        project = ROOT / "SignalScout.xcodeproj"
+        plist_paths = list((ROOT / "AppStore").glob("*.plist")) + list(APP.rglob("*.xcprivacy"))
+        for path in plist_paths:
+            with self.subTest(path=path.relative_to(ROOT)):
+                plistlib.loads(path.read_bytes())
+        for extension in ("*.xcscheme", "*.xcworkspacedata"):
+            for path in project.rglob(extension):
                 with self.subTest(path=path.relative_to(ROOT)):
                     ET.parse(path)
         for path in (APP / "Assets.xcassets").rglob("*.json"):

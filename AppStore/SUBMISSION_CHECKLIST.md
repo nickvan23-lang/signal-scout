@@ -33,15 +33,21 @@ The Paid Apps Agreement remains Pending User Info (banking and U.S. tax informat
 
 ## Required Mac verification and new binary
 
-- [ ] Regenerate with XcodeGen if used; verify build 5 in both the project and archive.
-- [ ] Run the SignalScout scheme's ten XCTest cases on an available iPhone simulator.
-- [ ] Build and analyze the Release configuration without screenshot flags.
+- [x] Verify build 5 in the existing project and signed archive (October 5). No production project regeneration was needed.
+- [x] Run the SignalScout scheme's ten XCTest cases on an available iPhone simulator (October 5: 10 passed, 0 failures).
+- [x] Build and analyze the Release configuration without screenshot flags (October 5: both passed; Release binary audit passed).
 - [ ] Check cold launch, relaunch, foreground/background transitions, and an upgrade over an expired-preview installation. No purchase, countdown, or lock screen should appear.
 - [ ] Use the scanner, device list, focused tracking, and full-screen map for longer than 60 seconds; repeat opening, closing, pan, zoom, pause/resume, select/back, reset trend, and clear inactive devices.
 - [ ] Verify Support, Privacy Policy, and Terms of Use links from Scanner options, including returning to the app.
 - [ ] Verify Bluetooth denied, powered-off, unavailable, empty, and interrupted states; restoring Bluetooth permission should allow scanning.
-- [ ] Archive/sign version 1.3 (5), verify identity and signature, and audit the Release binary for absent StoreKit/paywall/preview and screenshot-only fixtures.
+- [x] Archive/sign version 1.3 (5), verify identity and signature, and audit the Release binary for absent StoreKit/paywall/preview and screenshot-only fixtures (October 5: passed; App Store IPA exported).
 - [ ] Upload the new binary and wait for processing. Never reuse the rejected 1.3 (4) IPA.
+
+## Simulator verification completed October 5
+
+Two isolated Xcode UI tests passed. Normal launch remained accessible beyond 60 seconds with the legacy preview key supplied as a launch argument, after background/foreground, and after termination/relaunch. A separate test using DEBUG simulated BLE verified repeated full-screen map navigation, zoom/fit controls, seeded tracking/return, and Support/Privacy/Terms controls. Neither test establishes live BLE reception, physical-device upgrade behavior, or the requested recording.
+
+The existing upload progressed beyond the Code 1085 configuration warning and reached Apple delivery at 19:35 UTC, but its final receipt is unconfirmed and no process remained after recovery. Check the build list before any upload retry. See `VERIFICATION.md`.
 
 ## Physical-device demonstration
 
@@ -53,10 +59,10 @@ The Paid Apps Agreement remains Pending User Info (banking and U.S. tax informat
 
 ## Screenshot replacement
 
-- Recapture the live field and expanded full-screen map from the new build: `Screenshots/01-live-signal-field.png`, `Screenshots/02-full-screen-map.png`, and their `Screenshots/65/` size variants. The corresponding old UI contained preview/countdown presentation.
-- Recapture or visually revalidate `Screenshots/03-warmer-guidance.png` and its `Screenshots/65/` variant against build 5 before reuse. Tracking behavior is unchanged, but the complete new screenshot set must accurately represent this release.
+- [x] Replace the live field and expanded full-screen map from build 5: `Screenshots/01-live-signal-field.png`, `Screenshots/02-full-screen-map.png`, and their native `Screenshots/65/` size variants. All four were visually inspected and show no preview/countdown presentation.
+- [x] Recapture and visually inspect `Screenshots/03-warmer-guidance.png` and its native `Screenshots/65/` variant from build 5.
 - Do not attach `Screenshots/04-subscription-review.png` to this free release. Preserve it as historical evidence only.
-- Existing PNG files have not been replaced by this source change; no screenshots or device recording were fabricated.
+- [ ] Upload the six replacement product screenshots to App Store Connect and verify their order and previews. Native dimensions and SHA-256 hashes are recorded in `Screenshots/BUILD5_PROVENANCE.json`. These are simulator captures using existing DEBUG BLE fixtures; the requested physical-device demonstration remains separate and pending.
 
 ## Historical subscription record: preserve, do not submit
 

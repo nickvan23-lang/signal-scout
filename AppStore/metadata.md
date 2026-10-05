@@ -2,7 +2,7 @@
 
 ## Release state
 
-Prepared free-access release: version 1.3, build 5. Source changes are prepared; build 5 is not yet compiled, tested on iOS, uploaded, or selected. Apple rejected build 4 on September 15, 2026 and requested a new binary. Do not submit the old binary with these new free-access claims.
+Free-access release: version 1.3, build 5. The Release build, analysis, ten XCTest cases, two simulator UI tests, signed archive, and App Store IPA export passed on October 5, 2026. An upload reached Apple delivery, but final receipt and processing remain unconfirmed; build selection and review submission are pending. Apple rejected build 4 on September 15, 2026 and requested a new binary. Do not submit the old binary with these new free-access claims.
 
 ## Identity
 
@@ -66,9 +66,9 @@ All signal-scanning, map, and tracking features are now available without a subs
 
 The haptics wording is intentional: `BluetoothScanner.provideFeedback(for:)` triggers haptic feedback on warmer/colder transitions. The source has no in-app haptics toggle, so the description must not call it optional.
 
-## App Review notes draft: pending actual build and recording
+## App Review notes draft: pending build association and real-device recording
 
-Prepared free-access resubmission: version 1.3, build 5. This draft describes the prepared source changes. Build 5 has not yet been compiled, tested on a device, archived, uploaded, or selected for review. Do not use the rejected build 4 to evaluate the free-access changes.
+Free-access resubmission: version 1.3, build 5. The app removes paid access and the timed preview; the historical subscription is excluded from this release. The build, simulator tests, archive, and export passed. Final upload receipt, processing, build association, and the requested real-device recording must be verified before these notes are submitted. Do not use the rejected build 4 to evaluate the free-access changes.
 
 1. Physical-device recording
 The requested physical-device recording has not yet been supplied. Before resubmission, provide a recording on a real iPhone running the latest public iOS, beginning at normal app launch and showing the complete flow below. Include the actual device model, OS version, and build number. The app has no accounts or user-generated content. The prepared free build has no paid access, purchase, restore, subscription, or time limit.
