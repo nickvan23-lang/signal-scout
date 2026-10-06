@@ -36,12 +36,15 @@ The Paid Apps Agreement remains Pending User Info (banking and U.S. tax informat
 - [x] Verify build 5 in the existing project and signed archive (October 5). No production project regeneration was needed.
 - [x] Run the SignalScout scheme's ten XCTest cases on an available iPhone simulator (October 5: 10 passed, 0 failures).
 - [x] Build and analyze the Release configuration without screenshot flags (October 5: both passed; Release binary audit passed).
-- [ ] Check cold launch, relaunch, foreground/background transitions, and an upgrade over an expired-preview installation. No purchase, countdown, or lock screen should appear.
+- [x] Preserve and verify the physical phone's original app-data folders, install build 5 in place without uninstall/erase, and verify its installed identity and retained state (October 6). Normal launch commands succeeded; this alone does not verify displayed UI.
+- [ ] Check the free UI at cold launch, relaunch, and foreground/background transitions. No purchase, countdown, or lock screen should appear. The physical UI runner failed to initialize; no feature cases executed.
 - [ ] Use the scanner, device list, focused tracking, and full-screen map for longer than 60 seconds; repeat opening, closing, pan, zoom, pause/resume, select/back, reset trend, and clear inactive devices.
 - [ ] Verify Support, Privacy Policy, and Terms of Use links from Scanner options, including returning to the app.
 - [ ] Verify Bluetooth denied, powered-off, unavailable, empty, and interrupted states; restoring Bluetooth permission should allow scanning.
 - [x] Archive/sign version 1.3 (5), verify identity and signature, and audit the Release binary for absent StoreKit/paywall/preview and screenshot-only fixtures (October 5: passed; App Store IPA exported).
 - [x] Upload and confirm processing of the new 1.3 (5) binary. Apple confirms the October 5 upload at 19:36 UTC; no duplicate upload occurred.
+
+The physical old 1.2 (3) installation had an empty preferences directory and no historical preview key. A genuine upgrade from an expired locked-preview state cannot be claimed from this phone. Do not fabricate that state or treat its absence as an Apple-requested release gate; the separate simulator legacy-key test and Release source/binary audits retain their stated evidence limits.
 
 ## Simulator verification completed October 5
 

@@ -1,14 +1,14 @@
 # Physical-device QA and reviewer recording
 
-Prepared October 6, 2026. This is a test plan, not completed hardware evidence. The installed app and its data have not been changed.
+Updated October 6, 2026. Build **1.3 (5)** is installed on the physical iPhone after a verified backup of the old app data. Normal launch succeeded. Feature QA and the latest-OS reviewer recording remain incomplete.
 
-## Approved installation preparation
+## Approved installation completed
 
 Nick approved an in-place, retained-data build-5 installation on October 6 at 02:16 UTC. This approval persists; no further installation permission is needed. It does not choose storefronts or authorize an OS update or data erase.
 
-At 02:18 UTC the Mac was reachable, but the phone was unavailable and the lock-state query failed with **CoreDevice error 1011: unable to locate the device**. After Nick reported connecting the phone, the 02:46 UTC preflight acquired a live **wired, connected** device tunnel with developer services available and verified **iOS 26.6.1 (23G83)**. The phone was locked (`passcodeRequired = true`); a fresh 02:47 UTC lock query confirmed this. The backup helper stopped before reading app data or attempting installation. Nick needs to unlock the phone and keep it awake, with SignalScout closed, so the approved retained-data update can continue. No renewed installation permission is required.
+After Nick unlocked the phone, the 03:37 UTC preflight verified a live **wired, connected, unlocked** iPhone on **iOS 26.6.1 (23G83)**, with developer services available and SignalScout **1.2 (3)** installed. The old app-data folders were copied and verified before the approved update. The direct installation succeeded at **03:40 UTC**, and an independent app query confirmed **1.3 (5)**. No uninstall or data erase was used.
 
-The original tested Release archive app is already **developer-signed** using the existing valid `YJTLRBVNSM` wildcard profile, which explicitly includes this phone. An unchanged copy is prepared at `/tmp/SignalScout-approved-device-install-20261006/SignalScout.app`; its executable SHA-256 matches the tested archive, and strict signature verification passed. This direct-device route needs no new certificate/profile, device registration, or TestFlight tester invitation. The separate App Store IPA remains unchanged. Its installation still requires the phone and a verified state backup first.
+The installed app is the original tested **Release** archive app, with its existing developer signature and valid `YJTLRBVNSM` wildcard profile containing this phone. The install copy at `/tmp/SignalScout-approved-device-install-20261006/SignalScout.app` passed strict signature verification and matches the tested archive's executable SHA-256. No re-signing, new certificate/profile, device registration, TestFlight invitation, or duplicate upload was needed. The separate App Store IPA remains unchanged.
 
 ## Apple's actual request
 
@@ -22,18 +22,26 @@ The September 15 review concerned build 4 on an iPad Air 11-inch (M3), iPadOS 26
 
 ## Current phone and preserved state
 
-- The earlier read-only app query confirmed Signal Scout **1.2 (3)** on the paired iPhone 17 Pro Max. The latest wired preflight verifies **26.6.1 (23G83)**, Developer Mode enabled, and developer services available. A current app-version query was not attempted because the backup helper stops while the phone is locked.
-- Earlier local-network access was intermittent and reading preferences failed with `Network.NWError error 60 — Operation timed out`. The live 02:46 UTC CoreDevice query now reports a working wired connection. The remaining immediate blocker is the phone's passcode lock, not loss of Mac access.
-- The historical preview key is `signalScout.preview.startedAt.v1`; the old source stores it only when the user starts the preview and considers it expired after 60 seconds. Its presence on this installed phone has **not** been verified. Version metadata alone does not establish an expired-preview fixture or prove the old installed binary implements that gate.
-- No preference backup was created. Do not delete, reinstall, clear preferences, start an old preview, or overwrite the installed app before inspecting and preserving the relevant data. Copying preferences alone would preserve a migration fixture; it would not prove the old UI was actually locked.
+- The current installed app is **1.3 (5)** on an unlocked iPhone 17 Pro Max, verified again after the UI automation attempt at 03:52 UTC. Live device metadata confirms **26.6.1 (23G83)**, Developer Mode enabled, and developer services available.
+- The original **1.2 (3)** app-data root listed only `Documents`, `Library`, and `tmp`. All three were copied before installation. The local backup matches the source inventory's **11 files and 15 directories**, file sizes, and its SHA-256 manifest. The backup is retained outside Git in `release-evidence/physical-fixture-20261006T033854142247Z/SignalScout-app-data-original`.
+- The original preferences directory was empty: neither `com.nicholasvandervelden.SignalScout.plist` nor the historical `signalScout.preview.startedAt.v1` key existed. There was no genuine expired-preview fixture to claim; the old locked UI was not observed or fabricated.
+- Before first launch, the post-update data copy contained seven original files with identical hashes, including all three saved-application-state files. iOS removed four old SplashBoard launch-screen cache images during the update. No other files were removed or changed, and the complete original 11-file backup remains preserved. Documents and preferences were empty before and after installation.
+
+## Current physical QA result
+
+Normal launch of the installed Release app succeeded without fixture arguments at 03:43 UTC and again at 03:53 UTC. This verifies launch-command success, not the scanner's displayed UI or BLE reception.
+
+A dedicated UI-only Xcode runner built successfully using the same existing wildcard profile. XCTest installed its related `SignalScoutPhysicalQA-Runner` companion; its test configuration contains no SignalScout app-installation path or application target, so it did not rebuild or replace the installed Release app. The physical run failed during runner initialization with **`com.apple.dt.XCTest.XCTFuture Code=1000: Timed out while enabling automation mode`**. Xcode records one runner-initialization failure; **no feature test cases ran or passed**. The phone was unlocked both before testing and in the subsequent check; the timeout's cause is not established. No permission/access settings were changed to bypass it.
+
+SignalScout was returned to the foreground with a successful normal-launch command. Nick has been asked what the scanner actually shows. Live reception, map/tracking behavior, movement results, permission/off states, external-link handoffs, and the 65-second physical UI check remain unverified. There is no physical screenshot or video from this attempt. Local evidence includes the install receipt, before/after backups, `retained-data-install-verification.json`, the UI-runner audit, and `physical-ui-currentOS-tests2.xcresult`.
 
 ## What Nick needs to do
 
-1. The wired connection is now working. Unlock the phone and keep it awake and connected. Leave Signal Scout installed and closed; do not launch/reset it yet. Any passcode or trust prompt is handled directly by Nick. This lets us retry the scoped read-only fixture inspection and backup.
-2. After preserving the relevant fixture, Nick manually updates to the latest public iOS and reconnects/unlocks the phone. [Apple currently lists iOS 27.0.1](https://support.apple.com/en-us/100100). No OS update is started by this workflow.
-3. Provide an owned, actively advertising BLE accessory. Wake it; many headphones stop advertising when connected, asleep, or inside a closed case. We must observe a genuine signal rather than substitute fixtures if the accessory is not visible.
-4. The **in-place update to build 1.3 (5) that retains the app data is approved**. Once the phone is reachable, preserve its app-data container and verify any historical preview key before installing the already-signed Release app. Do not uninstall first. TestFlight is an optional alternative: build 5 has **Groups (0)** and **Individual Testers (0)**, so no existing tester route is configured. No tester invitation, account change, device registration, or new signing profile has been created.
-5. Perform the brief flow below on the phone. The agent can observe/capture/inspect the evidence once the necessary device access is working, but the current CLI has no physical touch control and cannot move the phone or accessory.
+1. Confirm what the currently launched scanner shows: Bluetooth ready with real signals, ready without signals, or permission/power guidance. Do not uninstall or reset SignalScout.
+2. Manually update the phone to the latest public iOS, then reconnect and unlock it. [Apple currently lists iOS 27.0.1](https://support.apple.com/en-us/100100). The app-data backup and retained-data installation are complete; no OS update was started by this workflow.
+3. Provide an owned, actively advertising BLE accessory. Wake it; many headphones stop advertising when connected, asleep, or inside a closed case. A visible anonymous advertisement alone does not establish which owned accessory it belongs to.
+4. Perform and record the genuine flow below on the updated phone. Use the installed Release build, not the companion UI-test runner. The agent can inspect the resulting evidence, but successful automated touch control has not been established and physical movement requires Nick.
+5. Complete the additional permission/off/interruption checks, preserving and restoring their actual starting settings. Enabling new automation/access permissions requires Nick's approval; the initialization timeout does not prove a particular setting is the cause.
 
 ## Short recording: approximately two to three minutes
 
@@ -60,10 +68,10 @@ The suggested duration exceeds the removed 60-second gate for useful release evi
 
 ## Work the agent can perform
 
-**Now:** inspect device/OS/lock/app metadata read-only, verify release artifacts, prepare this sequence, and preserve browser review evidence. No storefront selection is made while Nick's answer is pending.
+**Completed:** verify device/OS/lock/app metadata, copy and verify the original app-data folders, install the approved Release build in place, verify its retained state before launch, and launch it normally. No storefront selection was made while Nick's answer is pending.
 
-**After unlock/USB access:** list and copy only SignalScout's app-data container to ignored local evidence, hash its files, and inspect the preview key. No data is written back to the device. A local helper, `release-evidence/read_physical_fixture.py --device <paired identifier> --backup-state`, implements these scoped reads and stops on an error. Its syntax/help are verified; no successful physical backup is claimed.
+**For future scoped backups:** `release-evidence/read_physical_fixture.py --device <paired identifier> --backup-state` reads and copies only SignalScout app data. Apple's copy tool rejects the container-root `.` path and requires pre-existing local destination directories; the helper now copies the explicitly listed root entries into newly created local folders. The successful original backup was independently compared against the complete recursive source inventory. No data is written back to the phone.
 
-**After an authorized build update and compatible device services:** verify installed identity, launch/observe/log the free build, and run appropriate device checks that do not reset the fixture. Xcode 26.5's ability to automate a phone after its iOS 27 update is not yet verified. TestFlight recording remains possible independently of Xcode UI automation. Physical movement, phone-only controls/passcodes, and the genuine demonstration require Nick's participation.
+**Next:** verify the phone's updated OS and installed identity, inspect genuine screenshots/video or Nick's reported results, and investigate the automation timeout if further automated checks are useful. New access/permission settings require Nick's approval. Xcode 26.5's automation compatibility after an iOS 27 update is unverified. Native phone recording does not depend on Xcode UI automation. Physical movement, phone-only controls/passcodes, and the genuine demonstration require Nick's participation.
 
 **After receiving the genuine recording:** inspect the video and its actual duration/contents, attach it or verify a reviewer-accessible link, replace the pending-recording paragraph with actual device/OS/build/results, prepare the same six-part reply, verify the chosen storefronts and final one-app/no-IAP item set, and resubmit when the remaining gates are satisfied. Separate cloud refinement remains deferred.
