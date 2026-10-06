@@ -122,10 +122,9 @@
   "approved_installation_preparation": {
     "approval_recorded": "2026-10-06T02:16:00Z",
     "scope": "Retained-data installation of build 5; no uninstall or erase",
-    "usb_phone_connected": false,
-    "live_lock_query": "CoreDeviceError 1011: unable to locate device",
-    "current_os_live_verified": false,
-    "cached_os": "26.6.1 (23G83)",
+    "usb_phone_connected": true,
+    "live_lock_query": "Succeeded: passcodeRequired true; unlockedSinceBoot true",
+    "current_os_live_verified": true,
     "state_backup_verified": false,
     "installation_attempted": false,
     "physical_qa_performed": false,
@@ -140,6 +139,10 @@
       "new_signing_resources_created": false
     },
     "needs_testflight_setup_for_this_route": false,
-    "next_required_action": "Unlock and data-USB-connect the paired iPhone; handle trust prompt directly. No renewed install approval needed."
+    "next_required_action": "Unlock the phone and keep it awake and connected, leaving SignalScout closed. Installation approval persists.",
+    "checked_at_utc": "2026-10-06T02:47:50Z",
+    "connection_evidence": "Live CoreDevice transport wired, tunnel connected",
+    "ddi_services_available": true,
+    "current_os": "26.6.1 (23G83)"
   }
 }
