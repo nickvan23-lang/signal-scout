@@ -2,7 +2,7 @@
 
 ## Release state
 
-Free-access release: version 1.3, build 5. The Release build, analysis, ten XCTest cases, two simulator UI tests, signed archive, and App Store IPA export passed on October 5, 2026. An upload reached Apple delivery, but final receipt and processing remain unconfirmed; build selection and review submission are pending. Apple rejected build 4 on September 15, 2026 and requested a new binary. Do not submit the old binary with these new free-access claims.
+Free-access release: version 1.3, build 5. The Release build, analysis, ten XCTest cases, two simulator UI tests, signed archive, and App Store IPA export passed on October 5, 2026. App Store Connect confirmed the upload as validated and ready to submit; build 5 is selected. Free copy and all nine native screenshots are saved. The requested physical-device recording, hardware QA, storefront selection, and review submission remain pending. Apple rejected build 4 on September 15, 2026 and requested a new binary. Do not submit the old binary with these new free-access claims.
 
 ## Identity
 
@@ -66,30 +66,29 @@ All signal-scanning, map, and tracking features are now available without a subs
 
 The haptics wording is intentional: `BluetoothScanner.provideFeedback(for:)` triggers haptic feedback on warmer/colder transitions. The source has no in-app haptics toggle, so the description must not call it optional.
 
-## App Review notes draft: pending build association and real-device recording
+## App Review notes saved in Apple draft: physical recording pending
 
-Free-access resubmission: version 1.3, build 5. The app removes paid access and the timed preview; the historical subscription is excluded from this release. The build, simulator tests, archive, and export passed. Final upload receipt, processing, build association, and the requested real-device recording must be verified before these notes are submitted. Do not use the rejected build 4 to evaluate the free-access changes.
+Signal Scout 1.3 (5) is a free BLE accessory utility. This new binary removes StoreKit, purchases, restoration, subscriptions, the paywall, and the one-time 60-second preview. No in-app purchase is included in this release. Do not evaluate these changes using rejected build 4.
 
-1. Physical-device recording
-The requested physical-device recording has not yet been supplied. Before resubmission, provide a recording on a real iPhone running the latest public iOS, beginning at normal app launch and showing the complete flow below. Include the actual device model, OS version, and build number. The app has no accounts or user-generated content. The prepared free build has no paid access, purchase, restore, subscription, or time limit.
+1. Physical-device demonstration
+Apple's requested latest-OS physical-device recording is pending and is not attached. No real-device verification is claimed here. Build 5 passed a Release build/analysis, ten XCTest cases, and two simulator UI tests. The simulator screenshots use DEBUG BLE fixtures; those are excluded from the Release binary and are not live-Bluetooth evidence. The recording and physical-device QA must be completed before resubmission. The app has no accounts, user-generated content, or paid access.
 
 2. Purpose and audience
-Signal Scout is an iPhone utility for people searching for BLE accessories they own or have permission to locate. It compares signal strength from actively advertising BLE devices to help narrow a search. It does not identify a person or device owner. Signals have generic labels rather than device names. RSSI is approximate: the map's radial position represents relative strength, and the angle is a visual lane rather than a bearing. It cannot locate silent, powered-off, or otherwise non-advertising devices.
+This iPhone utility helps people look for a misplaced BLE accessory they own or have permission to locate by comparing its advertising signal strength. It shows anonymous signal labels and relative RSSI. Stronger signals appear closer to the map center; angle is visual spacing, not a bearing. It cannot locate devices that are silent or powered off or guarantee that an accessory is visible.
 
 3. Setup and main features
-Enable Bluetooth, launch the app, and allow Bluetooth access when iOS asks. No sign-in, sample file, code, purchase, or trial activation is required. The scanner starts when Bluetooth is ready. Use an actively advertising BLE accessory owned by the tester. Where possible, bring it near the phone and compare the anonymous signal whose RSSI strengthens.
-Use Live Map or Device List to inspect signals. Expand the map to pan and zoom, then tap a signal to track it. Walk slowly to see smoothed RSSI, warmer/colder guidance, a recent-signal chart, and haptic feedback. Reset the trend to try another direction. Stop tracking to return to scanning. Scanner options provide pause/resume, clear inactive devices, Support, Privacy Policy, and Terms of Use. Verify access continues beyond 60 seconds and after relaunch. If no signal appears, wake the accessory and confirm it is advertising; many headphones stop advertising while connected, asleep, or in a closed case.
+Enable Bluetooth, launch normally, and allow Bluetooth access when prompted. No login, sample file, purchase, or trial activation is needed. Use a BLE accessory owned by the tester that is actively advertising. Bring it close and compare the anonymous signal whose RSSI increases. Use Live Map or Device List; expand the map for pan, zoom, fit-all, and signal selection. Select a signal, walk slowly, and compare smoothed readings, warmer/colder guidance, the chart, and haptic feedback. Reset the trend for a new direction and stop tracking to return. Scanner options provide pause/resume, clearing inactive signals, Support, Privacy Policy, and Terms of Use. Access continues beyond 60 seconds and after relaunch. Accessories may stop advertising while connected, asleep, or in a closed case.
 
-4. External services and platforms
-Core scanning uses Apple's CoreBluetooth on the iPhone; analysis and map layout are on device. There is no developer backend, account service, analytics, advertising, location service, AI service, or signal upload. The free build removes StoreKit product and entitlement requests. Support/privacy pages and Apple's standard EULA are external links opened only when selected. Temporary BLE records remain in memory.
+4. Core platforms and external services
+Apple CoreBluetooth provides BLE advertisements. Analysis and layout are on the iPhone. There is no developer backend, authentication service, analytics, advertising, location service, AI service, payment processor, or signal upload. Temporary records stay in memory. Support/privacy pages and Apple's standard EULA open externally only when selected.
 
-5. Regional differences
-The prepared source has no regional feature or content variations. Functionality is the same in every storefront where the app is made available; actual availability is set in App Store Connect.
+5. Regions
+The source has no regional feature or content variations. Its functionality is consistent across supported storefronts; distribution availability is configured in App Store Connect.
 
-6. Authorization and protected material
-This app is a general-purpose BLE signal-strength utility, not a regulated financial, medical, gambling, or government service. It uses Apple system frameworks and does not display protected third-party content. No service login or authorization document is required for its core features.
+6. Regulated services and third-party material
+This is a general-purpose BLE signal-strength utility. It does not offer regulated services or display protected third-party material. It uses Apple system frameworks; no additional service credentials or authorization documents are needed for its core functionality.
 
-The historical product com.nicholasvandervelden.SignalScout.monthly is not used by the free build and must not be included in this review submission. Its App Store Connect record is preserved. The description and screenshots must match the new free build before resubmission.
+The notes were verified against the saved Apple field. They must be updated with genuine device/video evidence before submission, and the six answers must also be provided in the requested review reply.
 
 ## Privacy and content evidence
 
@@ -99,20 +98,22 @@ The historical product com.nicholasvandervelden.SignalScout.monthly is not used 
 - BLE records: anonymous, in memory, on device, not transmitted
 - Preview start time: no longer read or written; a timestamp left by an earlier installation is ignored
 - StoreKit purchase and entitlement calls: removed from free source
-- Privacy questionnaire was published as `Data Not Collected` on September 10, 2026; verify current state before submission
+- Privacy questionnaire remains published as `Data Not Collected`, verified October 6, 2026; privacy URL points to the corrected live policy
 - Privacy URL: `https://nickvan23-lang.github.io/signal-scout/privacy.html`
 - Historical age-rating result: global `4+`, `All` in Brazil, `00+` in Korea; verify current state before submission
 - Content Rights was saved as `No, this app does not contain, show, or access third-party content.`
 - No proprietary or non-exempt encryption is implemented; `ITSAppUsesNonExemptEncryption` remains `NO`. Final legal/export declarations remain with the Account Holder.
 
-## Apple state observed October 3, 2026
+## Apple state observed October 5–6, 2026
 
 - Base app price changed from $4.99 to the free tier; Current Price verified as $0.00.
 - Free Apps Agreement: Active.
 - Paid Apps Agreement: Pending User Info, with banking and U.S. tax information missing; no changes made to that setup.
 - Historical subscription removed from the unsubmitted review draft, not deleted. Its status remains Prepare for Submission.
-- App storefront availability needs confirmation; do not treat historical subscription availability as the app's storefront setup.
-- Build 4 remains Rejected. Build 5 and the physical-device recording are not supplied yet.
+- App storefront availability is unconfigured: Apple shows Set Up Availability. User launch-region choice is pending; historical subscription availability is separate.
+- Build 5 is Ready to Submit / Validated and selected in version 1.3, which shows Prepare for Submission and the previous rejection notice. Build 4 and its history remain preserved. The physical-device recording is not supplied yet.
+- All nine native product screenshots and the corrected free copy are saved and verified.
+- Version-specific support/privacy pages are live via merged PR #2 and verified successful Pages deployment; the privacy update is dated October 6, 2026.
 - The current release checklist supersedes the September 10 checklist, whose submission status predates the later submission and rejection.
 
 ## Historical subscription record: not part of this free release

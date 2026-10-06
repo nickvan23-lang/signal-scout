@@ -16,17 +16,17 @@ Build 4 was rejected on September 15, 2026. Apple cited description wording, a f
 
 These source checks do not prove an iOS build, live BLE operation, or Apple review readiness.
 
-## App Store Connect, observed October 3, 2026
+## App Store Connect, rechecked October 5–6, 2026
 
 - [x] Set the base app download price to the free tier and verify Current Price $0.00. The older base download price was $4.99 separately from the subscription.
 - [x] Remove the unsubmitted subscription item from the current review draft without deleting the product or its history. The product remains Prepare for Submission.
 - [x] Confirm the Free Apps Agreement is Active.
-- [ ] Confirm the intended storefront availability in the app's availability settings. Do not assume the historical United States-only subscription setting configured app availability.
-- [ ] Replace version 1.3's paid description paragraph and review notes with final free-build text.
-- [ ] Confirm the privacy policy version and effective date at release before publishing the staged website.
-- [ ] Confirm fresh product screenshots have replaced the old preview/paywall presentation everywhere it appears.
+- [ ] Configure the intended storefronts after the user chooses launch regions. Apple currently shows Set Up Availability; no app availability exists. Historical subscription availability is a separate setting.
+- [x] Save the free promotional text, description, and six-part review notes, and verify persistence. The recording paragraph accurately remains pending.
+- [x] Publish and verify the version-specific support/privacy pages. Website-only PR #2 merged; Pages deployment succeeded; three public pages match source; privacy update dated October 6, 2026.
+- [x] Attach and verify all nine native product screenshots across required medium and two large display groups, including saved order and visual previews.
 - [ ] Attach and verify the real-device demonstration Apple requested.
-- [ ] Associate the new processed build with version 1.3. Build 4 remains rejected and cannot represent these changes.
+- [x] Select processed build 5 in version 1.3 and verify after navigation. Apple reports Ready to Submit / Binary State Validated. Build 4 and historical records remain preserved.
 - [ ] Check the latest review-draft contents and submit the free app only when all remaining gates are satisfied.
 
 The Paid Apps Agreement remains Pending User Info (banking and U.S. tax information missing). This free-access change does not accept, complete, or change any agreement, tax, banking, security, or credential settings. Any Apple-required legal declarations remain with the Account Holder.
@@ -41,13 +41,13 @@ The Paid Apps Agreement remains Pending User Info (banking and U.S. tax informat
 - [ ] Verify Support, Privacy Policy, and Terms of Use links from Scanner options, including returning to the app.
 - [ ] Verify Bluetooth denied, powered-off, unavailable, empty, and interrupted states; restoring Bluetooth permission should allow scanning.
 - [x] Archive/sign version 1.3 (5), verify identity and signature, and audit the Release binary for absent StoreKit/paywall/preview and screenshot-only fixtures (October 5: passed; App Store IPA exported).
-- [ ] Upload the new binary and wait for processing. Never reuse the rejected 1.3 (4) IPA.
+- [x] Upload and confirm processing of the new 1.3 (5) binary. Apple confirms the October 5 upload at 19:36 UTC; no duplicate upload occurred.
 
 ## Simulator verification completed October 5
 
 Two isolated Xcode UI tests passed. Normal launch remained accessible beyond 60 seconds with the legacy preview key supplied as a launch argument, after background/foreground, and after termination/relaunch. A separate test using DEBUG simulated BLE verified repeated full-screen map navigation, zoom/fit controls, seeded tracking/return, and Support/Privacy/Terms controls. Neither test establishes live BLE reception, physical-device upgrade behavior, or the requested recording.
 
-The existing upload progressed beyond the Code 1085 configuration warning and reached Apple delivery at 19:35 UTC, but its final receipt is unconfirmed and no process remained after recovery. Check the build list before any upload retry. See `VERIFICATION.md`.
+App Store Connect now confirms the existing delivery succeeded: build 5 is validated, ready to submit, and selected. The earlier Code 1085 configuration warning did not prevent this upload. See `VERIFICATION.md`.
 
 ## Physical-device demonstration
 
@@ -59,10 +59,10 @@ The existing upload progressed beyond the Code 1085 configuration warning and re
 
 ## Screenshot replacement
 
-- [x] Replace the live field and expanded full-screen map from build 5: `Screenshots/01-live-signal-field.png`, `Screenshots/02-full-screen-map.png`, and their native `Screenshots/65/` size variants. All four were visually inspected and show no preview/countdown presentation.
-- [x] Recapture and visually inspect `Screenshots/03-warmer-guidance.png` and its native `Screenshots/65/` variant from build 5.
+- [x] Replace the live field and expanded full-screen map from build 5: `Screenshots/01-live-signal-field.png`, `Screenshots/02-full-screen-map.png`, and their native `Screenshots/65/` and `Screenshots/63/` size variants. All six were visually inspected and show no preview/countdown presentation.
+- [x] Recapture and visually inspect `Screenshots/03-warmer-guidance.png` and its native `Screenshots/65/` and `Screenshots/63/` variants from build 5.
 - Do not attach `Screenshots/04-subscription-review.png` to this free release. Preserve it as historical evidence only.
-- [ ] Upload the six replacement product screenshots to App Store Connect and verify their order and previews. Native dimensions and SHA-256 hashes are recorded in `Screenshots/BUILD5_PROVENANCE.json`. These are simulator captures using existing DEBUG BLE fixtures; the requested physical-device demonstration remains separate and pending.
+- [x] Upload all nine replacement product screenshots to App Store Connect and verify their order and previews after reload. Native dimensions and SHA-256 hashes are recorded in `Screenshots/BUILD5_PROVENANCE.json`. These are simulator captures using existing DEBUG BLE fixtures; the requested physical-device demonstration remains separate and pending.
 
 ## Historical subscription record: preserve, do not submit
 

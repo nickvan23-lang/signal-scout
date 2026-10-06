@@ -97,6 +97,62 @@
       ],
       "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
       "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/63/01-live-signal-field-1206x2622.png",
+      "capture_file": "release-evidence/01-live-signal-field-medium-native.png",
+      "pixels": [
+        1206,
+        2622
+      ],
+      "sha256": "08c15b76b0f76b0239474d6b082651131d0782cf17d97edd5d4188a56278aea5",
+      "capture_date_utc": "2026-10-06T00:00:24.628091+00:00",
+      "device": "iPhone 16 Pro simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/63/02-full-screen-map-1206x2622.png",
+      "capture_file": "release-evidence/02-full-screen-map-medium-native.png",
+      "pixels": [
+        1206,
+        2622
+      ],
+      "sha256": "2131b034386c99c8350c0eaba313cc7a121407e0ddf5570e55e74793b44630bf",
+      "capture_date_utc": "2026-10-06T00:00:24.632487+00:00",
+      "device": "iPhone 16 Pro simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode",
+        "-SignalScoutFullScreenScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/63/03-warmer-guidance-1206x2622.png",
+      "capture_file": "release-evidence/03-warmer-guidance-medium-native.png",
+      "pixels": [
+        1206,
+        2622
+      ],
+      "sha256": "f133cb3203d5c65011fccae22a5ae9b70bb9f9d3b70a91af79aaf6aafb2645b4",
+      "capture_date_utc": "2026-10-06T00:00:24.636399+00:00",
+      "device": "iPhone 16 Pro simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode",
+        "-SignalScoutTrackingScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
     }
   ]
 }
