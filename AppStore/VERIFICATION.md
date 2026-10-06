@@ -33,6 +33,12 @@ Evidence, retained locally outside Git: `release-evidence/app-store-builds-confi
 
 The version-specific support and privacy pages were published through [website-only PR #2](https://github.com/nickvan23-lang/signal-scout/pull/2), merged as `69031732011f28cc2179d7bb0be0306e5e77a329`. [The existing Pages workflow succeeded](https://github.com/nickvan23-lang/signal-scout/actions/runs/37392702265). All three public pages returned HTTP 200 and matched the reviewed source byte for byte. The privacy update is dated October 6, 2026. Application source remains in draft PR #1.
 
+## Approved direct-device install prepared
+
+Nick approved a retained-data build-5 installation October 6 at 02:16 UTC. The tested Release archive app is already signed by the existing Apple Development certificate with the valid wildcard profile containing this phone. An unchanged install copy is prepared in `/tmp/SignalScout-approved-device-install-20261006/SignalScout.app`; strict signature verification passed, and its executable SHA-256 matches the archive: `48347dc81f5ced3196d8ec796c2c4f14bb8bb1908662ee6123f6ad4feec8c484`. No re-signing, new certificate/profile, device registration, TestFlight invitation, or duplicate upload was needed. This development signature differs from the existing App Store export's distribution signature; it is the same compiled Release app, not a simulator or DEBUG-fixture build.
+
+The phone was unavailable at the latest preflight: no USB phone, tunnel unavailable, and the live lock query failed with CoreDeviceError 1011 (unable to locate the device). Cached OS metadata is not a fresh live OS check. No app-data backup, installation, or physical QA has occurred. Unlock/USB connection is needed before preserving/verifying the old data and any preview fixture, then performing the already-authorized in-place install. See `PHYSICAL_QA.md`. Installation permission must not be requested again.
+
 ## Remaining release gates
 
 - Latest review messages were re-read from the current submission. September 15 cites guideline 1.1 description wording (without identifying an exact offending term), and 2.1(b) failed purchase/unsubmitted IAP, and requests a new binary. September 10 requires a latest-OS physical-device recording and the same six answers in a review reply and Notes. Corrected copy/build preparation is not an Apple acceptance decision.

@@ -2,6 +2,14 @@
 
 Prepared October 6, 2026. This is a test plan, not completed hardware evidence. The installed app and its data have not been changed.
 
+## Approved installation preparation
+
+Nick approved an in-place, retained-data build-5 installation on October 6 at 02:16 UTC. This approval persists; no further installation permission is needed. It does not choose storefronts or authorize an OS update or data erase.
+
+At 02:18 UTC the Mac was reachable, but the phone's tunnel was unavailable and its USB inventory was empty. A lock-state query failed with **CoreDevice error 1011: unable to locate the device**. The reported 26.6.1 OS is retained metadata; the live OS and current lock state cannot be verified while the phone is absent. No backup or installation was attempted.
+
+The original tested Release archive app is already **developer-signed** using the existing valid `YJTLRBVNSM` wildcard profile, which explicitly includes this phone. An unchanged copy is prepared at `/tmp/SignalScout-approved-device-install-20261006/SignalScout.app`; its executable SHA-256 matches the tested archive, and strict signature verification passed. This direct-device route needs no new certificate/profile, device registration, or TestFlight tester invitation. The separate App Store IPA remains unchanged. Its installation still requires the phone and a verified state backup first.
+
 ## Apple's actual request
 
 The [current submission messages](https://appstoreconnect.apple.com/apps/6810531496/distribution/reviewsubmissions/details/5db11dc9-73b3-4102-b7f6-69f12e155e40) still contain the September 10 and September 15 requests. The review item now links build **1.3 (5)**; there is one app-version item and no IAP item. Resubmission remains disabled.
@@ -24,7 +32,7 @@ The September 15 review concerned build 4 on an iPad Air 11-inch (M3), iPadOS 26
 1. Unlock the phone and connect it to the Mac by a data-capable USB cable. Leave Signal Scout installed and do not launch/reset it yet. Any passcode or trust prompt is handled directly by Nick. This lets us retry the scoped read-only fixture inspection and backup.
 2. After preserving the relevant fixture, Nick manually updates to the latest public iOS and reconnects/unlocks the phone. [Apple currently lists iOS 27.0.1](https://support.apple.com/en-us/100100). No OS update is started by this workflow.
 3. Provide an owned, actively advertising BLE accessory. Wake it; many headphones stop advertising when connected, asleep, or inside a closed case. We must observe a genuine signal rather than substitute fixtures if the accessory is not visible.
-4. Explicitly authorize an **in-place update to build 1.3 (5) that retains the app data**. Build 5 currently has **Groups (0)** and **Individual Testers (0)** in TestFlight, so no existing tester route is configured for it. If Nick chooses TestFlight, enable internal testing for his existing authorized account only after he authorizes that setup and the app update. Do not uninstall first. Use Apple's [TestFlight distribution flow](https://developer.apple.com/help/app-store-connect/test-a-beta-version/testflight-overview) for the processed build; the existing App Store-distribution IPA has no provisioned device list and is not a direct `devicectl` installation package. No tester invitation, account change, device registration, or new signing profile has been created.
+4. The **in-place update to build 1.3 (5) that retains the app data is approved**. Once the phone is reachable, preserve its app-data container and verify any historical preview key before installing the already-signed Release app. Do not uninstall first. TestFlight is an optional alternative: build 5 has **Groups (0)** and **Individual Testers (0)**, so no existing tester route is configured. No tester invitation, account change, device registration, or new signing profile has been created.
 5. Perform the brief flow below on the phone. The agent can observe/capture/inspect the evidence once the necessary device access is working, but the current CLI has no physical touch control and cannot move the phone or accessory.
 
 ## Short recording: approximately two to three minutes
@@ -54,7 +62,7 @@ The suggested duration exceeds the removed 60-second gate for useful release evi
 
 **Now:** inspect device/OS/lock/app metadata read-only, verify release artifacts, prepare this sequence, and preserve browser review evidence. No storefront selection is made while Nick's answer is pending.
 
-**After unlock/USB access:** list and copy only SignalScout's preference file to ignored local evidence, hash the backup, and inspect only the preview key. No data is written back to the device. A local helper, `release-evidence/read_physical_fixture.py`, implements these scoped reads and stops on an error.
+**After unlock/USB access:** list and copy only SignalScout's app-data container to ignored local evidence, hash its files, and inspect the preview key. No data is written back to the device. A local helper, `release-evidence/read_physical_fixture.py --device <paired identifier> --backup-state`, implements these scoped reads and stops on an error. Its syntax/help are verified; no successful physical backup is claimed.
 
 **After an authorized build update and compatible device services:** verify installed identity, launch/observe/log the free build, and run appropriate device checks that do not reset the fixture. Xcode 26.5's ability to automate a phone after its iOS 27 update is not yet verified. TestFlight recording remains possible independently of Xcode UI automation. Physical movement, phone-only controls/passcodes, and the genuine demonstration require Nick's participation.
 
