@@ -51,7 +51,7 @@ App Store Connect now confirms the existing delivery succeeded: build 5 is valid
 
 ## Physical-device demonstration
 
-- [ ] On a real iPhone running the latest public iOS version available at recording time, show the OS version and installed build identity.
+- [ ] Verify the actual device model, latest public OS, and installed build identity separately. Begin the real-device recording at normal app launch; see `PHYSICAL_QA.md`.
 - [ ] Record normal launch without DEBUG screenshot modes or seeded signals, Bluetooth permission/state, real actively advertising BLE devices, the device list/live map, full-screen map, selection, changing signal strength while moving, and return navigation.
 - [ ] Keep the demonstration running beyond 60 seconds and relaunch to show there is no timed gate. Explain that no paid access exists in this build.
 - [ ] Use devices owned by the tester or with permission. Do not expose private notifications, account credentials, precise locations, or unrelated personal information.

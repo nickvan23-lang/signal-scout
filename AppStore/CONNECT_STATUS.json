@@ -83,5 +83,40 @@
     "content_rights": "Existing answer: no third-party content",
     "dsa_status": "Existing non-trader classification; unchanged"
   },
-  "review_history": "Existing iOS 1.3 submission: 1 Item, Unresolved Issues; no new submission created"
+  "review_history": "Existing iOS 1.3 submission: 1 Item, Unresolved Issues; no new submission created",
+  "hardware_preparation": {
+    "checked_at_utc": "2026-10-06T00:31:57.202877+00:00",
+    "device": "iPhone 17 Pro Max",
+    "os": "26.6.1",
+    "os_build": "23G83",
+    "developer_mode": "enabled",
+    "ddi_services_available": false,
+    "tunnel": "disconnected",
+    "transport": "localNetwork",
+    "passcode_required": true,
+    "unlocked_since_boot": true,
+    "installed_signalscout": {
+      "version": "1.2",
+      "build": "3"
+    },
+    "preferences_read": "Failed: Network.NWError error 60, Operation timed out",
+    "legacy_preview_key": "signalScout.preview.startedAt.v1",
+    "expired_preview_fixture_confirmed": false,
+    "preferences_backup_created": false,
+    "app_launched": false,
+    "app_installed_or_deleted": false,
+    "os_upgrade_started": false,
+    "recording_started": false,
+    "usb_phone_connected": false
+  },
+  "review_item_build": "1.3 (5)",
+  "review_item_count": 1,
+  "resubmit_button": "Disabled",
+  "testflight_testing_preparation": {
+    "build": "1.3 (5)",
+    "groups": 0,
+    "individual_testers": 0,
+    "group_or_tester_added": false,
+    "invitation_sent": false
+  }
 }
