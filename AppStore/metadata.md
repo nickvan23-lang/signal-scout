@@ -100,7 +100,7 @@ The notes were verified against the saved Apple field. They must be updated with
 - StoreKit purchase and entitlement calls: removed from free source
 - Privacy questionnaire remains published as `Data Not Collected`, verified October 6, 2026; privacy URL points to the corrected live policy
 - Privacy URL: `https://nickvan23-lang.github.io/signal-scout/privacy.html`
-- Historical age-rating result: global `4+`, `All` in Brazil, `00+` in Korea; verify current state before submission
+- Age-rating page rechecked October 6: `4+` with regional exceptions; existing Content Rights and standard Apple license remain saved
 - Content Rights was saved as `No, this app does not contain, show, or access third-party content.`
 - No proprietary or non-exempt encryption is implemented; `ITSAppUsesNonExemptEncryption` remains `NO`. Final legal/export declarations remain with the Account Holder.
 

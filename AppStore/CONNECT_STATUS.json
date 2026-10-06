@@ -75,5 +75,13 @@
   "review_reply": "Not sent",
   "review_submission": "Not submitted",
   "app_privacy": "Data Not Collected; published state verified October 6",
-  "privacy_policy_url": "https://nickvan23-lang.github.io/signal-scout/privacy.html"
+  "privacy_policy_url": "https://nickvan23-lang.github.io/signal-scout/privacy.html",
+  "app_information_verified": {
+    "name": "Signal Scout - BLE Finder",
+    "subtitle": "Find Lost Headphones & Devices",
+    "age_rating": "4+ with regional exceptions",
+    "content_rights": "Existing answer: no third-party content",
+    "dsa_status": "Existing non-trader classification; unchanged"
+  },
+  "review_history": "Existing iOS 1.3 submission: 1 Item, Unresolved Issues; no new submission created"
 }
