@@ -192,5 +192,53 @@
       "access_or_permission_settings_changed": false,
       "physical_screenshot_or_video_produced": false
     }
+  },
+  "latest_publication_attempt": {
+    "recorded_at_utc": "2026-10-08T20:37:24Z",
+    "app_id": "6810531496",
+    "source_revision_reviewed": "3e2f37c6dcd864ca9f3f57564083a7f3fa65551f",
+    "existing_release_pr": "https://github.com/nickvan23-lang/signal-scout/pull/1",
+    "public_us_catalog": {
+      "url": "https://itunes.apple.com/lookup?id=6810531496&country=us&entity=software",
+      "http_status": 200,
+      "result_count": 0,
+      "conclusion": "No public United States catalog listing returned for this exact app ID on October 8.",
+      "scope": "United States only; does not establish status in other storefronts or fresh App Store Connect review state."
+    },
+    "app_store_connect_access": {
+      "current_observation": "App Store Connect shows Apple Account sign-in.",
+      "authenticated_status_rechecked": false,
+      "sign_in_inspection": "Browser requests timed out; no credential entry or account changes occurred.",
+      "evidence_boundary": "Top-level build, draft, agreement and review fields retain their October 5–6 observation dates."
+    },
+    "mac_access": {
+      "status": "Unavailable in this attempt: two MacBridge status requests returned internal errors.",
+      "live_device_rechecked": false,
+      "recording_created": false,
+      "new_build_or_install_performed": false
+    },
+    "source_verification": {
+      "command": "python scripts/check_free_release.py",
+      "passed": 14,
+      "failed": 0,
+      "scope": "Portable source/configuration checks only; no fresh Xcode, simulator, or physical BLE test was run by this attempt.",
+      "application_source_changed": false
+    },
+    "release_actions": {
+      "new_app_or_duplicate_pr_created": false,
+      "new_binary_uploaded": false,
+      "storefronts_changed": false,
+      "review_reply_sent": false,
+      "review_resubmitted": false,
+      "released": false
+    },
+    "next_actions": [
+      "Restore authenticated App Store Connect access and inspect current review messages/build selection before changing the draft.",
+      "Use United States as the initial launch default for the current publish request, consistent with the original release scope; verify and save actual app availability after access is restored.",
+      "Resume the existing real-device QA and recording workflow in PHYSICAL_QA.md; verify the installed build and current public OS, and use real BLE advertisements and physical movement.",
+      "Resolve unverified enabled-platform availability before submission; do not claim iPhone QA covers Apple Silicon Mac or Vision Pro.",
+      "Attach a genuine reviewer-accessible demonstration, update the existing six-part review notes/reply with observed results, and submit only the free build 5 with no IAP item after remaining issues are resolved.",
+      "After Apple approval, complete the existing manual-release step and verify the exact public app listing."
+    ]
   }
 }
