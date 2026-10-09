@@ -1,0 +1,94 @@
+name: iPhone simulator release QA
+on:
+  push:
+    branches: [codex/release-7-ci-20261009]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: signalscout-release-qa
+  cancel-in-progress: false
+jobs:
+  simulator:
+    runs-on: macos-26
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare Xcode and evidence
+        run: |
+          mkdir -p evidence
+          xcodebuild -version | tee evidence/xcode.txt
+          uname -m | tee evidence/architecture.txt
+          if ! command -v xcodegen >/dev/null; then brew install xcodegen; fi
+          if ! command -v ffmpeg >/dev/null; then brew install ffmpeg; fi
+          xcodegen generate
+          python3 - <<'PY'
+          import subprocess,json,os
+          data=json.loads(subprocess.check_output(['xcrun','simctl','list','devices','available','-j']))
+          candidates=[]
+          for runtime,devices in data['devices'].items():
+              if 'iOS' not in runtime:continue
+              for d in devices:
+                  if d.get('isAvailable') and 'iPhone' in d['name']:
+                      candidates.append((runtime, 'Pro Max' in d['name'],d['name'],d['udid']))
+          if not candidates:raise SystemExit('No installed iPhone simulator')
+          candidates.sort(reverse=True)
+          runtime,_,name,udid=candidates[0]
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write('SCOUT_SIM='+udid+'\n')
+          with open('evidence/simulator.json','w') as f:json.dump({'runtime':runtime,'name':name,'udid':udid},f,indent=2)
+          print(name,runtime,udid)
+          PY
+      - name: Boot the iPhone simulator
+        run: |
+          xcrun simctl boot "$SCOUT_SIM" || true
+          xcrun simctl bootstatus "$SCOUT_SIM" -b
+      - name: Production core checks
+        run: sh scripts/check_core.sh | tee evidence/core-checks.txt
+      - name: iPhone unit and UX tests
+        run: |
+          set -o pipefail
+          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout \
+            -destination "platform=iOS Simulator,id=$SCOUT_SIM" \
+            -derivedDataPath "$RUNNER_TEMP/ScoutDerivedData" \
+            -resultBundlePath "$RUNNER_TEMP/ScoutTests.xcresult" \
+            -parallel-testing-enabled NO -jobs 3 \
+            CODE_SIGNING_ALLOWED=NO COMPILATION_CACHE_ENABLE_CACHING=YES test \
+            2>&1 | tee evidence/tests.log
+      - name: Export test evidence
+        if: always()
+        run: |
+          if [ -d "$RUNNER_TEMP/ScoutTests.xcresult" ]; then
+            xcrun xcresulttool get test-results summary --path "$RUNNER_TEMP/ScoutTests.xcresult" > evidence/test-summary.json || true
+            xcrun xcresulttool export attachments --path "$RUNNER_TEMP/ScoutTests.xcresult" --output-path evidence/screenshots || true
+          fi
+      - name: Record labeled simulator preview
+        if: always()
+        run: |
+          app="$RUNNER_TEMP/ScoutDerivedData/Build/Products/Debug-iphonesimulator/SignalScout.app"
+          if [ -d "$app" ]; then
+            python3 scripts/record_preview.py --device "$SCOUT_SIM" --app "$app" --output "$RUNNER_TEMP/Preview"
+            cp "$RUNNER_TEMP/Preview/SignalScout-AppPreview-886x1920.mp4" evidence/
+            ffprobe -v error -show_entries format=duration,size:stream=codec_name,width,height,r_frame_rate -of json evidence/SignalScout-AppPreview-886x1920.mp4 > evidence/video-properties.json
+          fi
+      - name: Bind evidence to source and cap storage
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,subprocess
+          files={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in Path('SignalScout').rglob('*') if p.is_file()}
+          Path('evidence/source.json').write_text(json.dumps({'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'files':files},indent=2))
+          size=sum(p.stat().st_size for p in Path('evidence').rglob('*') if p.is_file())
+          print('Evidence bytes:',size)
+          if size>80*1024*1024:raise SystemExit('Evidence exceeds 80 MiB bound')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: signalscout-build7-iphone-simulation
+          path: evidence
+          retention-days: 1
+          compression-level: 6
+      - name: Stop simulator
+        if: always()
+        run: xcrun simctl shutdown "$SCOUT_SIM" || true

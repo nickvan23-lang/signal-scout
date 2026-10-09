@@ -3,45 +3,6 @@ import CoreBluetooth
 import Foundation
 import UIKit
 
-struct NearbyDevice: Identifiable, Equatable {
-    let id: UUID
-    var rawRSSI: Int
-    var smoothedRSSI: Double
-    var lastSeen: Date
-    var serviceCount: Int
-
-    var shortID: String { String(id.uuidString.prefix(8)) }
-    var anonymousLabel: String { "Signal \(String(shortID.suffix(4)))" }
-
-    var strengthLabel: String {
-        if smoothedRSSI >= -50 { return "Very strong" }
-        if smoothedRSSI >= -62 { return "Strong" }
-        if smoothedRSSI >= -74 { return "Medium" }
-        if smoothedRSSI >= -86 { return "Weak" }
-        return "Very weak"
-    }
-}
-
-enum BluetoothAvailability: Equatable {
-    case starting
-    case ready
-    case poweredOff
-    case unauthorized
-    case unsupported
-    case resetting
-
-    var message: String {
-        switch self {
-        case .starting: return "Starting Bluetooth…"
-        case .ready: return "Bluetooth is ready"
-        case .poweredOff: return "Turn on Bluetooth to scan"
-        case .unauthorized: return "Allow Bluetooth in Settings to scan"
-        case .unsupported: return "Bluetooth LE is not supported on this device"
-        case .resetting: return "Bluetooth is resetting…"
-        }
-    }
-}
-
 final class BluetoothScanner: NSObject, ObservableObject {
     @Published private(set) var devices: [NearbyDevice] = []
     @Published private(set) var availability: BluetoothAvailability = .starting
@@ -49,6 +10,7 @@ final class BluetoothScanner: NSObject, ObservableObject {
     @Published private(set) var selectedDevice: NearbyDevice?
     @Published private(set) var assessment: SignalAssessment?
     @Published private(set) var selectedHistory: [SignalSample] = []
+    @Published var hapticsEnabled = true
 
     private var central: CBCentralManager?
     private var records: [UUID: NearbyDevice] = [:]
@@ -56,6 +18,11 @@ final class BluetoothScanner: NSObject, ObservableObject {
     private var analyzers: [UUID: SignalTrendAnalyzer] = [:]
     private var lastGuidance: SearchGuidance?
     private var cleanupTimer: Timer?
+    private var wantsScanning = true
+
+#if DEBUG
+    private var demoTick = 0
+#endif
 
     override init() {
         super.init()
@@ -64,6 +31,11 @@ final class BluetoothScanner: NSObject, ObservableObject {
             availability = .ready
             isScanning = true
             seedScreenshotSignals()
+            if ProcessInfo.processInfo.arguments.contains("-SignalScoutVideoMode") || ProcessInfo.processInfo.arguments.contains("-SignalScoutLiveFixture") {
+                cleanupTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+                    self?.advanceDemoSignals()
+                }
+            }
             if ProcessInfo.processInfo.arguments.contains("-SignalScoutTrackingScreenshotMode") {
                 seedScreenshotTracking()
             }
@@ -86,6 +58,13 @@ final class BluetoothScanner: NSObject, ObservableObject {
     }
 
     func startScanning() {
+        wantsScanning = true
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-SignalScoutScreenshotMode") {
+            isScanning = true
+            return
+        }
+#endif
         guard let central, central.state == .poweredOn else { return }
         central.scanForPeripherals(
             withServices: nil,
@@ -95,6 +74,7 @@ final class BluetoothScanner: NSObject, ObservableObject {
     }
 
     func stopScanning() {
+        wantsScanning = false
         central?.stopScan()
         isScanning = false
     }
@@ -104,6 +84,7 @@ final class BluetoothScanner: NSObject, ObservableObject {
         let cutoff = Date().addingTimeInterval(-12)
         records = records.filter { $0.value.lastSeen >= cutoff }
         peripherals = peripherals.filter { records[$0.key] != nil }
+        analyzers = analyzers.filter { records[$0.key] != nil }
         publishDevices()
     }
 
@@ -140,6 +121,11 @@ final class BluetoothScanner: NSObject, ObservableObject {
     }
 
     private func refreshAges() {
+        // Keep the selected signal so a lost target remains understandable.
+        let cutoff = Date().addingTimeInterval(-60)
+        records = records.filter { $0.key == selectedDevice?.id || $0.value.lastSeen >= cutoff }
+        peripherals = peripherals.filter { records[$0.key] != nil }
+        analyzers = analyzers.filter { records[$0.key] != nil }
         if let selectedDevice,
            let latest = records[selectedDevice.id] {
             self.selectedDevice = latest
@@ -158,17 +144,13 @@ final class BluetoothScanner: NSObject, ObservableObject {
     }
 
     private func publishDevices() {
-        devices = records.values.sorted {
-            if abs($0.smoothedRSSI - $1.smoothedRSSI) > 1 {
-                return $0.smoothedRSSI > $1.smoothedRSSI
-            }
-            return $0.shortID < $1.shortID
-        }
+        devices = records.values.sorted(by: NearbyDevice.strongestFirst)
     }
 
     private func provideFeedback(for guidance: SearchGuidance) {
         guard guidance != lastGuidance else { return }
         defer { lastGuidance = guidance }
+        guard hapticsEnabled else { return }
         switch guidance {
         case .warmer:
             UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -180,6 +162,32 @@ final class BluetoothScanner: NSObject, ObservableObject {
     }
 
 #if DEBUG
+    private func advanceDemoSignals() {
+        guard isScanning else { return }
+        demoTick += 1
+        let now = Date()
+        for id in records.keys.sorted(by: { $0.uuidString < $1.uuidString }) {
+            guard var device = records[id] else { continue }
+            let phase = Double(demoTick) * 0.16 + SignalMapLayout.stableAngle(for: id)
+            let baseline = id.uuidString.hasPrefix("0001") ? -63.0 : device.smoothedRSSI
+            let reading = id.uuidString.hasPrefix("0001")
+                ? Int(baseline + 15 * sin(phase)) : device.rawRSSI
+            var analyzer = analyzers[id] ?? SignalTrendAnalyzer()
+            let update = analyzer.add(rawRSSI: reading, at: now.timeIntervalSinceReferenceDate)
+            analyzers[id] = analyzer
+            device.rawRSSI = reading
+            device.smoothedRSSI = update?.smoothedRSSI ?? Double(reading)
+            device.lastSeen = now
+            records[id] = device
+            if selectedDevice?.id == id {
+                selectedDevice = device
+                assessment = update
+                selectedHistory = Array(analyzer.samples.suffix(36))
+            }
+        }
+        publishDevices()
+    }
+
     private func seedScreenshotSignals() {
         let examples: [(String, Int)] = [
             ("0001C551-0000-0000-0000-000000000001", -45),
@@ -190,14 +198,18 @@ final class BluetoothScanner: NSObject, ObservableObject {
             ("00096051-0000-0000-0000-000000000006", -94)
         ]
         let now = Date()
-        for (uuidString, rssi) in examples {
+        let names = ["Studio headphones", "Desk speaker", "Fitness sensor", "Living room light", "Travel tag", ""]
+        let companies: [UInt16?] = [76, 117, 89, 224, nil, nil]
+        for (index, example) in examples.enumerated() {
+            let (uuidString, rssi) = example
             guard let id = UUID(uuidString: uuidString) else { continue }
             records[id] = NearbyDevice(
                 id: id,
                 rawRSSI: rssi,
                 smoothedRSSI: Double(rssi),
                 lastSeen: now,
-                serviceCount: 1
+                serviceCount: 1,
+                identity: DeviceIdentity(name: DeviceIdentity.cleanedName(names[index]), companyID: companies[index])
             )
         }
         publishDevices()
@@ -227,7 +239,7 @@ extension BluetoothScanner: CBCentralManagerDelegate {
         switch central.state {
         case .poweredOn:
             availability = .ready
-            startScanning()
+            if wantsScanning { startScanning() }
         case .poweredOff:
             availability = .poweredOff
             isScanning = false
@@ -273,7 +285,12 @@ extension BluetoothScanner: CBCentralManagerDelegate {
             rawRSSI: rawRSSI,
             smoothedRSSI: smoothed,
             lastSeen: now,
-            serviceCount: services
+            serviceCount: services,
+            identity: (records[id]?.identity ?? DeviceIdentity()).merging(
+                localName: advertisementData[CBAdvertisementDataLocalNameKey] as? String,
+                peripheralName: peripheral.name,
+                manufacturerData: advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
+            )
         )
         publishDevices()
 

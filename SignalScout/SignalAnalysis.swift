@@ -13,7 +13,7 @@ enum SearchGuidance: String, Equatable {
         case .warmer: return "Getting warmer"
         case .colder: return "Getting colder"
         case .steady: return "About the same"
-        case .signalLost: return "Signal paused"
+        case .signalLost: return "Signal lost"
         }
     }
 
@@ -22,9 +22,9 @@ enum SearchGuidance: String, Equatable {
         case .calibrating:
             return "Hold the phone naturally for a moment, then walk slowly."
         case .warmer:
-            return "Keep moving this way while the trend stays stronger."
+            return "The signal is strengthening. Move slowly and compare again."
         case .colder:
-            return "Return to your last spot and try a different direction."
+            return "The signal is weakening. Compare with your previous position."
         case .steady:
             return "Move several more steps; small RSSI changes are just radio noise."
         case .signalLost:

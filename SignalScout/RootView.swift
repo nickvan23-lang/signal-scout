@@ -17,36 +17,50 @@ private enum ScannerPresentation: String, CaseIterable, Identifiable {
 }
 
 struct RootView: View {
-    @EnvironmentObject private var subscription: SubscriptionManager
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        Group {
-            switch subscription.access {
-            case .loading:
-                ZStack {
-                    ScoutPalette.background.ignoresSafeArea()
-                    ProgressView("Checking App Store…")
-                        .tint(ScoutPalette.cyan)
-                        .foregroundStyle(ScoutPalette.secondary)
-                }
-            case .preview, .subscribed:
-                ScoutFeatureView()
-            case .previewAvailable, .locked:
-                SubscriptionPaywallView()
-            }
-        }
-        .task {
-            await subscription.prepare()
-        }
+        ScoutFeatureView()
+            .transaction { if reduceMotion { $0.disablesAnimations = true } }
     }
 }
 
 private struct ScoutFeatureView: View {
     @StateObject private var scanner = BluetoothScanner()
+#if DEBUG
+    @State private var videoPhase = 0
+#endif
 
     var body: some View {
 #if DEBUG
-        if ProcessInfo.processInfo.arguments.contains("-SignalScoutFullScreenScreenshotMode") {
+        if ProcessInfo.processInfo.arguments.contains("-SignalScoutVideoMode") {
+            Group {
+                if videoPhase == 1 {
+                    FullScreenSignalMap().environmentObject(scanner)
+                } else {
+                    navigationContent
+                }
+            }
+            .safeAreaInset(edge: .bottom) {
+                Text("SIMULATED SIGNALS · APP DEMONSTRATION")
+                    .font(.system(size: 11, weight: .bold, design: .rounded))
+                    .tracking(1)
+                    .foregroundStyle(ScoutPalette.cyan)
+                    .frame(maxWidth: .infinity, minHeight: 30)
+                    .background(ScoutPalette.background)
+            }
+            .task {
+                try? await Task.sleep(for: .seconds(9))
+                guard !Task.isCancelled else { return }
+                videoPhase = 1
+                try? await Task.sleep(for: .seconds(8))
+                guard !Task.isCancelled else { return }
+                if let device = scanner.devices.first(where: { $0.id.uuidString.hasPrefix("0001") }) {
+                    scanner.select(device)
+                }
+                videoPhase = 2
+            }
+        } else if ProcessInfo.processInfo.arguments.contains("-SignalScoutFullScreenScreenshotMode") {
             FullScreenSignalMap()
                 .environmentObject(scanner)
         } else {
@@ -77,17 +91,15 @@ private struct ScoutFeatureView: View {
 
 private struct ScannerView: View {
     @EnvironmentObject private var scanner: BluetoothScanner
-    @EnvironmentObject private var subscription: SubscriptionManager
-    @State private var presentation: ScannerPresentation = .map
+    @State private var presentation: ScannerPresentation = .list
     @State private var isShowingFullScreenMap = false
+    @State private var isShowingHelp = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 14) {
                 header
-                if let remaining = subscription.previewSecondsRemaining {
-                    PreviewCountdownBanner(secondsRemaining: remaining)
-                }
                 statusCard
 
                 Picker("Scanner presentation", selection: $presentation) {
@@ -102,6 +114,7 @@ private struct ScannerView: View {
                 } else if presentation == .map {
                     LiveSignalMap(
                         devices: scanner.devices,
+                        isScanning: scanner.isScanning,
                         isStale: { scanner.isStale($0) },
                         select: scanner.select,
                         expand: { isShowingFullScreenMap = true }
@@ -124,6 +137,8 @@ private struct ScannerView: View {
             .padding(.bottom, 30)
         }
         .navigationTitle("Signal Scout")
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $isShowingHelp) { SearchHelpView() }
         .fullScreenCover(isPresented: $isShowingFullScreenMap) {
             FullScreenSignalMap()
                 .environmentObject(scanner)
@@ -137,8 +152,10 @@ private struct ScannerView: View {
                     Button("Clear inactive devices") {
                         scanner.clearInactiveDevices()
                     }
+                    Toggle("Haptics for this session", isOn: $scanner.hapticsEnabled)
+                    Button("How to search") { isShowingHelp = true }
                     Divider()
-                    Link("Manage Subscription", destination: URL(string: "https://apps.apple.com/account/subscriptions")!)
+                    Link("Terms of Use", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
                     Link("Privacy Policy", destination: URL(string: "https://nickvan23-lang.github.io/signal-scout/privacy.html")!)
                     Link("Support", destination: URL(string: "https://nickvan23-lang.github.io/signal-scout/support.html")!)
                 } label: {
@@ -151,14 +168,20 @@ private struct ScannerView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Find an advertising BLE device")
+            Text("Find your signal")
+                .padding(.trailing, 44)
                 .font(.system(.title2, design: .rounded, weight: .bold))
-            Text("Watch every live signal move by relative strength, or choose one for warmer-and-colder guidance.")
+            Text("Choose your accessory by its Bluetooth name and advertised manufacturer, then compare its signal.")
                 .font(.subheadline)
                 .foregroundStyle(ScoutPalette.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.top, 8)
+        .overlay(alignment: .topTrailing) {
+            Button { isShowingHelp = true } label: { Image(systemName: "questionmark.circle").frame(width: 44, height: 44) }
+                .accessibilityLabel("How to search")
+                .offset(y: -12)
+        }
     }
 
     private var statusCard: some View {
@@ -169,19 +192,26 @@ private struct ScannerView: View {
                     .frame(width: 44, height: 44)
                 Image(systemName: scanner.isScanning ? "dot.radiowaves.left.and.right" : "pause.fill")
                     .foregroundStyle(scanner.availability == .ready ? ScoutPalette.cyan : ScoutPalette.amber)
-                    .symbolEffect(.pulse, isActive: scanner.isScanning)
+                    .symbolEffect(.pulse, isActive: scanner.isScanning && !reduceMotion)
             }
             VStack(alignment: .leading, spacing: 2) {
                 Text(scanner.availability.message)
                     .font(.headline)
-                Text(scanner.isScanning ? "Listening for advertisements" : "Scanner paused")
+                Text(scanner.isScanning ? "\(scanner.devices.filter { !scanner.isStale($0) }.count) recent signals · tap one to compare" : (scanner.availability == .ready ? "No new readings while paused" : "Waiting for Bluetooth access"))
                     .font(.caption)
                     .foregroundStyle(ScoutPalette.secondary)
             }
             Spacer()
-            Text("\(scanner.devices.count)")
-                .font(.system(.title2, design: .rounded, weight: .bold))
-                .contentTransition(.numericText())
+            if scanner.availability == .ready {
+                Button { scanner.isScanning ? scanner.stopScanning() : scanner.startScanning() } label: {
+                    Image(systemName: scanner.isScanning ? "pause.fill" : "play.fill")
+                        .frame(width: 44, height: 44)
+                        .background(ScoutPalette.cyan.opacity(0.12), in: Circle())
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(ScoutPalette.cyan)
+                .accessibilityLabel(scanner.isScanning ? "Pause scanning" : "Resume scanning")
+            }
         }
         .padding(16)
         .background(ScoutPalette.panel, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -189,15 +219,31 @@ private struct ScannerView: View {
 
     private var emptyState: some View {
         VStack(spacing: 14) {
-            ProgressView()
-                .tint(ScoutPalette.cyan)
-                .scaleEffect(1.15)
-            Text("Listening nearby…")
+            if scanner.isScanning {
+                ProgressView().tint(ScoutPalette.cyan).scaleEffect(1.15)
+            } else {
+                Image(systemName: scanner.availability == .unauthorized ? "lock.shield" : "antenna.radiowaves.left.and.right.slash")
+                    .font(.largeTitle)
+                    .foregroundStyle(ScoutPalette.amber)
+            }
+            Text(scanner.isScanning ? "Listening nearby…" : (scanner.availability == .ready ? "Scanning paused" : scanner.availability.message))
                 .font(.headline)
-            Text("Wake or move the item you want to find. Only devices currently broadcasting Bluetooth Low Energy advertisements can appear.")
+                .multilineTextAlignment(.center)
+            Text(emptyStateDetail)
                 .font(.subheadline)
                 .foregroundStyle(ScoutPalette.secondary)
                 .multilineTextAlignment(.center)
+            if scanner.availability == .unauthorized {
+                Link("Open Settings", destination: URL(string: UIApplication.openSettingsURLString)!)
+                    .buttonStyle(.borderedProminent)
+                    .tint(ScoutPalette.cyan)
+                    .frame(minHeight: 44)
+            } else if scanner.availability == .ready && !scanner.isScanning {
+                Button("Resume scanning", action: scanner.startScanning)
+                    .buttonStyle(.borderedProminent)
+                    .tint(ScoutPalette.cyan)
+                    .frame(minHeight: 44)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 46)
@@ -205,9 +251,26 @@ private struct ScannerView: View {
         .background(ScoutPalette.panel.opacity(0.7), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 
+    private var emptyStateDetail: String {
+        switch scanner.availability {
+        case .unauthorized:
+            return "Enable Bluetooth access for Signal Scout in Settings, then return here. No location permission is needed."
+        case .poweredOff:
+            return "Turn on Bluetooth in Settings to listen for nearby advertising accessories."
+        case .unsupported:
+            return "Scanning needs Bluetooth Low Energy hardware. Use a compatible physical iPhone to find nearby signals."
+        case .starting, .resetting:
+            return "The scanner will be ready when Bluetooth finishes starting."
+        case .ready:
+            return scanner.isScanning
+                ? "Wake an accessory you own and bring it close. Only actively advertising Bluetooth Low Energy devices can appear; sleeping devices and closed charging cases may stay silent."
+                : "Resume when you are ready to look for an accessory. No new signal readings are collected while paused."
+        }
+    }
+
     private var limitations: some View {
         Label {
-            Text("Names and identifiers may be hidden or rotate. Signal strength is approximate and is not a precise distance or direction.")
+            Text("Some accessories do not broadcast a name or manufacturer. Signal strength is approximate, not a measured distance or direction.")
         } icon: {
             Image(systemName: "hand.raised.fill")
                 .foregroundStyle(ScoutPalette.cyan)
@@ -218,29 +281,9 @@ private struct ScannerView: View {
     }
 }
 
-private struct PreviewCountdownBanner: View {
-    let secondsRemaining: Int
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: "timer")
-            Text("Free preview")
-                .font(.subheadline.bold())
-            Spacer()
-            Text("\(secondsRemaining)s")
-                .font(.system(.headline, design: .monospaced, weight: .bold))
-                .contentTransition(.numericText())
-        }
-        .foregroundStyle(ScoutPalette.background)
-        .padding(.horizontal, 15)
-        .frame(minHeight: 48)
-        .background(ScoutPalette.amber, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .accessibilityLabel("Free preview, \(secondsRemaining) seconds remaining")
-    }
-}
-
 private struct LiveSignalMap: View {
     let devices: [NearbyDevice]
+    let isScanning: Bool
     let isStale: (NearbyDevice) -> Bool
     let select: (NearbyDevice) -> Void
     let expand: () -> Void
@@ -251,13 +294,13 @@ private struct LiveSignalMap: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Live signal field")
                         .font(.headline)
-                    Text("Center means stronger RSSI")
+                    Text("Center = stronger · angles are not directions")
                         .font(.caption)
                         .foregroundStyle(ScoutPalette.secondary)
                 }
                 Spacer()
                 HStack(spacing: 12) {
-                    Label("Live", systemImage: "circle.fill")
+                    Label(isScanning ? "Live" : "Paused", systemImage: isScanning ? "circle.fill" : "pause.circle.fill")
                         .font(.caption.bold())
                         .foregroundStyle(ScoutPalette.cyan)
                     Button(action: expand) {
@@ -282,7 +325,7 @@ private struct LiveSignalMap: View {
 
                     ForEach(devices) { device in
                         let coordinate = SignalMapLayout.coordinate(id: device.id, rssi: device.smoothedRSSI)
-                        let radius = usableRadius * coordinate.normalizedRadius
+                        let radius = SignalMapLayout.displayRadius(for: device.smoothedRSSI, availableRadius: usableRadius, centerClearance: 96)
                         let position = CGPoint(
                             x: center.x + CGFloat(cos(coordinate.angleRadians)) * radius,
                             y: center.y + CGFloat(sin(coordinate.angleRadians)) * radius
@@ -346,7 +389,6 @@ private struct LiveSignalMap: View {
 
 private struct FullScreenSignalMap: View {
     @EnvironmentObject private var scanner: BluetoothScanner
-    @EnvironmentObject private var subscription: SubscriptionManager
     @Environment(\.dismiss) private var dismiss
     @State private var zoom: CGFloat = 0.58
     @GestureState private var gestureScale: CGFloat = 1
@@ -364,11 +406,14 @@ private struct FullScreenSignalMap: View {
 
                 if scanner.devices.isEmpty {
                     VStack(spacing: 16) {
-                        ProgressView()
-                            .tint(ScoutPalette.cyan)
-                        Text("Listening for Bluetooth signals…")
+                        if scanner.isScanning {
+                            ProgressView().tint(ScoutPalette.cyan)
+                        } else {
+                            Image(systemName: "pause.circle").font(.largeTitle).foregroundStyle(ScoutPalette.amber)
+                        }
+                        Text(scanner.isScanning ? "Listening for Bluetooth signals…" : (scanner.availability == .ready ? "Scanning paused" : scanner.availability.message))
                             .font(.headline)
-                        Text("Advertising devices will appear on the field as they are discovered.")
+                        Text(scanner.isScanning ? "Advertising accessories will appear as they are discovered." : "Resume when Bluetooth is ready to receive new readings.")
                             .font(.subheadline)
                             .foregroundStyle(ScoutPalette.secondary)
                             .multilineTextAlignment(.center)
@@ -433,15 +478,9 @@ private struct FullScreenSignalMap: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Live Signal Field")
                     .font(.system(.title2, design: .rounded, weight: .bold))
-                if let remaining = subscription.previewSecondsRemaining {
-                    Text("\(scanner.devices.count) signals · preview \(remaining)s")
-                        .font(.caption)
-                        .foregroundStyle(ScoutPalette.amber)
-                } else {
-                    Text("\(scanner.devices.count) visible BLE signals")
-                        .font(.caption)
-                        .foregroundStyle(ScoutPalette.secondary)
-                }
+                Text("\(scanner.devices.count) visible BLE signals")
+                    .font(.caption)
+                    .foregroundStyle(ScoutPalette.secondary)
             }
 
             Spacer()
@@ -528,7 +567,7 @@ private struct ExpandedSignalCanvas: View {
 
                 ForEach(devices) { device in
                     let coordinate = SignalMapLayout.coordinate(id: device.id, rssi: device.smoothedRSSI)
-                    let radius = usableRadius * coordinate.normalizedRadius
+                    let radius = SignalMapLayout.displayRadius(for: device.smoothedRSSI, availableRadius: usableRadius, centerClearance: 108)
                     let position = CGPoint(
                         x: center.x + CGFloat(cos(coordinate.angleRadians)) * radius,
                         y: center.y + CGFloat(sin(coordinate.angleRadians)) * radius
@@ -601,7 +640,7 @@ private struct SignalMapDot: View {
     }
 
     private var compactName: String {
-        device.anonymousLabel
+        device.displayName
     }
 
     var body: some View {
@@ -621,7 +660,7 @@ private struct SignalMapDot: View {
             VStack(spacing: 0) {
                 Text(compactName)
                     .font(.system(size: 9, weight: .semibold, design: .rounded))
-                    .lineLimit(1)
+                    .lineLimit(2)
                 Text("\(Int(device.smoothedRSSI.rounded()))")
                     .font(.system(size: 8, weight: .regular, design: .monospaced))
             }
@@ -630,11 +669,11 @@ private struct SignalMapDot: View {
             .padding(.vertical, 2)
             .background(ScoutPalette.background.opacity(0.82), in: Capsule())
         }
-        .frame(width: 62, height: 67)
+        .frame(width: 94, height: 80)
         .contentShape(Rectangle())
         .opacity(stale ? 0.55 : 1)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(device.anonymousLabel), \(Int(device.smoothedRSSI.rounded())) decibels, \(stale ? "stale" : device.strengthLabel)")
+        .accessibilityLabel("\(device.displayName), \(Int(device.smoothedRSSI.rounded())) decibels, \(stale ? "stale" : device.strengthLabel)")
     }
 }
 
@@ -662,11 +701,13 @@ private struct DeviceRow: View {
                 .frame(width: 42, height: 34)
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(device.anonymousLabel)
+                Text(device.displayName)
                     .font(.headline)
                     .foregroundStyle(.white)
                     .lineLimit(1)
-                Text("Anonymous app-scoped ID \(device.shortID)")
+                Text(device.manufacturerName)
+                    .font(.caption).foregroundStyle(ScoutPalette.secondary).lineLimit(2)
+                Text(device.freshnessLabel())
                 .font(.caption.monospaced())
                 .foregroundStyle(ScoutPalette.secondary)
                 .lineLimit(1)
@@ -678,7 +719,7 @@ private struct DeviceRow: View {
                 Text("\(Int(device.smoothedRSSI.rounded())) dBm")
                     .font(.system(.headline, design: .rounded, weight: .semibold))
                     .foregroundStyle(isStale ? ScoutPalette.secondary : .white)
-                Text(isStale ? "stale" : device.strengthLabel)
+                Text(isStale ? "No recent signal" : device.strengthLabel)
                     .font(.caption)
                     .foregroundStyle(isStale ? ScoutPalette.amber : ScoutPalette.cyan)
             }
@@ -694,12 +735,16 @@ private struct DeviceRow: View {
 
 private struct TrackingView: View {
     @EnvironmentObject private var scanner: BluetoothScanner
+    @State private var isShowingHelp = false
 
     private var device: NearbyDevice? { scanner.selectedDevice }
-    private var guidance: SearchGuidance { scanner.assessment?.guidance ?? .calibrating }
-
+    private var status: TrackingStatus {
+        TrackingStatus(availability: scanner.availability, isScanning: scanner.isScanning,
+                       lastSeen: device?.lastSeen, assessment: scanner.assessment)
+    }
     private var guidanceColor: Color {
-        switch guidance {
+        guard status.isLive else { return ScoutPalette.amber }
+        switch status.guidance {
         case .warmer: return ScoutPalette.cyan
         case .colder: return ScoutPalette.red
         case .steady: return ScoutPalette.amber
@@ -710,78 +755,83 @@ private struct TrackingView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
-                VStack(spacing: 6) {
-                    Text(device?.anonymousLabel ?? "Anonymous BLE signal")
+            VStack(spacing: 18) {
+                VStack(spacing: 5) {
+                    Text(device?.displayName ?? "Nearby device")
                         .font(.system(.title2, design: .rounded, weight: .bold))
-                        .lineLimit(1)
-                    Text(device.map { "ID \($0.shortID)" } ?? "")
-                        .font(.caption.monospaced())
-                        .foregroundStyle(ScoutPalette.secondary)
+                    Text(device?.manufacturerName ?? "Manufacturer not advertised")
+                        .font(.subheadline).foregroundStyle(ScoutPalette.secondary)
+                    Text(device?.freshnessLabel() ?? "Waiting for a reading")
+                        .font(.caption).foregroundStyle(ScoutPalette.secondary)
                 }
-
-                SignalGauge(
-                    rssi: scanner.assessment?.smoothedRSSI ?? device?.smoothedRSSI ?? -100,
-                    guidance: guidance,
-                    color: guidanceColor
-                )
-
-                VStack(spacing: 8) {
-                    Text(guidance.title)
-                        .font(.system(.title, design: .rounded, weight: .bold))
+                VStack(spacing: 7) {
+                    Text(status.title)
+                        .font(.system(.title2, design: .rounded, weight: .bold))
                         .foregroundStyle(guidanceColor)
-                    Text(guidance.instruction)
-                        .font(.body)
+                    Text(status.instruction).font(.subheadline)
                         .foregroundStyle(ScoutPalette.secondary)
                         .multilineTextAlignment(.center)
-                        .frame(maxWidth: 330)
                 }
-                .animation(.easeInOut(duration: 0.25), value: guidance)
-
+                .accessibilityElement(children: .combine)
+                SignalGauge(rssi: scanner.assessment?.smoothedRSSI ?? device?.smoothedRSSI ?? -100,
+                            guidance: status.guidance, color: guidanceColor, isLive: status.isLive)
                 SignalChart(samples: scanner.selectedHistory, tint: guidanceColor)
-                    .frame(height: 116)
-                    .padding(14)
-                    .background(ScoutPalette.panel, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-
-                HStack(spacing: 12) {
-                    Button {
-                        scanner.resetDirection()
-                    } label: {
-                        Label("Try a new direction", systemImage: "arrow.counterclockwise")
-                            .frame(maxWidth: .infinity, minHeight: 48)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(ScoutPalette.cyan)
-                    .foregroundStyle(ScoutPalette.background)
-
-                    Button(role: .cancel) {
-                        scanner.stopTracking()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .frame(width: 48, height: 48)
-                    }
-                    .buttonStyle(.bordered)
-                    .accessibilityLabel("Stop tracking")
-                }
-
-                Text("Best results: hold the phone the same way, move 4–6 slow steps, and wait for a trend. Your body, walls, and device orientation can change the signal.")
-                    .font(.footnote)
-                    .foregroundStyle(ScoutPalette.secondary)
-                    .multilineTextAlignment(.center)
+                    .frame(height: 100).padding(14)
+                    .background(ScoutPalette.panel, in: RoundedRectangle(cornerRadius: 20))
+                Label("Compare a few slow steps at a time. Stronger does not guarantee closer.", systemImage: "figure.walk")
+                    .font(.footnote).foregroundStyle(ScoutPalette.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 18)
+            .padding(18)
+        }
+        .safeAreaInset(edge: .bottom) {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 12) { trackingControls }
+                VStack(spacing: 8) { trackingControls }
+            }
+            .padding(.horizontal, 18).padding(.vertical, 12)
+            .background(ScoutPalette.background)
         }
         .navigationBarBackButtonHidden()
-        .navigationTitle("Tracking")
+        .navigationTitle("Compare signal")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button { scanner.stopTracking() } label: { Label("Signals", systemImage: "chevron.left") }
+                    .frame(minHeight: 44).accessibilityLabel("Stop tracking")
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { isShowingHelp = true } label: { Image(systemName: "questionmark.circle").frame(width: 44, height: 44) }
+                    .accessibilityLabel("How to search")
+            }
+        }
+        .sheet(isPresented: $isShowingHelp) { SearchHelpView() }
+    }
+
+    @ViewBuilder private var trackingControls: some View {
+        Button { scanner.resetDirection() } label: {
+            Label("Reset comparison", systemImage: "arrow.counterclockwise")
+                .frame(maxWidth: .infinity, minHeight: 48)
+        }
+        .buttonStyle(.borderedProminent).tint(ScoutPalette.cyan)
+        .foregroundStyle(ScoutPalette.background)
+        .disabled(!scanner.isScanning || scanner.availability != .ready)
+        Button { scanner.isScanning ? scanner.stopScanning() : scanner.startScanning() } label: {
+            Label(scanner.isScanning ? "Pause" : "Resume", systemImage: scanner.isScanning ? "pause.fill" : "play.fill")
+                .frame(minWidth: 70, minHeight: 48)
+        }
+        .buttonStyle(.bordered).tint(ScoutPalette.cyan)
+        .disabled(scanner.availability != .ready)
+        .accessibilityLabel(scanner.isScanning ? "Pause scanning" : "Resume scanning")
     }
 }
 
 private struct SignalGauge: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let rssi: Double
     let guidance: SearchGuidance
     let color: Color
+    var isLive = true
 
     private var normalized: Double {
         min(1, max(0.05, (rssi + 100) / 58))
@@ -801,18 +851,18 @@ private struct SignalGauge: View {
                 Image(systemName: guidance == .warmer ? "flame.fill" : guidance == .colder ? "snowflake" : "wave.3.right")
                     .font(.system(size: 30, weight: .semibold))
                     .foregroundStyle(color)
-                    .symbolEffect(.pulse, isActive: guidance == .warmer)
+                    .symbolEffect(.pulse, isActive: guidance == .warmer && isLive && !reduceMotion)
                 Text("\(Int(rssi.rounded()))")
                     .font(.system(size: 48, weight: .bold, design: .rounded))
                     .contentTransition(.numericText())
-                Text("dBm · relative signal")
+                Text(isLive ? "dBm · relative strength" : "dBm · last reading")
                     .font(.caption)
                     .foregroundStyle(ScoutPalette.secondary)
             }
         }
-        .frame(width: 220, height: 220)
+        .frame(width: 190, height: 190)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Signal strength \(Int(rssi.rounded())) decibels, \(guidance.title)")
+        .accessibilityLabel("Signal strength \(Int(rssi.rounded())) decibels, \(isLive ? guidance.title : "last reading, not live")")
     }
 }
 
@@ -867,12 +917,15 @@ private struct SignalChart: View {
                 }
                 context.stroke(path, with: .color(tint), style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
             }
-            .accessibilityLabel("Recent smoothed signal trend")
+            .accessibilityLabel("Recent signal readings")
+            .accessibilityValue(samples.last.map { "\(samples.count) samples. Latest smoothed value \(Int($0.smoothedRSSI.rounded())) dBm." } ?? "Waiting for signal samples")
+            if samples.count < 2 {
+                Text("The chart appears after a few readings.").font(.caption).foregroundStyle(ScoutPalette.secondary)
+            }
         }
     }
 }
 
 #Preview {
     RootView()
-        .environmentObject(SubscriptionManager())
 }

@@ -50,6 +50,17 @@
                ReferencedContainer = "container:SignalScout.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "34509F25142FC792423342A5"
+               BuildableName = "SignalScoutUITests.xctest"
+               BlueprintName = "SignalScoutUITests"
+               ReferencedContainer = "container:SignalScout.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

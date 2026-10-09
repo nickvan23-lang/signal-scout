@@ -23,7 +23,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.nicholasvandervelden.SignalScout
         PRODUCT_NAME: SignalScout
         TARGETED_DEVICE_FAMILY: "1"
-        CURRENT_PROJECT_VERSION: 4
+        CURRENT_PROJECT_VERSION: 7
         MARKETING_VERSION: 1.3
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Signal Scout
@@ -39,6 +39,7 @@ targets:
     scheme:
       testTargets:
         - SignalScoutTests
+        - SignalScoutUITests
   SignalScoutTests:
     type: bundle.unit-test
     platform: iOS
@@ -49,4 +50,16 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.nicholasvandervelden.SignalScoutTests
+        GENERATE_INFOPLIST_FILE: YES
+
+  SignalScoutUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: SignalScoutUITests
+    dependencies:
+      - target: SignalScout
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nicholasvandervelden.SignalScoutUITests
         GENERATE_INFOPLIST_FILE: YES

@@ -24,6 +24,14 @@ enum SignalMapLayout {
         return outerRadius - strengthFraction * (outerRadius - innerRadius)
     }
 
+    /// Preserve strength order while keeping selectable dots outside the phone marker.
+    static func displayRadius(for rssi: Double, availableRadius: Double, centerClearance: Double) -> Double {
+        let outer = max(0, availableRadius)
+        let inner = min(outer, max(0, centerClearance))
+        let fraction = (normalizedRadius(for: rssi) - innerRadius) / (outerRadius - innerRadius)
+        return inner + fraction * (outer - inner)
+    }
+
     static func stableAngle(for id: UUID) -> Double {
         // Swift's Hashable seed changes between launches. FNV-1a keeps each
         // visual angle deterministic without treating that angle as a bearing.
