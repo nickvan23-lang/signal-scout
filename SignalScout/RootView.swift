@@ -855,12 +855,13 @@ private struct SignalGauge: View {
                 Text("\(Int(rssi.rounded()))")
                     .font(.system(size: 48, weight: .bold, design: .rounded))
                     .contentTransition(.numericText())
-                Text(isLive ? "dBm · relative strength" : "dBm · last reading")
+                Text("dBm")
                     .font(.caption)
                     .foregroundStyle(ScoutPalette.secondary)
             }
         }
         .frame(width: 190, height: 190)
+        .padding(.vertical, 12)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Signal strength \(Int(rssi.rounded())) decibels, \(isLive ? guidance.title : "last reading, not live")")
     }

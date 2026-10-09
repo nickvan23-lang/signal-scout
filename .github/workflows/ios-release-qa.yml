@@ -70,22 +70,26 @@ jobs:
             cp "$RUNNER_TEMP/Preview/SignalScout-AppPreview-886x1920.mp4" evidence/
             ffprobe -v error -show_entries format=duration,size:stream=codec_name,width,height,r_frame_rate -of json evidence/SignalScout-AppPreview-886x1920.mp4 > evidence/video-properties.json
           fi
+      - name: Capture native App Store sizes
+        run: python3 scripts/capture_store_screenshots.py
       - name: Bind evidence to source and cap storage
+        id: evidence
         if: always()
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import hashlib,json,subprocess
+          import hashlib,json,subprocess,os
           files={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in Path('SignalScout').rglob('*') if p.is_file()}
           Path('evidence/source.json').write_text(json.dumps({'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'files':files},indent=2))
           size=sum(p.stat().st_size for p in Path('evidence').rglob('*') if p.is_file())
           print('Evidence bytes:',size)
           if size>80*1024*1024:raise SystemExit('Evidence exceeds 80 MiB bound')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('within_limit=true\n')
           PY
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && steps.evidence.outputs.within_limit == 'true'
         with:
-          name: signalscout-build7-iphone-simulation
+          name: signalscout-build8-iphone-simulation
           path: evidence
           retention-days: 1
           compression-level: 6
