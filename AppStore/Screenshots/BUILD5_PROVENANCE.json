@@ -1,0 +1,158 @@
+{
+  "application_source_commit": "d11b0961e1007f612027f9c97891aed936b5326f",
+  "capture_date": "2026-10-05",
+  "purpose": "Build 5 App Store product screenshots. Simulator DEBUG fixtures; not real-device review demonstration or live BLE evidence.",
+  "screenshots": [
+    {
+      "path": "AppStore/Screenshots/01-live-signal-field.png",
+      "pixels": [
+        1320,
+        2868
+      ],
+      "sha256": "1bdc3154e6af6f150b8d52cf4ee586d06c634b5ed845178b67ebc7a73a426f0b",
+      "source": "Completed Xcode UI test attachment: 16AA1B6D-DE58-4069-965B-ABDAC994C9B1.png",
+      "device": "iPhone 17 Pro Max simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/02-full-screen-map.png",
+      "pixels": [
+        1320,
+        2868
+      ],
+      "sha256": "e85b4af8682a776a6f1251327d5ca476f7d7e7ab6273237808c7f69fdebafa82",
+      "source": "Completed Xcode UI test attachment: 7D607462-9D05-4650-8829-BEAE9A4DCA89.png",
+      "device": "iPhone 17 Pro Max simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/03-warmer-guidance.png",
+      "pixels": [
+        1320,
+        2868
+      ],
+      "sha256": "db1997f581c82aa7b985717492804e990bc09791051abb9636bf40e99025cb06",
+      "source": "Completed Xcode UI test attachment: 29C5B52E-A41B-4897-9E8B-F7C0D6C84343.png",
+      "device": "iPhone 17 Pro Max simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/65/01-live-signal-field-1284x2778.png",
+      "capture_file": "release-evidence/01-live-signal-field-65-native.png",
+      "pixels": [
+        1284,
+        2778
+      ],
+      "sha256": "bdc97f01bcbb360c35ccfcc536f832004c4c0d5e74d7828f2c12e6de4ec506b2",
+      "device": "iPhone 13 Pro Max simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/65/02-full-screen-map-1284x2778.png",
+      "capture_file": "release-evidence/02-full-screen-map-65-native.png",
+      "pixels": [
+        1284,
+        2778
+      ],
+      "sha256": "e10c437bc78b53d024a65079d2a656bf0b8872ec86ab0cf14fcfc8667520efab",
+      "device": "iPhone 13 Pro Max simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode",
+        "-SignalScoutFullScreenScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/65/03-warmer-guidance-1284x2778.png",
+      "capture_file": "release-evidence/03-warmer-guidance-65-native.png",
+      "pixels": [
+        1284,
+        2778
+      ],
+      "sha256": "023781cd3884e5b602331ec54fa062624c2445a973dcafb206457d6fdfedaa9a",
+      "device": "iPhone 13 Pro Max simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode",
+        "-SignalScoutTrackingScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/63/01-live-signal-field-1206x2622.png",
+      "capture_file": "release-evidence/01-live-signal-field-medium-native.png",
+      "pixels": [
+        1206,
+        2622
+      ],
+      "sha256": "08c15b76b0f76b0239474d6b082651131d0782cf17d97edd5d4188a56278aea5",
+      "capture_date_utc": "2026-10-06T00:00:24.628091+00:00",
+      "device": "iPhone 16 Pro simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/63/02-full-screen-map-1206x2622.png",
+      "capture_file": "release-evidence/02-full-screen-map-medium-native.png",
+      "pixels": [
+        1206,
+        2622
+      ],
+      "sha256": "2131b034386c99c8350c0eaba313cc7a121407e0ddf5570e55e74793b44630bf",
+      "capture_date_utc": "2026-10-06T00:00:24.632487+00:00",
+      "device": "iPhone 16 Pro simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode",
+        "-SignalScoutFullScreenScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    },
+    {
+      "path": "AppStore/Screenshots/63/03-warmer-guidance-1206x2622.png",
+      "capture_file": "release-evidence/03-warmer-guidance-medium-native.png",
+      "pixels": [
+        1206,
+        2622
+      ],
+      "sha256": "f133cb3203d5c65011fccae22a5ae9b70bb9f9d3b70a91af79aaf6aafb2645b4",
+      "capture_date_utc": "2026-10-06T00:00:24.636399+00:00",
+      "device": "iPhone 16 Pro simulator",
+      "os": "iOS 26.5",
+      "build": "1.3 (5)",
+      "launch_arguments": [
+        "-SignalScoutScreenshotMode",
+        "-SignalScoutTrackingScreenshotMode"
+      ],
+      "data": "Existing DEBUG simulated BLE fixtures; not evidence of live BLE.",
+      "visually_inspected": true
+    }
+  ]
+}

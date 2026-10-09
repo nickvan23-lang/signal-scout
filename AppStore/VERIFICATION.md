@@ -1,4 +1,70 @@
-# Signal Scout 1.3 (4) verification
+# Signal Scout 1.3 (5) verification
+
+Verified October 5, 2026 on the connected Mac with Xcode 26.5 (17F42), the iOS 26.5 SDK, and a dedicated iPhone 17 Pro Max simulator. The application source compiled was commit `d11b0961e1007f612027f9c97891aed936b5326f`, based on main `3c5272c5404f944b9f7bcb0bfae1d7c510d8b306`. Subsequent verification, metadata, screenshot, and source-check changes do not change the application Swift source. The original checkout at `/Users/nicholas/Projects/SignalScout` remains clean at `e236eeb`.
+
+## Passed checks
+
+- Generic iOS Release build: **BUILD SUCCEEDED**.
+- Xcode Release analysis: **ANALYZE SUCCEEDED**. No source diagnostics were reported; the emitted warning concerned unused App Intents metadata extraction.
+- SignalScout XCTest: **10 tests passed, 0 failures**. Evidence: `release-evidence/SignalScout-build5-tests.xcresult` and `release-evidence/xctest.log`.
+- Isolated Xcode UI test harness: **2 tests passed, 0 failures**. Evidence: `release-evidence/SignalScout-build5-ui-tests.xcresult`, `release-evidence/ui-tests.log`, and its seven exported attachments.
+- The first UI test launched without DEBUG simulated BLE data, supplying the historical preview key as a launch argument. The scanner remained available after 65 seconds, background/foreground, termination, and relaunch. This does not establish a physical-device upgrade from an earlier installed binary.
+- The second UI test used existing DEBUG simulated BLE fixtures to verify repeated full-screen map opening/closing, zoom/fit controls, Support/Privacy/Terms menu controls, seeded tracking, and return navigation. It does not verify live BLE reception or opening external links on a physical device.
+- Signed Release archive and App Store IPA export succeeded. Both passed `codesign --verify --deep --strict`.
+- Archive identity: `com.nicholasvandervelden.SignalScout`, version **1.3**, build **5**, arm64, device family **1**, minimum iOS **17.0**.
+- The exported IPA uses the existing Cloud Managed Apple Distribution certificate for team `YJTLRBVNSM` and the existing SignalScout App Store provisioning profile, with `get-task-allow = false`. No new certificate, profile, or account access was requested.
+- Exported IPA SHA-256: `eecb34cd03684f08ddb5e64595b9928a9af2707aa6aa93309e6de77eba0d0a8b`. Evidence: `release-evidence/SignalScout-1.3-5.ipa`, `release-evidence/DistributionSummary.plist`, `release-evidence/archive-audit.json`, and the archived `.xcarchive.zip`.
+- Release binary audit found no StoreKit linkage, removed subscription types, old paywall/preview labels or date key, or DEBUG screenshot launch flags. The app plist reports `ITSAppUsesNonExemptEncryption = false`; this is a build-setting observation, not a new legal declaration.
+- `python3 scripts/check_free_release.py`: **14 checks passed**. Configuration parsing now checks source configuration and accepts valid binary/XML plists without accidentally treating generated Xcode bundles as source XML.
+- BluetoothScanner, SignalAnalysis, and SignalMapLayout remain unchanged from the free-release preparation base. The free source no longer reads or writes UserDefaults or a preview timestamp and has no payment or entitlement prerequisite.
+- All nine product screenshots were replaced and visually inspected: three native 1320-by-2868 UI-test captures from the iPhone 17 Pro Max simulator, three native 1284-by-2778 captures from the iPhone 13 Pro Max simulator, and three native 1206-by-2622 captures from the iPhone 16 Pro simulator. All run iOS 26.5 and use the existing DEBUG simulated BLE fixtures. The medium set was captured October 6 UTC; only its dedicated simulator was shut down afterward. `Screenshots/BUILD5_PROVENANCE.json` records their source, dimensions, and hashes. The old subscription-review image remains historical and is not part of the free release.
+
+## Recovered local build issue
+
+Archiving in the synced Documents folder failed because Finder information was attached to the generated app bundle. Moving DerivedData and archive output to `/tmp` resolved the code-signing failure. The successful archive is `/tmp/SignalScout-1.3-5-20261005.xcarchive`; the preserved copy is `release-evidence/SignalScout-1.3-5.xcarchive.zip`. This did not require changing signing access or the app source.
+
+## Upload and saved Apple draft confirmed
+
+The October 5 Xcode uploader logged `CDWebService Code=1085: No provider associated with App Store Connect user` during its configuration lookup, then continued delivery. After the user signed in to the connected Mac's existing Chrome session, App Store Connect confirmed **1.3 (5), Ready to Submit**, with **Binary State: Validated**. Its upload time is October 5, 12:36 PM GMT−7 (19:36 UTC). The server build ID is `4a6682d1-454f-4394-b78f-21b05b9c363d`; the bundle, arm64 architecture, iPhone family, minimum iOS 17.0, and team `YJTLRBVNSM` match the signed archive. No duplicate upload was needed.
+
+Build 5 is selected in the version 1.3 draft. Free promotional text, description, and the six-part review notes were saved and verified after navigation/reload. The notes explicitly disclose that the real-device recording and physical QA remain pending. All nine screenshot associations, their native size groups, and the order live field → expanded map → warmer guidance were verified after reload and visually checked in Apple's Media Manager. The replaced associations were removed without deleting historical Asset Library assets. Manual release remains selected.
+
+Evidence, retained locally outside Git: `release-evidence/app-store-builds-confirmed.txt`, `app-store-build5-metadata.txt`, `upload-diagnostic.json`, `version-build5-final-draft.txt`, `screenshots-after-reload.txt`, `screenshots-verified.json`, and `app-store-build5-media-verified.png`. Raw browser/account evidence is not published in the PR.
+
+The version-specific support and privacy pages were published through [website-only PR #2](https://github.com/nickvan23-lang/signal-scout/pull/2), merged as `69031732011f28cc2179d7bb0be0306e5e77a329`. [The existing Pages workflow succeeded](https://github.com/nickvan23-lang/signal-scout/actions/runs/37392702265). All three public pages returned HTTP 200 and matched the reviewed source byte for byte. The privacy update is dated October 6, 2026. Application source remains in draft PR #1.
+
+## Approved direct-device install completed
+
+Nick approved a retained-data build-5 installation October 6 at 02:16 UTC. The tested Release archive app is already signed by the existing Apple Development certificate with the valid wildcard profile containing this phone. An unchanged install copy is prepared in `/tmp/SignalScout-approved-device-install-20261006/SignalScout.app`; strict signature verification passed, and its executable SHA-256 matches the archive: `48347dc81f5ced3196d8ec796c2c4f14bb8bb1908662ee6123f6ad4feec8c484`. No re-signing, new certificate/profile, device registration, TestFlight invitation, or duplicate upload was needed. This development signature differs from the existing App Store export's distribution signature; it is the same compiled Release app, not a simulator or DEBUG-fixture build.
+
+After Nick unlocked the phone, the October 6 **03:37 UTC** preflight verified a live wired, connected, unlocked iPhone on **iOS 26.6.1 (23G83)** with developer services available and the old **1.2 (3)** installation intact. All app-data root entries (`Documents`, `Library`, `tmp`) were backed up before updating. The copied **11 files and 15 directories** match the complete source inventory, file sizes, and SHA-256 manifest. The original preferences directory was empty, with no app preferences file or historical preview key. No expired locked-preview fixture was observed or fabricated.
+
+The approved in-place installation succeeded at **03:40 UTC**, without uninstall or erase. The installed identity independently verifies **1.3 (5)**. Before first launch, seven retained files matched their original hashes, including all three saved-application-state files; iOS removed four old SplashBoard launch-screen cache images. No other original files were removed or modified. The complete original backup remains preserved. Normal launch commands without fixture arguments succeeded at **03:43** and **03:53 UTC**.
+
+## Physical UI automation attempted, not passed
+
+A dedicated UI-only runner built using the same existing wildcard profile, with no application target, source dependency, or app-installation path. The Release app was not rebuilt or replaced. Its physical run failed during initialization: **`com.apple.dt.XCTest.XCTFuture Code=1000: Timed out while enabling automation mode`**. Xcode records one runner-initialization failure, zero passed tests, and no feature test cases executed. The phone was unlocked before and after the run; the cause is unverified. No new permissions, signing resources, or account access were enabled to bypass it. Installed build **1.3 (5)** was rechecked after the attempt and returned to the foreground normally.
+
+Evidence remains outside Git: the original and post-install app-data backups, `backup-verification.json`, `retained-data-install-verification.json`, `approved-device-install-20261006T034026Z/install.json`, `physical-build5-first-launch.json`, `physical-ui-runner-audit.json`, `physical-ui-currentOS-tests2.xcresult`, and the post-run device/launch receipts. No physical UI screenshot, BLE result, 65-second UI check, or recording is claimed. See `PHYSICAL_QA.md` for remaining manual checks. Installation approval has been fulfilled and must not be requested again.
+
+## Remaining release gates
+
+- Latest review messages were re-read from the current submission. September 15 cites guideline 1.1 description wording (without identifying an exact offending term), and 2.1(b) failed purchase/unsubmitted IAP, and requests a new binary. September 10 requires a latest-OS physical-device recording and the same six answers in a review reply and Notes. Corrected copy/build preparation is not an Apple acceptance decision.
+- Current base price was re-confirmed as **$0.00** in the visible Current Price details. Free Apps Agreement is **Active**; Paid Apps Agreement remains **Pending User Info**. No agreement, banking, tax, security, or access settings changed.
+- App Privacy remains published as **Data Not Collected**; its privacy URL points to the corrected live policy. No new privacy answer was entered.
+- App availability is **not configured**: Apple displays **Set Up Availability**. The launch storefront choice is pending the user's answer. Historical subscription availability is not evidence of the intended app storefronts.
+- The physical iPhone 17 Pro Max now has verified **1.3 (5)** after the approved retained-data update from **1.2 (3)**. Its current verified OS is **26.6.1 (23G83)**. An actual upgrade from an expired locked-preview fixture is not claimed because no historical preference key or old locked UI existed in the inspected state.
+- [Apple's current release list](https://support.apple.com/en-us/100100), rechecked October 6, lists **iOS 27.0.1** as latest. The user must update/unlock/connect a physical device and identify an owned actively advertising BLE accessory for the requested demonstration.
+- The earlier network/lock/backup obstacles were resolved. Xcode's physical UI runner now fails to initialize with **Timed out while enabling automation mode**, despite unlocked wired access; no feature tests executed. The Release app launches normally. Manual latest-OS QA and recording remain necessary; any new access/permission settings to investigate automation require Nick's approval.
+- Physical-device Bluetooth permissions, denied/off/interrupted states, live reception while moving, extended navigation, external links, and upgrade behavior remain to be tested and recorded honestly. Simulator screenshots do not satisfy the physical recording request.
+- Attach a reviewer-accessible genuine recording; replace the pending-recording paragraph with its actual device/OS/build/results; provide the same six answers in the required review reply; then verify the final submission item set before resubmitting.
+- No App Review reply, review submission, new legal/compliance answer, paid commitment, credential creation, or account-access change occurred. Follow `SUBMISSION_CHECKLIST.md` before submission.
+
+The results below are preserved as historical evidence for rejected build 4, not proof of build 5's removed subscription behavior.
+
+---
+
+# Historical record: Signal Scout 1.3 (4) verification
 
 Verified on September 9, 2026 with Xcode 26.5 and the iOS 26.5 SDK.
 

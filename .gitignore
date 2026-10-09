@@ -8,3 +8,4 @@ AppStore/Export/
 AppStore/*.xcresult
 AppStore/*.log
 Artifacts/
+release-evidence/

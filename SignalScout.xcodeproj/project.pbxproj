@@ -14,9 +14,7 @@
 		B0B7D0CAFBC2306762185E59 /* SignalTrendAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455C0754BE0429F85548C175 /* SignalTrendAnalyzerTests.swift */; };
 		BD9ACF8BEC3D97CE3B604B9D /* BluetoothScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6337DAF5CCDC7CF4A512BB /* BluetoothScanner.swift */; };
 		C0F5BCBFF22D51B56FA8A333 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D8A04FF3D2824FD819DA0F /* RootView.swift */; };
-		CDF24B27E67ECE71E9BBD946 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ECB7116990924DE7AF6E5F /* SubscriptionManager.swift */; };
 		CFE8FE04F61E47DA0EED116C /* SignalMapLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CCE4FB6970F7CEDC5ADCC /* SignalMapLayout.swift */; };
-		F7AFCC62EA413D1966E597D0 /* SubscriptionPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF6369E4488587790A1BF7B /* SubscriptionPaywallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +35,6 @@
 		9BF167A66F2126F44C2652A8 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A2D8A04FF3D2824FD819DA0F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		CA2CCE4FB6970F7CEDC5ADCC /* SignalMapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalMapLayout.swift; sourceTree = "<group>"; };
-		D1ECB7116990924DE7AF6E5F /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
-		DAF6369E4488587790A1BF7B /* SubscriptionPaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPaywallView.swift; sourceTree = "<group>"; };
 		EBD8586CC886D4B40BC39881 /* SignalScoutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalScoutApp.swift; sourceTree = "<group>"; };
 		ECC3200EBA5139571EE0C035 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC9B44DAB30D21DEE37D276D /* SignalAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalAnalysis.swift; sourceTree = "<group>"; };
@@ -72,8 +68,6 @@
 				FC9B44DAB30D21DEE37D276D /* SignalAnalysis.swift */,
 				CA2CCE4FB6970F7CEDC5ADCC /* SignalMapLayout.swift */,
 				EBD8586CC886D4B40BC39881 /* SignalScoutApp.swift */,
-				D1ECB7116990924DE7AF6E5F /* SubscriptionManager.swift */,
-				DAF6369E4488587790A1BF7B /* SubscriptionPaywallView.swift */,
 			);
 			path = SignalScout;
 			sourceTree = "<group>";
@@ -187,8 +181,6 @@
 				22FBB09C640B9CB16D40E0CA /* SignalAnalysis.swift in Sources */,
 				CFE8FE04F61E47DA0EED116C /* SignalMapLayout.swift in Sources */,
 				559CE5039BFE0E1399BF2B06 /* SignalScoutApp.swift in Sources */,
-				CDF24B27E67ECE71E9BBD946 /* SubscriptionManager.swift in Sources */,
-				F7AFCC62EA413D1966E597D0 /* SubscriptionPaywallView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,7 +209,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Signal Scout";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
@@ -406,7 +398,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Signal Scout";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
