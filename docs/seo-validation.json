@@ -1,0 +1,53 @@
+{
+  "pages": [
+    {
+      "page": "index.html",
+      "title": "Bluetooth Signal Finder for iPhone | Signal Scout",
+      "title_chars": 49,
+      "description_chars": 164,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/"
+    },
+    {
+      "page": "support.html",
+      "title": "Bluetooth Finder Help & Troubleshooting | Signal Scout",
+      "title_chars": 54,
+      "description_chars": 173,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/support.html"
+    },
+    {
+      "page": "privacy.html",
+      "title": "Privacy Policy \u00b7 Signal Scout",
+      "title_chars": 29,
+      "description_chars": 180,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/privacy.html"
+    }
+  ],
+  "sitemap_urls": [
+    "https://nickvan23-lang.github.io/signal-scout/",
+    "https://nickvan23-lang.github.io/signal-scout/support.html",
+    "https://nickvan23-lang.github.io/signal-scout/privacy.html"
+  ],
+  "errors": [],
+  "passed": true,
+  "browser_verified_widths": [
+    320,
+    390,
+    1440
+  ],
+  "horizontal_overflow": false,
+  "faq_click_and_keyboard_verified": true,
+  "skip_link_focus_verified": true,
+  "support_navigation_and_anchors_verified": true,
+  "lighthouse_mobile_snapshot": {
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100
+  },
+  "performance_measured": false,
+  "published": false,
+  "search_console_verified": false,
+  "indexing_or_ranking_claimed": false
+}
