@@ -1,39 +1,9 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Signal Scout support.">
-  <title>Support · Signal Scout</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main class="document">
-    <a class="back" href="index.html">← Signal Scout</a>
-    <p class="eyebrow">SUPPORT</p>
-    <h1>Signal Scout help</h1>
-
-    <h2>Find lost headphones or another Bluetooth device</h2>
-    <p>Wake the item if possible, open Signal Scout, allow Bluetooth access, and choose the anonymous signal that becomes stronger when the item is brought near your iPhone. Then move 4–6 slow steps at a time and follow the warmer-or-colder trend. The device must be actively advertising over Bluetooth Low Energy to appear.</p>
-
-    <h2>No signals appear</h2>
-    <p>Confirm that Bluetooth is enabled and that Signal Scout is allowed under Settings → Privacy &amp; Security → Bluetooth. Only Bluetooth Low Energy devices that are actively advertising can appear.</p>
-
-    <h2>A signal is not identifiable</h2>
-    <p>Signal Scout intentionally hides device names and manufacturer information. Move a device you control close to the phone and look for the anonymous signal whose dBm value becomes stronger. Some headphones stop advertising while connected, asleep, inside a closed charging case, or powered off and therefore may not appear.</p>
-
-    <h2>The map direction looks wrong</h2>
-    <p>The map does not claim directional measurement. Distance from the center reflects relative RSSI; the angle is a stable visual lane used to separate signals. Ordinary iPhone Bluetooth RSSI does not provide a compass bearing.</p>
-
-    <h2>Free access</h2>
-    <p>Version 1.3 (5) opens directly to the scanner. All features are free, without a subscription or time limit. There is no purchase or restore step.</p>
-    <p>If an earlier version or test build shows a preview or subscription screen, update to the latest available build. Any existing Apple subscription is managed or canceled through <a href="https://apps.apple.com/account/subscriptions">Apple's subscription settings</a>; installing the free app does not cancel an existing subscription.</p>
-
-    <h2>Contact support</h2>
-    <p>For app questions, feedback, and feature requests, email <a href="mailto:nickvan23@gmail.com?subject=Signal%20Scout%20Support">nickvan23@gmail.com</a>.</p>
-    <p>Open a support request through <a href="https://github.com/nickvan23-lang/signal-scout/issues">Signal Scout Support Issues</a>. Do not post private device identifiers, payment information, precise locations, or other sensitive information. Billing and refund requests must be handled through Apple.</p>
-
-    <p>Read the <a href="privacy.html">Privacy Policy</a> or Apple's <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Standard Licensed Application End User License Agreement</a>.</p>
-  </main>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bluetooth Finder Help & Troubleshooting | Signal Scout</title><meta name="description" content="No Bluetooth signals showing? Learn how to check accessory compatibility, allow Bluetooth access, read RSSI, and compare named devices and signal readings with Signal Scout."><link rel="canonical" href="https://nickvan23-lang.github.io/signal-scout/support.html"><meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:site_name" content="Signal Scout"><meta property="og:title" content="Bluetooth finder help — Signal Scout"><meta property="og:description" content="Understand named devices and signal readings, Bluetooth permissions, and warmer-or-colder guidance."><meta property="og:url" content="https://nickvan23-lang.github.io/signal-scout/support.html"><meta property="og:image" content="https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png"><meta name="twitter:card" content="summary"><link rel="icon" href="assets/favicon.png"><link rel="stylesheet" href="styles.css"></head><body><a class="skip-link" href="#main">Skip to content</a><main class="document" id="main" tabindex="-1"><a class="back" href="./">← Signal Scout home</a><p class="eyebrow">HELP WITH YOUR SEARCH</p><h1>A signal is a clue.<br>Here’s how to use it.</h1><p class="lede">Start with Bluetooth access and a compatible accessory, then compare how its advertising signal changes.</p><nav class="toc" aria-label="Troubleshooting topics"><a href="#no-signals">No signals</a><a href="#identify">Choose a signal</a><a href="#reading-signals">Read the map</a><a href="#lost-signal">Lost signal</a><a href="#contact">Contact</a></nav>
+<section id="no-signals"><h2>No Bluetooth signals appear</h2><ol><li><strong>Check Bluetooth.</strong> Make sure it is enabled in iPhone Settings.</li><li><strong>Check app permission.</strong> Open Settings → Privacy &amp; Security → Bluetooth and allow Signal Scout. Return to the app.</li><li><strong>Wake an accessory you own.</strong> Bring it near the phone. It must actively advertise Bluetooth Low Energy; sleeping, powered-off, connected, and closed-case accessories may be silent.</li><li><strong>Check for a paused scan.</strong> Resume scanning if the screen says it is paused.</li></ol><p class="callout">Not every Bluetooth device can appear. Signal Scout cannot discover Wi-Fi clients, silent devices, or every Classic Bluetooth accessory. iOS controls which advertisements apps can receive.</p></section>
+<section id="identify"><h2>How do I identify my accessory?</h2><p>Start with the device’s advertised Bluetooth name and manufacturer. Names may be generic or missing; manufacturer data identifies a registered company but is not authenticated proof of a device’s maker or owner. Other nearby accessories may appear.</p><p>If you can move an accessory you control, bring it close to your iPhone and compare the signal that becomes stronger. Keep the phone still while making that comparison. A strong signal by itself does not prove which item it belongs to.</p><p>If the accessory is already lost and you cannot make a controlled comparison, treat each signal as a possible clue. Do not treat a broadcast name as verified identity.</p></section>
+<section id="reading-signals"><h2>How to read RSSI and the signal map</h2><p>RSSI is received signal strength, measured in dBm. A reading of −50 dBm is stronger than −80 dBm. This is not a direct measurement of physical distance.</p><p>Dots closer to the map center represent stronger signals. Angles are stable visual positions used to separate dots; they are not compass bearings or walking directions.</p><p>Select a signal, hold the phone the same way, and take a few slow steps. Pause to collect fresh readings before comparing. Walls, people, reflections, orientation, and transmit power can change the result. Use the comparison reset when testing another position.</p></section>
+<section id="lost-signal"><h2>A signal disappeared or stopped changing</h2><p>The accessory may have stopped advertising or moved out of range. Wake it when possible, return toward your last position, and watch for new readings. A last-seen time or stale reading is historical data, not proof the accessory is still nearby.</p><p>Pausing the scanner intentionally stops new readings. Resume before interpreting another trend. Inactive signals can be cleared from Scanner options; the app also removes old unselected records.</p></section>
+<section id="compatibility"><h2>Can it find headphones, earbuds, or a powered-off device?</h2><p>Headphones and earbuds may appear only while actively advertising BLE. Some stop advertising in a closed case, while asleep, or after connecting. Visibility varies by model and state. A powered-off item cannot broadcast a signal for Signal Scout to measure.</p><p>Use an accessory maker’s own finding service when available. Signal Scout does not provide a finding network, historical location, exact distance, or verified device identity.</p></section>
+<section id="free-access"><h2>Free access and older test builds</h2><p>The submitted free release opens directly to the scanner. All features are free, without a subscription or time limit. There is no purchase or restore step. App Store review is still in progress.</p><p>If an earlier test build shows a subscription screen, it is not the current free release. Any existing Apple subscription must be managed separately through <a href="https://apps.apple.com/account/subscriptions">Apple’s subscription settings</a>; installing a free build does not cancel an existing subscription.</p></section>
+<section id="contact"><h2>Contact support</h2><p>Email <a href="mailto:nickvan23@gmail.com?subject=Signal%20Scout%20Support">nickvan23@gmail.com</a> with your iPhone model, iOS version, app version, and what you expected to happen. Describe the screen and the steps that led to it.</p><p>You can also <a href="https://github.com/nickvan23-lang/signal-scout/issues">open a Signal Scout support issue</a>. Public issues are visible to others; leave out private identifiers, payment information, and precise locations.</p></section>
+<footer class="site-footer"><nav aria-label="Footer navigation"><a href="./">Home</a><a href="privacy.html">Privacy policy</a><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms</a></nav></footer></main></body></html>
