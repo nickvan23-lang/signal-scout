@@ -41,6 +41,9 @@ jobs:
           xcrun simctl bootstatus "$DUO_DEVICE" -b
           sh scripts/check_core.sh | tee evidence/core-checks.txt
           xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -resultBundlePath "$RUNNER_TEMP/DuoTests.xcresult" -parallel-testing-enabled NO -jobs 3 CODE_SIGNING_ALLOWED=NO test 2>&1 | tee evidence/tests.log
+      - name: Verify fold transitions with the live app
+        timeout-minutes: 5
+        run: python3 tools/capture_duo.py --device "$DUO_DEVICE" --bundle com.nicholasvandervelden.SignalScout --out evidence/poses
       - name: Archive unsigned distribution candidate
         run: |
           set -eu
