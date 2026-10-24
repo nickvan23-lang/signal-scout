@@ -1,5 +1,7 @@
 name: Signal Scout Duo fold capture
-on: workflow_dispatch
+on:
+  push:
+    branches: [codex/duo-preflight-20261024]
 permissions:
   contents: read
 jobs:

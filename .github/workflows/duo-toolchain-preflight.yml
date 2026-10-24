@@ -1,7 +1,5 @@
 name: Signal Scout Duo verification
-on:
-  push:
-    branches: [codex/duo-preflight-20261024]
+on: workflow_dispatch
 permissions:
   contents: read
 jobs:
