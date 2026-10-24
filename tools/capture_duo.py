@@ -12,6 +12,14 @@ def run(args,timeout=60):
 launch=run(['xcrun','simctl','launch',a.device,a.bundle]);match=re.search(r': (\d+)\s*$',launch)
 if not match:raise RuntimeError('Cannot verify app PID: '+launch)
 pid=int(match.group(1));records=[]
+# Wait for an active simulator display; a booted process alone is insufficient.
+for attempt in range(12):
+ try:
+  run(['python3',str(helper),'-d',a.device,'state'])
+  break
+ except RuntimeError:
+  if attempt==11:raise
+  time.sleep(5)
 poses=[('cover-portrait','close','portrait','cover'),('inner-landscape','open','landscape','inner'),('inner-portrait','open','portrait','inner'),('book-landscape','half','landscape','inner'),('cover-return','close','portrait','cover')]
 if a.landscape_only:
  poses=[('cover-landscape','close','landscape','cover'),('inner-landscape','open','landscape','inner'),('book-landscape','half','landscape','inner'),('cover-return','close','landscape','cover')]
