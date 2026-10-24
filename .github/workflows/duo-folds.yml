@@ -45,7 +45,6 @@ jobs:
           ditto -x -k SignalScout-simulator.zip "$RUNNER_TEMP/SimulatorApp"
           xcrun simctl boot "$DUO_DEVICE"
           xcrun simctl bootstatus "$DUO_DEVICE" -b
-          open "$DEVELOPER_DIR/Applications/Simulator.app" --args -CurrentDeviceUDID "$DUO_DEVICE"
           xcrun simctl install "$DUO_DEVICE" "$RUNNER_TEMP/SimulatorApp/SignalScout.app"
       - name: Capture fold transitions
         timeout-minutes: 5

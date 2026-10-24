@@ -183,7 +183,14 @@ def set_hinge(udid, degrees, duration=0):
     deadline = time.time() + SCREEN_SWITCH_TIMEOUT
     while time.time() < deadline:
         time.sleep(SETTLE_SECONDS)
-        display = active_display(udid)
+        try:
+            display = active_display(udid)
+        except DuoError as error:
+            # During a fold, the old display can turn off before the new one
+            # becomes active. Continue within the existing bounded deadline.
+            if "no display is active" not in str(error):
+                raise
+            continue
         if expected is None or ("cover" if display.get("primary") else "inner") == expected:
             return
     raise DuoError(f"the {expected} screen did not become active after setting the hinge to {degrees:g}°")
