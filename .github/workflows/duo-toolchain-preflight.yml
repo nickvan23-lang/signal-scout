@@ -1,30 +1,58 @@
-name: Duo toolchain preflight
+name: Signal Scout Duo verification
 on:
   push:
     branches: [codex/duo-preflight-20261024]
 permissions:
   contents: read
 jobs:
-  toolchain:
+  duo:
     runs-on: xcode-27
-    timeout-minutes: 10
+    timeout-minutes: 25
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - name: Verify supported Apple toolchain
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
+      - uses: actions/checkout@v4
+      - name: Prepare native project and Apple guidance
         run: |
           set -eu
-          mkdir evidence
-          sw_vers | tee evidence/macos.txt
-          uname -m | tee evidence/architecture.txt
-          test "$(uname -m)" = arm64
-          xcodebuild -version | tee evidence/xcode.txt
-          xcodebuild -showsdks > evidence/sdks.txt
-          xcrun simctl list -j > evidence/simulators.json
-          xcrun agent skills export --help > evidence/skill-export-help.txt 2>&1 || true
+          mkdir -p evidence
+          xcodebuild -version > evidence/xcode.txt
+          xcrun agent skills export --output-dir evidence/apple-skills
+          if ! command -v xcodegen >/dev/null; then brew install xcodegen; fi
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          p=Path('project.yml')
+          p.write_text(''.join(line for line in p.read_text().splitlines(True) if 'INFOPLIST_KEY_UIRequiresFullScreen' not in line))
+          PYTHON
+          xcodegen generate
+          python3 - <<'PYTHON'
+          import json,subprocess,os
+          data=json.loads(subprocess.check_output(['xcrun','simctl','list','devices','available','-j']))
+          candidates=[d for rt,ds in data['devices'].items() if rt.endswith('iOS-27-1') for d in ds if d['name']=='iPhone Duo' and d['isAvailable']]
+          if len(candidates)!=1:raise SystemExit('Expected one available iOS 27.1 Duo')
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write('DUO_DEVICE='+candidates[0]['udid']+'\n')
+          PYTHON
+      - name: Test production behavior on iPhone Duo
+        run: |
+          set -eu
+          set -o pipefail
+          xcrun simctl boot "$DUO_DEVICE"
+          xcrun simctl bootstatus "$DUO_DEVICE" -b
+          sh scripts/check_core.sh | tee evidence/core-checks.txt
+          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -resultBundlePath "$RUNNER_TEMP/DuoTests.xcresult" -parallel-testing-enabled NO -jobs 3 CODE_SIGNING_ALLOWED=NO test 2>&1 | tee evidence/tests.log
+      - name: Export runtime evidence
+        if: always()
+        run: |
+          if [ -d "$RUNNER_TEMP/DuoTests.xcresult" ]; then
+            xcrun xcresulttool get test-results summary --path "$RUNNER_TEMP/DuoTests.xcresult" > evidence/test-summary.json
+            xcrun xcresulttool export attachments --path "$RUNNER_TEMP/DuoTests.xcresult" --output-path evidence/screenshots
+          fi
+          xcrun simctl io "$DUO_DEVICE" screenshot evidence/duo-current.png || true
+          xcrun simctl help io > evidence/simctl-io-help.txt 2>&1
+          xcrun simctl shutdown "$DUO_DEVICE" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duo-toolchain-preflight
+          name: signal-scout-duo-verification
           path: evidence
           retention-days: 3
