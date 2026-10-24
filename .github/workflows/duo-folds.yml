@@ -4,6 +4,7 @@ on:
     branches: [codex/duo-preflight-20261024]
 permissions:
   contents: read
+  actions: read
 jobs:
   duo:
     runs-on: xcode-27
@@ -32,16 +33,20 @@ jobs:
           if len(candidates)!=1:raise SystemExit('Expected one available iOS 27.1 Duo')
           with open(os.environ['GITHUB_ENV'],'a') as f:f.write('DUO_DEVICE='+candidates[0]['udid']+'\n')
           PYTHON
-      - name: Build and install same-source simulator app
-        timeout-minutes: 18
+      - name: Install sealed same-source simulator app
+        timeout-minutes: 8
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -jobs 3 CODE_SIGNING_ALLOWED=NO build 2>&1 | tee evidence/build.log
-          ditto -c -k --sequesterRsrc --keepParent "$RUNNER_TEMP/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app" evidence/SignalScout-simulator.zip
+          gh run download 40125857391 --repo "$GITHUB_REPOSITORY" -n signal-scout-duo-folds -D "$RUNNER_TEMP/verified-simulator"
+          cd "$RUNNER_TEMP/verified-simulator"
+          echo "51b4da5bc5691440692ffe6ed3bbb1327983bacac932a5c5e49d7ac11f84a3b6  SignalScout-simulator.zip" | shasum -a 256 -c -
+          ditto -x -k SignalScout-simulator.zip "$RUNNER_TEMP/SimulatorApp"
           xcrun simctl boot "$DUO_DEVICE"
           xcrun simctl bootstatus "$DUO_DEVICE" -b
-          open -a Simulator --args -CurrentDeviceUDID "$DUO_DEVICE"
-          xcrun simctl install "$DUO_DEVICE" "$RUNNER_TEMP/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app"
+          open "$DEVELOPER_DIR/Applications/Simulator.app" --args -CurrentDeviceUDID "$DUO_DEVICE"
+          xcrun simctl install "$DUO_DEVICE" "$RUNNER_TEMP/SimulatorApp/SignalScout.app"
       - name: Capture fold transitions
         timeout-minutes: 5
         run: python3 tools/capture_duo.py --device "$DUO_DEVICE" --bundle com.nicholasvandervelden.SignalScout --out evidence/poses
