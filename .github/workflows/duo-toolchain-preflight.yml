@@ -17,7 +17,7 @@ jobs:
           set -eu
           mkdir -p evidence
           xcodebuild -version > evidence/xcode.txt
-          xcrun agent skills export --output-dir evidence/apple-skills
+          xcrun simctl help > evidence/simctl-help.txt
           if ! command -v xcodegen >/dev/null; then brew install xcodegen; fi
           python3 - <<'PYTHON'
           from pathlib import Path
@@ -33,6 +33,7 @@ jobs:
           with open(os.environ['GITHUB_ENV'],'a') as f:f.write('DUO_DEVICE='+candidates[0]['udid']+'\n')
           PYTHON
       - name: Test production behavior on iPhone Duo
+        timeout-minutes: 10
         run: |
           set -eu
           set -o pipefail
@@ -40,6 +41,17 @@ jobs:
           xcrun simctl bootstatus "$DUO_DEVICE" -b
           sh scripts/check_core.sh | tee evidence/core-checks.txt
           xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -resultBundlePath "$RUNNER_TEMP/DuoTests.xcresult" -parallel-testing-enabled NO -jobs 3 CODE_SIGNING_ALLOWED=NO test 2>&1 | tee evidence/tests.log
+      - name: Archive unsigned distribution candidate
+        run: |
+          set -eu
+          set -o pipefail
+          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -configuration Release -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/SignalScout.xcarchive" CURRENT_PROJECT_VERSION=9 CODE_SIGNING_ALLOWED=NO archive 2>&1 | tee evidence/archive.log
+          ditto -c -k --sequesterRsrc --keepParent "$RUNNER_TEMP/SignalScout.xcarchive" "$RUNNER_TEMP/SignalScout-unsigned.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: signal-scout-duo-unsigned
+          path: ${{ runner.temp }}/SignalScout-unsigned.zip
+          retention-days: 1
       - name: Export runtime evidence
         if: always()
         run: |
