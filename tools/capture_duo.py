@@ -18,7 +18,12 @@ if a.landscape_only:
 try:
  for name,pose,orientation,screen in poses:
   run(['python3',str(helper),'-d',a.device,pose],timeout=90)
-  state=json.loads(run(['python3',str(helper),'-d',a.device,'rotate',orientation],timeout=90))
+  try:
+   state=json.loads(run(['python3',str(helper),'-d',a.device,'rotate',orientation],timeout=90))
+  except RuntimeError:
+   if not a.landscape_only:raise
+   orientation='landscape-flipped'
+   state=json.loads(run(['python3',str(helper),'-d',a.device,'rotate',orientation],timeout=90))
   if state['activeScreen']!=screen or state['orientation']!=orientation:raise RuntimeError('Pose readback mismatch '+str(state))
   os.kill(pid,0)
   time.sleep(2)
@@ -32,4 +37,10 @@ try:
   (out/'poses.json').write_text(json.dumps({'bundle':a.bundle,'poses':records,'complete':False},indent=2)+'\n')
  (out/'poses.json').write_text(json.dumps({'bundle':a.bundle,'poses':records,'complete':True,'scope':'Verified simulator pose/display, screenshot dimensions, and same live app process. Visual layout and task behavior require separate review.'},indent=2)+'\n')
 except Exception as e:
+ try:
+  diagnostic=json.loads(run(['python3',str(helper),'-d',a.device,'state']))
+  (out/'failure-state.json').write_text(json.dumps(diagnostic,indent=2)+'\n')
+  run(['xcrun','simctl','io',a.device,'screenshot','--type=jpeg','--display='+str(diagnostic['displayId']),str(out/'failure.jpg')])
+ except Exception as diagnostic_error:
+  (out/'diagnostic-error.txt').write_text(str(diagnostic_error))
  (out/'failure.json').write_text(json.dumps({'error':str(e),'completedPoses':len(records)},indent=2)+'\n');raise

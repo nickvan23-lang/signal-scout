@@ -1,0 +1,49 @@
+name: Signal Scout Duo fold capture
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  duo:
+    runs-on: xcode-27
+    timeout-minutes: 25
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare native project and Apple guidance
+        run: |
+          set -eu
+          mkdir -p evidence
+          xcodebuild -version > evidence/xcode.txt
+          xcrun simctl help > evidence/simctl-help.txt
+          if ! command -v xcodegen >/dev/null; then brew install xcodegen; fi
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          p=Path('project.yml')
+          p.write_text(''.join(line for line in p.read_text().splitlines(True) if 'INFOPLIST_KEY_UIRequiresFullScreen' not in line))
+          PYTHON
+          xcodegen generate
+          python3 - <<'PYTHON'
+          import json,subprocess,os
+          data=json.loads(subprocess.check_output(['xcrun','simctl','list','devices','available','-j']))
+          candidates=[d for rt,ds in data['devices'].items() if rt.endswith('iOS-27-1') for d in ds if d['name']=='iPhone Duo' and d['isAvailable']]
+          if len(candidates)!=1:raise SystemExit('Expected one available iOS 27.1 Duo')
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write('DUO_DEVICE='+candidates[0]['udid']+'\n')
+          PYTHON
+      - name: Build and install same-source simulator app
+        timeout-minutes: 18
+        run: |
+          set -euo pipefail
+          xcrun simctl boot "$DUO_DEVICE"
+          xcrun simctl bootstatus "$DUO_DEVICE" -b
+          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -jobs 3 CODE_SIGNING_ALLOWED=NO build 2>&1 | tee evidence/build.log
+          xcrun simctl install "$DUO_DEVICE" "$RUNNER_TEMP/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app"
+      - name: Capture fold transitions
+        timeout-minutes: 5
+        run: python3 tools/capture_duo.py --device "$DUO_DEVICE" --bundle com.nicholasvandervelden.SignalScout --out evidence/poses
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: signal-scout-duo-folds
+          path: evidence
+          retention-days: 1
