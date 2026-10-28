@@ -1,4 +1,6 @@
-# Signal Scout 1.3 (4) verification
+# Historical: Signal Scout 1.3 (4) verification
+
+> **Historical paid-build evidence, September 2026.** The current source is free build 1.3 (8), with a later recorded October 9 submission. The subscription and anonymous-only behavior below describe build 4. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for the reconciled status and remaining checks.
 
 Verified on September 9, 2026 with Xcode 26.5 and the iOS 26.5 SDK.
 

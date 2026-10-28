@@ -1,4 +1,6 @@
-# Signal Scout App Store metadata
+# Historical: Signal Scout paid-build App Store metadata
+
+> **Archived September 2026 copy for build 1.3 (4). Do not paste it into the current free app listing.** The 60-second preview, monthly subscription, anonymous-only identity claims, and pre-submission state below are obsolete for the current source. See [RELEASE_STATUS.md](RELEASE_STATUS.md) and verify the current saved App Store Connect fields before editing them.
 
 ## Identity
 

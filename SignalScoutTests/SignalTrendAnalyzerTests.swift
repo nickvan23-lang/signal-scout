@@ -48,6 +48,96 @@ final class SignalTrendAnalyzerTests: XCTestCase {
         XCTAssertNil(analyzer.currentAssessment)
     }
 
+    func testSlowAdvertisementsCanFinishCalibrationAndCompareSignals() {
+        let cases: [([Int], SearchGuidance)] = [
+            ([-82, -82, -81, -80, -79, -73, -70, -68, -66, -64, -62, -60], .warmer),
+            ([-55, -55, -56, -57, -58, -64, -67, -70, -72, -74, -76, -78], .colder),
+            (Array(repeating: -70, count: 12), .steady)
+        ]
+        for interval in [1.0, 2.0, 4.0] {
+            for (readings, expected) in cases {
+                var analyzer = SignalTrendAnalyzer()
+                for (index, reading) in readings.enumerated() {
+                    _ = analyzer.add(rawRSSI: reading, at: Double(index) * interval)
+                }
+                XCTAssertEqual(analyzer.currentAssessment?.guidance, expected,
+                               "Failed at \(interval)-second advertisement intervals")
+            }
+        }
+    }
+
+    func testFastAdvertisementsRetainEnoughTimeForComparison() {
+        var analyzer = SignalTrendAnalyzer()
+        for index in 0..<2_000 {
+            _ = analyzer.add(rawRSSI: -70, at: Double(index) * 0.02)
+        }
+        XCTAssertEqual(analyzer.samples.count, 60)
+        XCTAssertEqual(analyzer.currentAssessment?.guidance, .steady)
+        XCTAssertGreaterThanOrEqual(analyzer.samples.last!.time - analyzer.samples.first!.time, 4.8)
+    }
+
+    func testSlowAdvertisementJitterDoesNotRepeatedlyRestartCalibration() {
+        for intervals in [[1.0225], [0.97, 1.05, 1.02, 0.98, 0.99]] {
+            for start in [0.0, 800_000_000.0] {
+                var analyzer = SignalTrendAnalyzer()
+                var time: TimeInterval = start
+                for index in 0..<100 {
+                    time += intervals[index % intervals.count]
+                    let assessment = analyzer.add(rawRSSI: -70, at: time)
+                    if index >= 20 {
+                        XCTAssertEqual(assessment?.guidance, .steady)
+                    }
+                }
+            }
+        }
+    }
+
+    func testFastAdvertisementsStillDetectChangingSignals() {
+        for sign in [-1, 1] {
+            var analyzer = SignalTrendAnalyzer()
+            for index in 0..<500 {
+                let reading = sign == 1 ? -90 + index / 10 : -35 - index / 10
+                _ = analyzer.add(rawRSSI: reading, at: Double(index) * 0.02)
+            }
+            XCTAssertEqual(analyzer.currentAssessment?.guidance, sign == 1 ? .warmer : .colder)
+        }
+    }
+
+    func testSlowAdvertisementsNeedEnoughEvidenceBeforeGivingDirection() {
+        var analyzer = SignalTrendAnalyzer()
+        for index in 0..<5 {
+            let assessment = analyzer.add(rawRSSI: -80 + index * 5, at: Double(index) * 2)
+            XCTAssertEqual(assessment?.guidance, .calibrating)
+            XCTAssertEqual(assessment?.confidence, 0)
+        }
+    }
+
+    func testLostSignalRecoveryDoesNotReuseOldStrengthOrTrend() {
+        var analyzer = SignalTrendAnalyzer()
+        for index in 0..<20 {
+            _ = analyzer.add(rawRSSI: -50, at: Double(index) * 0.65)
+        }
+        let recovered = analyzer.add(rawRSSI: -90, at: 100)
+        XCTAssertEqual(recovered?.smoothedRSSI, -90)
+        XCTAssertEqual(recovered?.guidance, .calibrating)
+        XCTAssertEqual(recovered?.sampleCount, 1)
+        for index in 1..<12 {
+            let assessment = analyzer.add(rawRSSI: -90, at: 100 + Double(index) * 0.65)
+            XCTAssertNotEqual(assessment?.guidance, .warmer)
+            XCTAssertNotEqual(assessment?.guidance, .colder)
+        }
+        XCTAssertEqual(analyzer.currentAssessment?.guidance, .steady)
+    }
+
+    func testClockMovingBackwardStartsANewBaseline() {
+        var analyzer = SignalTrendAnalyzer()
+        _ = analyzer.add(rawRSSI: -50, at: 100)
+        let recovered = analyzer.add(rawRSSI: -90, at: 99)
+        XCTAssertEqual(recovered?.smoothedRSSI, -90)
+        XCTAssertEqual(recovered?.sampleCount, 1)
+        XCTAssertEqual(recovered?.guidance, .calibrating)
+    }
+
     func testStrongSignalsMapCloserToPhoneThanWeakSignals() {
         let strong = SignalMapLayout.normalizedRadius(for: -45)
         let medium = SignalMapLayout.normalizedRadius(for: -70)

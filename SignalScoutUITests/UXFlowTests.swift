@@ -32,10 +32,24 @@ final class SignalScoutReleaseUITests: XCTestCase {
         XCTAssertFalse(app.buttons["Reset comparison"].isEnabled)
         capture(app, "06-paused-last-reading")
         app.buttons["Resume scanning"].tap()
+        XCTAssertTrue(app.staticTexts["Calibrating"].waitForExistence(timeout: 2))
         XCTAssertTrue(app.buttons["Pause scanning"].exists)
         XCTAssertTrue(app.buttons["Reset comparison"].isEnabled)
         app.buttons["Stop tracking"].tap()
         XCTAssertTrue(app.staticTexts["Find your signal"].waitForExistence(timeout: 5))
+    }
+    func testResumeDiscardsThePreviousComparisonHistory() {
+        let app = XCUIApplication()
+        // A static fixture keeps new advertisements from racing the reset assertion.
+        app.launchArguments = ["-SignalScoutScreenshotMode", "-SignalScoutTrackingScreenshotMode"]
+        app.launch()
+        XCTAssertTrue(app.buttons["Stop tracking"].waitForExistence(timeout: 15))
+        XCTAssertFalse(app.staticTexts["The chart appears after a few readings."].exists)
+        app.buttons["Pause scanning"].tap()
+        XCTAssertTrue(app.staticTexts["Scanning paused"].waitForExistence(timeout: 5))
+        app.buttons["Resume scanning"].tap()
+        XCTAssertTrue(app.staticTexts["The chart appears after a few readings."].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["Getting warmer"].exists)
     }
     func testLargeTextKeepsTrackingControlsReachable() {
         let app = XCUIApplication(); app.launchArguments = ["-SignalScoutScreenshotMode", "-SignalScoutLiveFixture", "-SignalScoutTrackingScreenshotMode", "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]; app.launch()
