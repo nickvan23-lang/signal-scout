@@ -2,11 +2,22 @@ name: iPhone simulator release QA
 on:
   push:
     branches: [codex/release-7-ci-20261009]
+  pull_request:
+    branches: [main]
+    paths:
+      - "SignalScout/**"
+      - "SignalScoutTests/**"
+      - "SignalScoutUITests/**"
+      - "SignalScout.xcodeproj/**"
+      - "project.yml"
+      - "scripts/**"
+      - "Web/**"
+      - ".github/workflows/ios-release-qa.yml"
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: signalscout-release-qa
+  group: signalscout-release-qa-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   simulator:
@@ -14,13 +25,17 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+      - name: Portable release and website checks
+        run: |
+          python3 scripts/check_free_release.py
+          python3 scripts/check_seo.py
       - name: Prepare Xcode and evidence
         run: |
           mkdir -p evidence
           xcodebuild -version | tee evidence/xcode.txt
           uname -m | tee evidence/architecture.txt
           if ! command -v xcodegen >/dev/null; then brew install xcodegen; fi
-          if ! command -v ffmpeg >/dev/null; then brew install ffmpeg; fi
+          if [ "${{ github.event_name }}" != "pull_request" ] && ! command -v ffmpeg >/dev/null; then brew install ffmpeg; fi
           xcodegen generate
           python3 - <<'PY'
           import subprocess,json,os
@@ -43,7 +58,9 @@ jobs:
           xcrun simctl boot "$SCOUT_SIM" || true
           xcrun simctl bootstatus "$SCOUT_SIM" -b
       - name: Production core checks
-        run: sh scripts/check_core.sh | tee evidence/core-checks.txt
+        run: |
+          set -euo pipefail
+          sh scripts/check_core.sh | tee evidence/core-checks.txt
       - name: iPhone unit and UX tests
         run: |
           set -o pipefail
@@ -62,7 +79,7 @@ jobs:
             xcrun xcresulttool export attachments --path "$RUNNER_TEMP/ScoutTests.xcresult" --output-path evidence/screenshots || true
           fi
       - name: Record labeled simulator preview
-        if: always()
+        if: always() && github.event_name != 'pull_request'
         run: |
           app="$RUNNER_TEMP/ScoutDerivedData/Build/Products/Debug-iphonesimulator/SignalScout.app"
           if [ -d "$app" ]; then
@@ -71,6 +88,7 @@ jobs:
             ffprobe -v error -show_entries format=duration,size:stream=codec_name,width,height,r_frame_rate -of json evidence/SignalScout-AppPreview-886x1920.mp4 > evidence/video-properties.json
           fi
       - name: Capture native App Store sizes
+        if: github.event_name != 'pull_request'
         run: python3 scripts/capture_store_screenshots.py
       - name: Bind evidence to source and cap storage
         id: evidence

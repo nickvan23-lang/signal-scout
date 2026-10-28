@@ -11,7 +11,7 @@ import json
 import plistlib
 import re
 import unittest
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
 
@@ -136,14 +136,17 @@ class FreeReleaseSourceTests(unittest.TestCase):
         self.assertGreaterEqual(len(re.findall(r"func test\w+\(", tests)), 10)
 
     def test_website_relative_links_resolve(self):
-        for path in (ROOT / "Web").glob("*.html"):
+        for path in (ROOT / "Web").rglob("*.html"):
             parser = LinkParser()
             parser.feed(path.read_text())
             for link in parser.links:
                 parsed = urlsplit(link)
-                if not parsed.scheme and parsed.path:
+                if not parsed.scheme and not parsed.netloc and parsed.path:
                     with self.subTest(page=path.name, link=link):
-                        self.assertTrue((path.parent / parsed.path).is_file())
+                        target = path.parent / unquote(parsed.path)
+                        if target.is_dir():
+                            target /= "index.html"
+                        self.assertTrue(target.is_file(), f"Missing local link: {link}")
 
     def test_support_email_and_free_access_copy(self):
         support = (ROOT / "Web/support.html").read_text()

@@ -2,7 +2,7 @@ name: Signal Scout Duo fold capture
 on:
   workflow_dispatch:
   push:
-    branches: [codex/duo-preflight-20261024]
+    branches: [codex/duo-preflight-20261024, codex/duo-supported-readback-20261028]
 permissions:
   contents: read
 jobs:
@@ -45,6 +45,8 @@ jobs:
               'projectOriginalSHA256':sha256(original),
               'projectEffectiveSHA256':sha256(effective),
               'removedConfigurationLines':[line.rstrip() for line in removed],
+              'swiftCompilationConditions':['DEBUG','DUO_DIAGNOSTICS'],
+              'hingeReadback':'App-observed public UIHingeInteraction callbacks with per-request session correlation; no requested-angle substitution.',
               'developerDirectory':os.environ['DEVELOPER_DIR'],
           }
           Path('evidence/source.json').write_text(json.dumps(source,indent=2)+'\n')
@@ -65,7 +67,7 @@ jobs:
         timeout-minutes: 20
         run: |
           set -euo pipefail
-          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -configuration Debug -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -jobs 3 CODE_SIGNING_ALLOWED=NO build 2>&1 | tee evidence/build.log
+          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -configuration Debug -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -jobs 3 CODE_SIGNING_ALLOWED=NO SWIFT_ACTIVE_COMPILATION_CONDITIONS='DEBUG DUO_DIAGNOSTICS' build 2>&1 | tee evidence/build.log
           ditto -c -k --sequesterRsrc --keepParent "$RUNNER_TEMP/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app" evidence/SignalScout-simulator.zip
           python3 - <<'PYTHON'
           from pathlib import Path
@@ -78,6 +80,7 @@ jobs:
           build={
               'sourceCommit':json.loads(Path('evidence/source.json').read_text())['commit'],
               'configuration':'Debug',
+              'swiftCompilationConditions':['DEBUG','DUO_DIAGNOSTICS'],
               'scope':'Unsigned experimental simulator candidate; not an App Store distribution archive. No physical BLE validation is established.',
               'bundleIdentifier':info['CFBundleIdentifier'],
               'version':info.get('CFBundleShortVersionString'),
@@ -93,12 +96,26 @@ jobs:
           if info.get('UIRequiresFullScreen'):raise SystemExit('The effective app still requires full screen; experimental configuration was not applied')
           PYTHON
       - name: Boot Duo and install this run's candidate
-        timeout-minutes: 3
+        timeout-minutes: 5
         run: |
           set -euo pipefail
-          xcrun simctl boot "$DUO_DEVICE"
-          xcrun simctl bootstatus "$DUO_DEVICE" -b
-          xcrun simctl install "$DUO_DEVICE" "$RUNNER_TEMP/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app"
+          python3 - <<'PYTHON'
+          import json,os,subprocess
+          from pathlib import Path
+          device=os.environ['DUO_DEVICE']
+          data=json.loads(subprocess.check_output(['xcrun','simctl','list','devices','available','-j'],timeout=15))
+          current=next(d for devices in data['devices'].values() for d in devices if d['udid']==device)
+          commands=[]
+          if current['state']!='Booted':
+              commands.append(('boot',['xcrun','simctl','boot',device],30))
+          commands.extend([
+              ('bootstatus',['xcrun','simctl','bootstatus',device,'-b'],180),
+              ('install',['xcrun','simctl','install',device,str(Path(os.environ['RUNNER_TEMP'])/'DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app')],30),
+          ])
+          for label,command,deadline in commands:
+              with Path('evidence',label+'.log').open('w') as output:
+                  subprocess.run(command,stdout=output,stderr=subprocess.STDOUT,timeout=deadline,check=True)
+          PYTHON
       - name: Capture fold transitions
         timeout-minutes: 5
         run: python3 tools/capture_duo.py --device "$DUO_DEVICE" --bundle com.nicholasvandervelden.SignalScout --out evidence/poses

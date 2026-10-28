@@ -1,0 +1,10 @@
+{
+  "recorded_at_utc": "2026-10-28T04:57:00.296221+00:00",
+  "url": "https://itunes.apple.com/lookup?id=6810531496&country=us&entity=software",
+  "curl_exit_code": 0,
+  "response": {
+    "resultCount": 0,
+    "results": []
+  },
+  "scope": "Exact app ID, United States public catalog only; no private App Store Connect state established."
+}

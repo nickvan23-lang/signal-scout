@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "repository": "nickvan23-lang/signal-scout",
+  "workflow_run_id": 40635520267,
+  "job_id": 122641465486,
+  "workflow_url": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40635520267",
+  "job_url": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40635520267/job/122641465486",
+  "result": "success",
+  "native_tests_completed_at_utc": "2026-10-28T05:09:05Z",
+  "native_tests_completed_at_pacific": "2026-10-27T22:09:05-07:00",
+  "source": {
+    "pr_number": 3,
+    "pr_head": "573699002f3c538ccf042f2628c0368dfd5ff75d",
+    "base": "7de6ed0c468cbe33216ccd6fa80b30b671218d41",
+    "tested_checkout": "d886adee14f77be516b6cb805b5c2de04aed6e58",
+    "signal_analysis_sha256": "a49f6288a25ab1571bacb1860c1cf01346247e69709ca64422cfd1b4f06fb2c2"
+  },
+  "environment": {
+    "xcode": "26.6",
+    "simulator": "iPhone 17 Pro Max",
+    "simulator_os": "iOS 26.5"
+  },
+  "checks": {
+    "production_core_passed": 46,
+    "native_unit_passed": 24,
+    "native_ui_passed": 4,
+    "native_total": 28,
+    "native_passed": 28,
+    "native_failed": 0,
+    "native_skipped": 0,
+    "portable_release_and_website": "passed"
+  },
+  "ui_cases": [
+    {
+      "name": "testGuideMapAndReturn",
+      "result": "passed"
+    },
+    {
+      "name": "testLargeTextKeepsTrackingControlsReachable",
+      "result": "passed"
+    },
+    {
+      "name": "testResumeDiscardsThePreviousComparisonHistory",
+      "result": "passed"
+    },
+    {
+      "name": "testTrackingPauseResumeAndReturn",
+      "result": "passed"
+    }
+  ],
+  "intentional_workflow_skips": [
+    "Record labeled simulator preview",
+    "Capture native App Store sizes"
+  ],
+  "artifact": {
+    "id": 12793732459,
+    "name": "signalscout-build8-iphone-simulation",
+    "size_bytes": 2427730,
+    "sha256": "2e39895001b053a8661bdfeb925830cb3f046a11be04dc62e565fcbac68af9a3",
+    "expires_at_utc": "2026-10-29T05:09:13Z"
+  },
+  "evidence_basis": "Completed public GitHub job log: 24 unit and 4 UI case result lines all passed, matching XCTest suite summaries; workflow conclusion success.",
+  "scope": "Native simulator logic and UI verification. No physical BLE verification, signed distribution archive, new app upload, App Review approval, or installed-device update."
+}

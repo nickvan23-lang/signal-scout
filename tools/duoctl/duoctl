@@ -142,6 +142,16 @@ def hinge_angle(udid, timeout=10):
         # Iterating over stdout blocks before the deadline can be checked.
         deadline = time.monotonic() + timeout
         pending = b""
+        output_tail = b""
+
+        def check_exit():
+            if process.returncode not in (None, 0):
+                detail = output_tail.decode(errors="replace").strip()
+                raise DuoError(
+                    f"hinge telemetry command exited with status {process.returncode}"
+                    + (f":\n{detail}" if detail else " (no diagnostic output)")
+                )
+
         with selectors.DefaultSelector() as selector:
             selector.register(process.stdout, selectors.EVENT_READ)
             while time.monotonic() < deadline:
@@ -150,8 +160,16 @@ def hinge_angle(udid, timeout=10):
                     break
                 chunk = os.read(process.stdout.fileno(), 4096)
                 if not chunk:
+                    # EOF can precede process exit. Wait only within the
+                    # original deadline so native usage errors are not lost.
+                    try:
+                        process.wait(timeout=max(0, deadline - time.monotonic()))
+                    except subprocess.TimeoutExpired:
+                        pass
+                    check_exit()
                     match = re.search(rb"\bAngle:\s*(\d+(?:[.,]\d+)?)", pending)
                     return float(match.group(1).replace(b",", b".")) if match else None
+                output_tail = (output_tail + chunk)[-8192:]
                 pending += chunk
                 lines = pending.split(b"\n")
                 pending = lines.pop()[-4096:]
@@ -159,6 +177,8 @@ def hinge_angle(udid, timeout=10):
                     match = re.search(rb"\bAngle:\s*(\d+(?:[.,]\d+)?)", line)
                     if match:
                         return float(match.group(1).replace(b",", b"."))
+        process.poll()
+        check_exit()
     finally:
         if process.poll() is None:
             process.kill()
@@ -167,12 +187,11 @@ def hinge_angle(udid, timeout=10):
     return None
 
 
-def state(udid):
+def state(udid, include_hinge=True):
     display = active_display(udid)
     width, height = ui_size(display)
-    return {
+    result = {
         "udid": udid,
-        "hingeAngle": hinge_angle(udid),
         "activeScreen": "cover" if display.get("primary") else "inner",
         "displayId": display["displayId"],
         "displayUUID": display["uniqueId"],
@@ -180,6 +199,9 @@ def state(udid):
         "orientation": next((k for k, v in ROTATION_FOR_UI.items() if v == display.get("currentOrientation")), None),
         "sizePoints": [round(width, 2), round(height, 2)],
     }
+    if include_hinge:
+        result["hingeAngle"] = hinge_angle(udid)
+    return result
 
 
 # ---------------------------------------------------------------- actions
@@ -347,6 +369,8 @@ def main():
     parser.add_argument("-d", "--device", default=os.environ.get("DUOCTL_UDID"),
                         help="simulator UDID or name (default: the only booted iPhone Duo)")
     parser.add_argument("--version", action="version", version=f"duoctl {VERSION}")
+    parser.add_argument("--display-only", action="store_true",
+                        help="report display state without invoking legacy hinge telemetry")
     commands = parser.add_subparsers(dest="command", required=True)
 
     commands.add_parser("state", help="print hinge angle, active screen, orientation and size as JSON")
@@ -385,17 +409,19 @@ def main():
     args = parser.parse_args()
     try:
         udid = resolve_udid(args.device)
+        if args.display_only and args.command in (*POSTURES, "hinge") and args.duration > 0:
+            raise DuoError("--display-only requires an instantaneous hinge action; animated start-angle telemetry is unavailable")
         if args.command == "state":
-            print(json.dumps(state(udid), indent=2))
+            print(json.dumps(state(udid, include_hinge=not args.display_only), indent=2))
         elif args.command in POSTURES:
             set_hinge(udid, POSTURES[args.command], args.duration)
-            print(json.dumps(state(udid), indent=2))
+            print(json.dumps(state(udid, include_hinge=not args.display_only), indent=2))
         elif args.command == "hinge":
             set_hinge(udid, args.degrees, args.duration)
-            print(json.dumps(state(udid), indent=2))
+            print(json.dumps(state(udid, include_hinge=not args.display_only), indent=2))
         elif args.command == "rotate":
             rotate(udid, args.orientation)
-            print(json.dumps(state(udid), indent=2))
+            print(json.dumps(state(udid, include_hinge=not args.display_only), indent=2))
         elif args.command in ("tap", "long-press"):
             if args.label or args.identifier:
                 x, y = find_element(udid, args.label, args.identifier, args.element_type)

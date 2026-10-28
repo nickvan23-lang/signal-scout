@@ -1,0 +1,40 @@
+{
+  "recorded_at_utc": "2026-10-28T04:57:34.220100+00:00",
+  "compiler": "Swift version 6.4.1 (swift-6.4.1-RELEASE)",
+  "target": "x86_64-unknown-linux-gnu",
+  "original_commit": "7de6ed0c468cbe33216ccd6fa80b30b671218d41",
+  "scope": "Compiled actual production Swift files unchanged. Original and patched share identical26-check regression harness; core harness executes46 checks including resource registry. No iOS radio/UI execution.",
+  "results": {
+    "original": {
+      "exit_code": 1,
+      "summary": "RESULT: 4 passed, 22 failed",
+      "stdout": "PASS: history remains bounded\nPASS: constant signal stays steady\nFAIL: 1.0s advertisements become warmer\nFAIL: 1.0s advertisements become colder\nFAIL: 1.0s advertisements become steady\nFAIL: 2.0s advertisements become warmer\nFAIL: 2.0s advertisements become colder\nFAIL: 2.0s advertisements become steady\nFAIL: 4.0s advertisements become warmer\nFAIL: 4.0s advertisements become colder\nFAIL: 4.0s advertisements become steady\nFAIL: cadence [1.0225] at 0.0 does not restart calibration\nFAIL: cadence [1.0225] at 800000000.0 does not restart calibration\nFAIL: cadence [0.97, 1.05, 1.02, 0.98, 0.99] at 0.0 does not restart calibration\nFAIL: cadence [0.97, 1.05, 1.02, 0.98, 0.99] at 800000000.0 does not restart calibration\nFAIL: fast advertisements finish calibration\nPASS: fast history remains bounded\nFAIL: fast history retains comparison time\nFAIL: fast advertisements detect colder\nFAIL: fast advertisements detect warmer\nPASS: sparse evidence stays calibrating\nFAIL: sparse evidence is not confident\nFAIL: recovery uses current strength\nFAIL: recovery resets calibration\nFAIL: stationary recovery does not invent motion\nFAIL: clock rollback resets baseline\nRESULT: 4 passed, 22 failed\n",
+      "stderr": ""
+    },
+    "patched": {
+      "exit_code": 0,
+      "summary": "RESULT: 26 passed, 0 failed",
+      "stdout": "PASS: history remains bounded\nPASS: constant signal stays steady\nPASS: 1.0s advertisements become warmer\nPASS: 1.0s advertisements become colder\nPASS: 1.0s advertisements become steady\nPASS: 2.0s advertisements become warmer\nPASS: 2.0s advertisements become colder\nPASS: 2.0s advertisements become steady\nPASS: 4.0s advertisements become warmer\nPASS: 4.0s advertisements become colder\nPASS: 4.0s advertisements become steady\nPASS: cadence [1.0225] at 0.0 does not restart calibration\nPASS: cadence [1.0225] at 800000000.0 does not restart calibration\nPASS: cadence [0.97, 1.05, 1.02, 0.98, 0.99] at 0.0 does not restart calibration\nPASS: cadence [0.97, 1.05, 1.02, 0.98, 0.99] at 800000000.0 does not restart calibration\nPASS: fast advertisements finish calibration\nPASS: fast history remains bounded\nPASS: fast history retains comparison time\nPASS: fast advertisements detect colder\nPASS: fast advertisements detect warmer\nPASS: sparse evidence stays calibrating\nPASS: sparse evidence is not confident\nPASS: recovery uses current strength\nPASS: recovery resets calibration\nPASS: stationary recovery does not invent motion\nPASS: clock rollback resets baseline\nRESULT: 26 passed, 0 failed\n",
+      "stderr": ""
+    },
+    "core": {
+      "exit_code": 0,
+      "summary": "46 production-core checks passed; this is not iOS UI or physical BLE verification.",
+      "stdout": "PASS: advertised name wins\nPASS: little endian company ID\nPASS: cached system name does not replace advertised name\nPASS: sparse packet preserves details\nPASS: iOS name fallback\nPASS: short manufacturer data rejected\nPASS: blank name rejected\nPASS: Unicode name retained\nPASS: registry bundled\nPASS: Apple resolves\nPASS: Samsung resolves\nPASS: unknown ID remains explicit\nPASS: paused overrides warmer\nPASS: stale overrides warmer\nPASS: denied reading is not live\nPASS: fresh warmer preserved\nPASS: dots respect center clearance\nPASS: strength radius remains monotonic\nPASS: history remains bounded\nPASS: constant signal stays steady\nPASS: 1.0s advertisements become warmer\nPASS: 1.0s advertisements become colder\nPASS: 1.0s advertisements become steady\nPASS: 2.0s advertisements become warmer\nPASS: 2.0s advertisements become colder\nPASS: 2.0s advertisements become steady\nPASS: 4.0s advertisements become warmer\nPASS: 4.0s advertisements become colder\nPASS: 4.0s advertisements become steady\nPASS: cadence [1.0225] at 0.0 does not restart calibration\nPASS: cadence [1.0225] at 800000000.0 does not restart calibration\nPASS: cadence [0.97, 1.05, 1.02, 0.98, 0.99] at 0.0 does not restart calibration\nPASS: cadence [0.97, 1.05, 1.02, 0.98, 0.99] at 800000000.0 does not restart calibration\nPASS: fast advertisements finish calibration\nPASS: fast history remains bounded\nPASS: fast history retains comparison time\nPASS: fast advertisements detect colder\nPASS: fast advertisements detect warmer\nPASS: sparse evidence stays calibrating\nPASS: sparse evidence is not confident\nPASS: recovery uses current strength\nPASS: recovery resets calibration\nPASS: stationary recovery does not invent motion\nPASS: clock rollback resets baseline\nPASS: unnamed fallback distinct\nPASS: missing manufacturer explicit\n46 production-core checks passed; this is not iOS UI or physical BLE verification.\n",
+      "stderr": ""
+    }
+  },
+  "file_sha256": {
+    "core/SignalModels.swift": "9bbe5e993b44502bdbb71456972f579e6f0e7bbcdeb168cfed0c7ad9d9d3fd81",
+    "core/SignalAnalysis.swift": "a49f6288a25ab1571bacb1860c1cf01346247e69709ca64422cfd1b4f06fb2c2",
+    "core/BluetoothCompanyIdentifiers.json": "7bd3bc451592db5b8cc98b45b96d4c945ee5b26500a2690e5b82b462682fb978",
+    "core/SignalMapLayout.swift": "96fb3856f31a6e37166a70acdbe06bfead8e761297ec823ed635ff68a894371d",
+    "core/DeviceIdentity.swift": "c04fc57a01a7fa147aa33c5eff44f81d81349c90aea08fc48e059e3f7a310f2d",
+    "core/main.swift": "c0b7806e6009c5764130651230efa4c9fe448bed118609ee75812d90f5a9a82f",
+    "core/TrackingStatus.swift": "f23cc11bcb54ee6d6b20e60c094d24dde43240d674ba8f0a13aba36094069f6f",
+    "patched/SignalAnalysis.swift": "a49f6288a25ab1571bacb1860c1cf01346247e69709ca64422cfd1b4f06fb2c2",
+    "patched/main.swift": "bb9d59eedaa8675b4ee87a2eab022dc8a3ba07f4fe5c32ee050ff83118fd7d2a",
+    "original/SignalAnalysis.swift": "325ad50f1dea9c5b2a61daed6f771a797caec1eef84e110087e55f9879bfb73f",
+    "original/main.swift": "bb9d59eedaa8675b4ee87a2eab022dc8a3ba07f4fe5c32ee050ff83118fd7d2a"
+  }
+}
