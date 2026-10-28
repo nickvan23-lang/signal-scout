@@ -1,51 +1,104 @@
 name: Signal Scout Duo fold capture
 on:
+  workflow_dispatch:
   push:
     branches: [codex/duo-preflight-20261024]
 permissions:
   contents: read
-  actions: read
 jobs:
   duo:
     runs-on: xcode-27
-    timeout-minutes: 25
+    timeout-minutes: 35
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare native project and Apple guidance
+      - name: Check portable capture regressions
         run: |
-          set -eu
+          set -euo pipefail
           mkdir -p evidence
+          python3 tools/test_duo_capture.py 2>&1 | tee evidence/portable-capture-checks.txt
+      - name: Prepare experimental Duo configuration and record source
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
           xcodebuild -version > evidence/xcode.txt
           xcrun simctl help > evidence/simctl-help.txt
           if ! command -v xcodegen >/dev/null; then brew install xcodegen; fi
           python3 - <<'PYTHON'
           from pathlib import Path
+          import hashlib,json,os,subprocess
+          sha256=lambda data:hashlib.sha256(data).hexdigest()
           p=Path('project.yml')
-          p.write_text(''.join(line for line in p.read_text().splitlines(True) if 'INFOPLIST_KEY_UIRequiresFullScreen' not in line))
+          original=p.read_bytes()
+          removed=[line for line in original.decode().splitlines(True) if 'INFOPLIST_KEY_UIRequiresFullScreen' in line]
+          effective=''.join(line for line in original.decode().splitlines(True) if 'INFOPLIST_KEY_UIRequiresFullScreen' not in line).encode()
+          paths=subprocess.check_output(['git','ls-files','-z','--','SignalScout','project.yml','tools/capture_duo.py','tools/duoctl','.github/workflows/duo-folds.yml']).decode().split('\0')
+          inputs={path:sha256(Path(path).read_bytes()) for path in paths if path}
+          p.write_bytes(effective)
+          Path('evidence/project-original.yml').write_bytes(original)
+          Path('evidence/project-effective.yml').write_bytes(effective)
+          source={
+              'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+              'scope':'Experimental Duo Debug simulator candidate built from this checkout. UIRequiresFullScreen is removed for this experiment; this is not the submitted App Store binary or its unchanged configuration.',
+              'checkedInInputSHA256':inputs,
+              'projectOriginalSHA256':sha256(original),
+              'projectEffectiveSHA256':sha256(effective),
+              'removedConfigurationLines':[line.rstrip() for line in removed],
+              'developerDirectory':os.environ['DEVELOPER_DIR'],
+          }
+          Path('evidence/source.json').write_text(json.dumps(source,indent=2)+'\n')
           PYTHON
           xcodegen generate
+          cp SignalScout.xcodeproj/project.pbxproj evidence/generated-project.pbxproj
           python3 - <<'PYTHON'
           import json,subprocess,os
+          from pathlib import Path
           data=json.loads(subprocess.check_output(['xcrun','simctl','list','devices','available','-j']))
-          candidates=[d for rt,ds in data['devices'].items() if rt.endswith('iOS-27-1') for d in ds if d['name']=='iPhone Duo' and d['isAvailable']]
+          candidates=[(rt,d) for rt,ds in data['devices'].items() if rt.endswith('iOS-27-1') for d in ds if d['name']=='iPhone Duo' and d['isAvailable']]
           if len(candidates)!=1:raise SystemExit('Expected one available iOS 27.1 Duo')
-          with open(os.environ['GITHUB_ENV'],'a') as f:f.write('DUO_DEVICE='+candidates[0]['udid']+'\n')
+          runtime,device=candidates[0]
+          Path('evidence/simulator.json').write_text(json.dumps({'runtime':runtime,'device':device},indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write('DUO_DEVICE='+device['udid']+'\n')
           PYTHON
-      - name: Install sealed same-source simulator app
-        timeout-minutes: 8
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Build current experimental simulator candidate
+        timeout-minutes: 20
         run: |
           set -euo pipefail
-          gh run download 40125857391 --repo "$GITHUB_REPOSITORY" -n signal-scout-duo-folds -D "$RUNNER_TEMP/verified-simulator"
-          cd "$RUNNER_TEMP/verified-simulator"
-          echo "51b4da5bc5691440692ffe6ed3bbb1327983bacac932a5c5e49d7ac11f84a3b6  SignalScout-simulator.zip" | shasum -a 256 -c -
-          ditto -x -k SignalScout-simulator.zip "$RUNNER_TEMP/SimulatorApp"
+          xcodebuild -project SignalScout.xcodeproj -scheme SignalScout -configuration Debug -destination "platform=iOS Simulator,id=$DUO_DEVICE" -derivedDataPath "$RUNNER_TEMP/DuoDerived" -jobs 3 CODE_SIGNING_ALLOWED=NO build 2>&1 | tee evidence/build.log
+          ditto -c -k --sequesterRsrc --keepParent "$RUNNER_TEMP/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app" evidence/SignalScout-simulator.zip
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import hashlib,json,os,plistlib
+          sha256=lambda data:hashlib.sha256(data).hexdigest()
+          app=Path(os.environ['RUNNER_TEMP'])/'DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app'
+          info=plistlib.loads((app/'Info.plist').read_bytes())
+          executable=app/info['CFBundleExecutable']
+          if not executable.is_file():raise SystemExit('Built simulator executable is missing')
+          build={
+              'sourceCommit':json.loads(Path('evidence/source.json').read_text())['commit'],
+              'configuration':'Debug',
+              'scope':'Unsigned experimental simulator candidate; not an App Store distribution archive. No physical BLE validation is established.',
+              'bundleIdentifier':info['CFBundleIdentifier'],
+              'version':info.get('CFBundleShortVersionString'),
+              'buildNumber':info.get('CFBundleVersion'),
+              'sdk':info.get('DTSDKName'),
+              'requiresFullScreen':info.get('UIRequiresFullScreen'),
+              'executableSHA256':sha256(executable.read_bytes()),
+              'appFileSHA256':{str(p.relative_to(app)):sha256(p.read_bytes()) for p in sorted(app.rglob('*')) if p.is_file()},
+              'archiveSHA256':sha256(Path('evidence/SignalScout-simulator.zip').read_bytes()),
+              'generatedProjectSHA256':sha256(Path('evidence/generated-project.pbxproj').read_bytes()),
+          }
+          Path('evidence/build.json').write_text(json.dumps(build,indent=2)+'\n')
+          if info.get('UIRequiresFullScreen'):raise SystemExit('The effective app still requires full screen; experimental configuration was not applied')
+          PYTHON
+      - name: Boot Duo and install this run's candidate
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
           xcrun simctl boot "$DUO_DEVICE"
           xcrun simctl bootstatus "$DUO_DEVICE" -b
-          xcrun simctl install "$DUO_DEVICE" "$RUNNER_TEMP/SimulatorApp/SignalScout.app"
+          xcrun simctl install "$DUO_DEVICE" "$RUNNER_TEMP/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app"
       - name: Capture fold transitions
         timeout-minutes: 5
         run: python3 tools/capture_duo.py --device "$DUO_DEVICE" --bundle com.nicholasvandervelden.SignalScout --out evidence/poses
@@ -54,4 +107,8 @@ jobs:
         with:
           name: signal-scout-duo-folds
           path: evidence
-          retention-days: 1
+          retention-days: 3
+      - name: Stop simulator
+        if: always() && env.DUO_DEVICE != ''
+        timeout-minutes: 1
+        run: xcrun simctl shutdown "$DUO_DEVICE" || true

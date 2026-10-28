@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import re
+import selectors
 import shutil
 import subprocess
 import sys
@@ -41,8 +42,11 @@ class DuoError(Exception):
     pass
 
 
-def run(args, check=True, capture=True):
-    result = subprocess.run(args, capture_output=capture, text=True)
+def run(args, check=True, capture=True, timeout=15):
+    try:
+        result = subprocess.run(args, capture_output=capture, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired as error:
+        raise DuoError(f"{' '.join(args)} timed out after {timeout:g}s") from error
     if check and result.returncode != 0:
         raise DuoError(f"{' '.join(args)} failed:\n{(result.stderr or result.stdout).strip()}")
     return result
@@ -93,7 +97,7 @@ def helper_path():
             "-arch", "arm64", "-mios-simulator-version-min=17.0",
             "-framework", "Foundation", "-framework", "IOKit",
             str(HELPER_SOURCE), "-o", str(built),
-        ])
+        ], timeout=60)
         run(["codesign", "-f", "-s", "-", str(built)])
         built.replace(binary)
     return binary
@@ -128,21 +132,38 @@ def ui_size(display):
     return width, height
 
 
-def hinge_angle(udid):
+def hinge_angle(udid, timeout=10):
     process = subprocess.Popen(
         ["xcrun", "devicectl", "device", "motion", "hinge-angle", "-d", udid],
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
     )
     try:
-        deadline = time.time() + 10
-        for line in process.stdout:
-            match = re.search(r"\bAngle:\s*(\d+(?:[.,]\d+)?)", line)
-            if match:
-                return float(match.group(1).replace(",", "."))
-            if time.time() > deadline:
-                break
+        # A motion stream can stay silent or emit a partial line indefinitely.
+        # Iterating over stdout blocks before the deadline can be checked.
+        deadline = time.monotonic() + timeout
+        pending = b""
+        with selectors.DefaultSelector() as selector:
+            selector.register(process.stdout, selectors.EVENT_READ)
+            while time.monotonic() < deadline:
+                remaining = max(0, deadline - time.monotonic())
+                if not selector.select(remaining):
+                    break
+                chunk = os.read(process.stdout.fileno(), 4096)
+                if not chunk:
+                    match = re.search(rb"\bAngle:\s*(\d+(?:[.,]\d+)?)", pending)
+                    return float(match.group(1).replace(b",", b".")) if match else None
+                pending += chunk
+                lines = pending.split(b"\n")
+                pending = lines.pop()[-4096:]
+                for line in lines:
+                    match = re.search(rb"\bAngle:\s*(\d+(?:[.,]\d+)?)", line)
+                    if match:
+                        return float(match.group(1).replace(b",", b"."))
     finally:
-        process.kill()
+        if process.poll() is None:
+            process.kill()
+        process.wait(timeout=5)
+        process.stdout.close()
     return None
 
 
@@ -180,8 +201,8 @@ def set_hinge(udid, degrees, duration=0):
     else:
         helper(udid, "hinge", degrees)
     expected = expected_screen(degrees)
-    deadline = time.time() + SCREEN_SWITCH_TIMEOUT
-    while time.time() < deadline:
+    deadline = time.monotonic() + SCREEN_SWITCH_TIMEOUT
+    while time.monotonic() < deadline:
         time.sleep(SETTLE_SECONDS)
         try:
             display = active_display(udid)
