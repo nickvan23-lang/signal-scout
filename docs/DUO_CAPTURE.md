@@ -16,7 +16,9 @@ The host accepts a pose only after validating the snapshot schema, session and r
 
 ## Running and reviewing
 
-Use the `Signal Scout Duo fold capture` workflow on the experimental branch with the matching Xcode 27.1 and iOS 27.1 Duo runner. The workflow runs portable capture regressions, records source hashes, builds the instrumented candidate, waits for simulator boot readiness within a bounded deadline, installs that candidate, and captures the poses.
+Use the `Signal Scout Duo fold capture` workflow on the experimental branch with the matching Xcode 27.1 and iOS 27.1 Duo runner. The workflow runs portable capture regressions, records source hashes, creates one run-owned simulator from the observed Duo device type and runtime, builds the instrumented candidate, waits for simulator boot readiness within a bounded deadline, installs that candidate, and captures the poses. Its cleanup verifies the run ownership receipt before deleting that exact newly created simulator. The existing simulator serves only as a type/runtime reference.
+
+Run 40710723536 compiled the observer successfully and passed 30 portable checks, but the preconfigured simulator's readiness command exceeded 180 seconds before installation. A fresh fixture with a bounded five-minute readiness window isolates that startup problem; it is not by itself evidence that the runtime problem is fixed. Startup state and aggregate host memory/load diagnostics are saved before cleanup.
 
 The artifact preserves source/build receipts, screenshots, pose evidence, and failure diagnostics. A successful app build or installation does not itself establish a verified pose. Missing, invalid, stale, or unavailable readback fails the capture with its recorded reason.
 
