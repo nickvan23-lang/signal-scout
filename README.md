@@ -4,6 +4,8 @@ Signal Scout is a free iPhone Bluetooth Low Energy utility for comparing nearby 
 
 Version **1.3 (8)** was submitted to App Review on **October 9, 2026 at 10:47 AM Pacific**. App Store Connect confirmed **Waiting for Review**, with **automatic release after approval**. This is a submission receipt, not approval or a live App Store release.
 
+[Reconciled release status and remaining checks](AppStore/RELEASE_STATUS.md) · [October 27 diagnosis](docs/DIAGNOSIS-2026-10-27.md). The October 9 status above is a dated record; current Apple review status still needs verification. Older paid-build documents in `AppStore/` are labeled historical.
+
 - [Website, support, and privacy](https://nickvan23-lang.github.io/signal-scout/)
 - [Build 8 iPhone Simulator video](https://nickvan23-lang.github.io/signal-scout/review/build-8/)
 
@@ -25,7 +27,7 @@ sh scripts/check_core.sh
 python3 scripts/check_free_release.py
 ```
 
-Build 8 passed 20 native unit/UI tests (0 failures or skips) on an iPhone 17 Pro Max simulator running iOS 26.5 on a hosted Apple silicon Mac with Xcode 26.6. All 22 production core checks and 14 release-source checks passed. The signed distribution archive was verified and uploaded successfully. The local Intel Mac's asset compiler stalled, so the distribution archive reused the unchanged, hash-verified compiled visual assets while compiling all updated Swift sources. Hosted simulator builds used the normal asset pipeline.
+Build 8 passed 20 native unit/UI tests (0 failures or skips) on an iPhone 17 Pro Max simulator running iOS 26.5 on a hosted Apple silicon Mac with Xcode 26.6. All 22 production core checks passed in the hosted run. The original README also reported 14 release-source checks passing, but the October 27 investigation reproduced six directory-link assertion failures on that exact source revision; the checker now resolves directory URLs to their index pages and all 14 checks pass. The signed distribution archive was recorded as verified and uploaded successfully. The local Intel Mac's asset compiler stalled, so the distribution archive reused the unchanged, hash-verified compiled visual assets while compiling all updated Swift sources. Hosted simulator builds used the normal asset pipeline.
 
 [Hosted run and artifacts](https://github.com/nickvan23-lang/signal-scout/actions/runs/37959810850): core checks, native tests, preview video, and the medium/large screenshot sets succeeded. The overall workflow is marked failed because an optional third screenshot-size simulator timed out during boot. The completed evidence was downloaded and preserved locally. App Store Connect uses the new medium/large assets and scales them to other sizes.
 
