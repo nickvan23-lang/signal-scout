@@ -13,6 +13,8 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
+      - name: Check diagnostic process handling
+        run: python3 tools/test_duo_telemetry.py
       - name: Record raw native help and bounded hinge observations
         timeout-minutes: 7
         run: python3 tools/diagnose_duo_telemetry.py

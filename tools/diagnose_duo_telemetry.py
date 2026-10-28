@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """One bounded, raw-output Duo telemetry probe. It does not build or test the app."""
 import concurrent.futures
+import errno
 import hashlib
 import json
 import os
@@ -27,6 +28,28 @@ class Recorder:
                   "timeoutSeconds": limit, "timedOut": False, "returnCode": None}
         process = None
         reader = writer = None
+
+        def stop_and_reap():
+            if process is None:
+                return
+            if process.poll() is None:
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass  # The process exited between poll and kill.
+                except PermissionError as error:
+                    record.setdefault('cleanupWarnings', []).append('Process-group cleanup: ' + str(error))
+                    try:
+                        process.kill()  # Restrict fallback cleanup to our own child.
+                    except ProcessLookupError:
+                        pass
+                    except PermissionError as child_error:
+                        record['cleanupError'] = str(child_error)
+            try:
+                record['returnCode'] = process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                record['cleanupError'] = 'Child did not exit within the cleanup deadline'
+
         try:
             if limit <= 0:
                 raise RuntimeError("Diagnostic time budget exhausted")
@@ -49,23 +72,26 @@ class Recorder:
                         if ready:
                             try:
                                 chunk = os.read(reader, 65536)
-                            except OSError:  # A closed PTY reports EIO on macOS/Linux.
-                                break
+                            except OSError as read_error:
+                                if terminal and read_error.errno == errno.EIO:
+                                    break  # A closed PTY reports EIO on macOS/Linux.
+                                raise
                             if not chunk:
                                 break
                             output.write(chunk)
                             output.flush()
                         elif process.poll() is not None:
                             break
-                if process.poll() is None:
+                # EOF means only that stdout closed. simctl can continue working
+                # after closing its output; preserve its remaining real deadline.
+                try:
+                    record['returnCode'] = process.wait(timeout=max(0, end - time.monotonic()))
+                except subprocess.TimeoutExpired:
                     record['timedOut'] = True
-                    os.killpg(process.pid, signal.SIGKILL)
-                record['returnCode'] = process.wait(timeout=5)
+                    stop_and_reap()
         except Exception as error:
             record['error'] = str(error)
-            if process is not None and process.poll() is None:
-                os.killpg(process.pid, signal.SIGKILL)
-                record['returnCode'] = process.wait(timeout=5)
+            stop_and_reap()
         finally:
             if writer is not None:
                 os.close(writer)
@@ -84,7 +110,7 @@ def main():
     device = None
     try:
         tracked = subprocess.check_output(['git', 'ls-files', '-z', '--',
-            'tools/duoctl', 'tools/diagnose_duo_telemetry.py',
+            'tools/duoctl', 'tools/diagnose_duo_telemetry.py', 'tools/test_duo_telemetry.py',
             '.github/workflows/duo-telemetry-diagnostic.yml']).decode().split('\0')
         source = {
             'commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
@@ -97,6 +123,8 @@ def main():
             ('simctl-help', ['xcrun', 'simctl', 'help']),
             ('motion-help', ['xcrun', 'devicectl', 'device', 'motion', '--help']),
             ('hinge-help', ['xcrun', 'devicectl', 'device', 'motion', 'hinge-angle', '--help']),
+            ('simulate-help', ['xcrun', 'devicectl', 'help', 'device', 'simulate']),
+            ('info-help', ['xcrun', 'devicectl', 'help', 'device', 'info']),
         ]:
             recorder.run(label, command)
         result = recorder.run('devices', ['xcrun', 'simctl', 'list', 'devices', 'available', '-j'])
@@ -108,6 +136,8 @@ def main():
         if len(candidates) != 1:
             raise RuntimeError('Expected exactly one available iOS 27.1 iPhone Duo')
         device = candidates[0]['udid']
+        hinge = ['xcrun', 'devicectl', 'device', 'motion', 'hinge-angle', '-d', device]
+        recorder.run('hinge-before-boot', hinge)
         if candidates[0]['state'] != 'Booted':
             if recorder.run('boot', ['xcrun', 'simctl', 'boot', device], timeout=150)['returnCode'] != 0:
                 raise RuntimeError('Duo boot failed or timed out; inspect boot logs')
@@ -122,7 +152,6 @@ def main():
         (recorder.out / 'helper-binary-sha256.txt').write_text(hashlib.sha256(helper_path.read_bytes()).hexdigest() + '\n')
         helper = [sys.executable, 'tools/duoctl/duoctl', '-d', device]
         recorder.run('initial-state', helper + ['state'], timeout=30)
-        hinge = ['xcrun', 'devicectl', 'device', 'motion', 'hinge-angle', '-d', device]
         for posture in ('close', 'open', 'half'):
             # Both observers start before the same action: distinguish output
             # buffering from event-only streams without changing the command.
