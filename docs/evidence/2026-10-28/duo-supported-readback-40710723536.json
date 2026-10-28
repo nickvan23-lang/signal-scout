@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "repository": "nickvan23-lang/signal-scout",
+  "runID": 40710723536,
+  "runURL": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40710723536",
+  "jobID": 122894946822,
+  "sourceCommit": "c3cba603a757fb5d017879d0748e6eb571f3413c",
+  "sourceTree": "f6684f166c27c670d7d7cd38509246f5480dd49e",
+  "conclusion": "failure",
+  "portableCaptureRegressions": {
+    "result": "passed",
+    "count": 30
+  },
+  "nativeBuild": {
+    "result": "success",
+    "xcode": "27.1 (27A9275)",
+    "sdk": "iphonesimulator27.1",
+    "configuration": "Debug",
+    "swiftCompilationConditions": [
+      "DEBUG",
+      "DUO_DIAGNOSTICS"
+    ],
+    "sourceFileHashCount": 22,
+    "sourceFileHashMismatches": [],
+    "archiveHashMatches": true,
+    "appFileHashMismatches": [],
+    "archiveSHA256": "c919767cd5b44e1f140ece55c65834abf849d31158ee01774c95fa0727ad853c",
+    "executableSHA256": "6112d61d4159ecc575e1f44e6272fe6060a87bd12af78293bac17197619db7a6",
+    "debugDylibSHA256": "b910f53cb7caff91a77df8dbee93f95600729f794181e97a32c8afa8d11cfef4"
+  },
+  "experimentalConfiguration": {
+    "removedConfigurationLines": [
+      "        INFOPLIST_KEY_UIRequiresFullScreen: YES"
+    ],
+    "projectOriginalSHA256": "18b6590c14ec0b7f83423174dbebc331bef0adef46e18b950d377174750efcfc",
+    "projectEffectiveSHA256": "9d70ccbc637625a1b2b8c4585fe943be3d2fb816ced8299e2c0ba2ac19f229e0",
+    "requiresFullScreen": null,
+    "scope": "Experimental Duo Debug simulator candidate built from this checkout. UIRequiresFullScreen is removed for this experiment; this is not the submitted App Store binary or its unchanged configuration."
+  },
+  "simulator": {
+    "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-27-1",
+    "udid": "4C56FCAC-377C-469C-B415-8ABBC4375CBA",
+    "name": "iPhone Duo"
+  },
+  "startup": {
+    "boot": "completed successfully before bootstatus",
+    "bootLogBytes": 0,
+    "bootstatus": {
+      "result": "timeout",
+      "timeoutSeconds": 180,
+      "command": [
+        "xcrun",
+        "simctl",
+        "bootstatus",
+        "4C56FCAC-377C-469C-B415-8ABBC4375CBA",
+        "-b"
+      ],
+      "combinedOutputBytes": 0,
+      "error": "subprocess.TimeoutExpired: Command '['xcrun', 'simctl', 'bootstatus', '4C56FCAC-377C-469C-B415-8ABBC4375CBA', '-b']' timed out after 180 seconds"
+    },
+    "install": "not reached"
+  },
+  "capture": {
+    "result": "skipped",
+    "verifiedPoseCount": 0,
+    "liveHingeCallbacksObserved": false,
+    "screenshotCount": 0
+  },
+  "artifact": {
+    "id": 12825982723,
+    "name": "signal-scout-duo-folds",
+    "sizeBytes": 818024,
+    "sha256": "16b5e8c501399cf4d5085fa57cbd773e267b4ddafcc963d4bc2b815babe01b6e",
+    "url": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40710723536/artifacts/12825982723",
+    "expiresAt": "2026-10-31T15:02:38Z"
+  },
+  "interpretation": "The source-bound candidate and public UIHingeInteraction observer compile. The simulator bootstatus readiness barrier did not finish within 180 seconds, so installation, app launch, callback delivery, and fold capture were not exercised. Empty boot logs do not identify the underlying runtime startup cause.",
+  "limits": [
+    "No successful fold pose or live hinge callback was observed in this run.",
+    "No physical BLE or App Store binary validation is established.",
+    "The evidence does not support a further timeout increase, guessed API change, or readiness bypass."
+  ]
+}

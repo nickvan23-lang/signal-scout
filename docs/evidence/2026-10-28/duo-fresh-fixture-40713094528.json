@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "repository": "nickvan23-lang/signal-scout",
+  "runID": 40713094528,
+  "runURL": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40713094528",
+  "jobID": 122903364800,
+  "sourceCommit": "803bf1640e984351c47fb3c14fbba02b5f70ed44",
+  "sourceTree": "5b43addcebed32efbbb7940d9171062a11c64d6d",
+  "conclusion": "failure",
+  "portableCaptureRegressions": {
+    "result": "passed",
+    "count": 30
+  },
+  "nativeBuild": {
+    "result": "success",
+    "xcode": "27.1 (27A9275)",
+    "sdk": "iphonesimulator27.1",
+    "configuration": "Debug",
+    "swiftCompilationConditions": [
+      "DEBUG",
+      "DUO_DIAGNOSTICS"
+    ],
+    "sourceFileHashCount": 22,
+    "sourceFileHashMismatches": [],
+    "changedRecordedInputsFromPriorRun40710723536": [
+      ".github/workflows/duo-folds.yml"
+    ],
+    "archiveHashMatches": true,
+    "appFileHashMismatches": [],
+    "archiveSHA256": "d5ddb6ca243205d896881b95df4be192ccf90b33b553c95aa6ae014ce6af0e3b",
+    "executableSHA256": "6112d61d4159ecc575e1f44e6272fe6060a87bd12af78293bac17197619db7a6",
+    "debugDylibSHA256": "b910f53cb7caff91a77df8dbee93f95600729f794181e97a32c8afa8d11cfef4"
+  },
+  "experimentalConfiguration": {
+    "removedConfigurationLines": [
+      "        INFOPLIST_KEY_UIRequiresFullScreen: YES"
+    ],
+    "projectOriginalSHA256": "18b6590c14ec0b7f83423174dbebc331bef0adef46e18b950d377174750efcfc",
+    "projectEffectiveSHA256": "9d70ccbc637625a1b2b8c4585fe943be3d2fb816ced8299e2c0ba2ac19f229e0",
+    "requiresFullScreen": null,
+    "scope": "Experimental Duo Debug simulator candidate built from this checkout. UIRequiresFullScreen is removed for this experiment; this is not the submitted App Store binary or its unchanged configuration."
+  },
+  "simulatorOwnership": {
+    "udid": "9505D862-8841-4D37-A981-45DE4BA30ABD",
+    "name": "SignalScout-Duo-40713094528-1",
+    "deviceTypeIdentifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-Duo",
+    "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-27-1",
+    "runId": "40713094528",
+    "runAttempt": "1",
+    "scope": "Fresh simulator created only for this run; cleanup must match this exact receipt."
+  },
+  "startupCommands": [
+    {
+      "stage": "boot",
+      "command": [
+        "xcrun",
+        "simctl",
+        "boot",
+        "9505D862-8841-4D37-A981-45DE4BA30ABD"
+      ],
+      "timeoutSeconds": 30,
+      "timedOut": false,
+      "returnCode": 0,
+      "durationSeconds": 3.269646166999962
+    },
+    {
+      "stage": "bootstatus",
+      "command": [
+        "xcrun",
+        "simctl",
+        "bootstatus",
+        "9505D862-8841-4D37-A981-45DE4BA30ABD",
+        "-b"
+      ],
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "returnCode": 0,
+      "durationSeconds": 113.36171220899996
+    },
+    {
+      "stage": "install",
+      "command": [
+        "xcrun",
+        "simctl",
+        "install",
+        "9505D862-8841-4D37-A981-45DE4BA30ABD",
+        "/Users/runner/work/_temp/DuoDerived/Build/Products/Debug-iphonesimulator/SignalScout.app"
+      ],
+      "timeoutSeconds": 30,
+      "timedOut": true,
+      "durationSeconds": 33.64760124999998
+    }
+  ],
+  "bootstatusOutput": "Monitoring boot status for SignalScout-Duo-40713094528-1 (9505D862-8841-4D37-A981-45DE4BA30ABD).\nDevice already booted, nothing to do.",
+  "firstFailure": {
+    "stage": "install",
+    "result": "timeout",
+    "timeoutSeconds": 30,
+    "durationSeconds": 33.64760124999998,
+    "combinedOutputBytes": 0
+  },
+  "postStartupDiagnostics": {
+    "simctlList": "Diagnostic command exceeded its 10-second deadline.",
+    "uptime": "15:13  up 11 mins, 1 user, load averages: 353.16 148.92 67.18",
+    "loadAverages": [
+      353.16,
+      148.92,
+      67.18
+    ],
+    "memoryEvidence": "memory-after-startup.log"
+  },
+  "capture": {
+    "result": "skipped",
+    "verifiedPoseCount": 0,
+    "liveHingeCallbacksObserved": false,
+    "screenshotCount": 0
+  },
+  "cleanup": {
+    "result": "failure",
+    "commands": [
+      {
+        "operation": "shutdown",
+        "timedOut": true
+      },
+      {
+        "operation": "delete",
+        "timedOut": true
+      }
+    ],
+    "stepError": "The action 'Clean up only this run's simulator' has timed out after 2 minutes.",
+    "ownedSimulatorDeletionConfirmed": false
+  },
+  "artifact": {
+    "id": 12827826904,
+    "name": "signal-scout-duo-folds",
+    "sizeBytes": 820008,
+    "sha256": "70aab9dfe2e0f87e55b42ef6ab356ed536720752a6bf6e977fe4217b0941af3a",
+    "url": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40713094528/artifacts/12827826904",
+    "expiresAt": "2026-10-31T15:15:52Z"
+  },
+  "interpretation": "The run-owned fresh simulator reached successful boot readiness. App installation then exceeded its 30-second deadline while load averages were very high, the read-only simulator listing exceeded 10 seconds, and shutdown/delete also timed out. These observations support host/CoreSimulator contention as an infrastructure blocker; they do not identify the underlying source of that contention or an app installation defect.",
+  "limits": [
+    "No app launch, public hinge callback, or fold pose was exercised in this run.",
+    "No screenshot exists for visual review.",
+    "No physical BLE or App Store distribution validation is established.",
+    "App and capture inputs are unchanged from the prior successful native build; only the recorded workflow input changed.",
+    "No further native attempt or runtime repair was made by the reviewing agent."
+  ]
+}

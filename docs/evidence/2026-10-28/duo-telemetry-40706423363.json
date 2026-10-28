@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T14:35:52Z",
+  "repository": "nickvan23-lang/signal-scout",
+  "run_url": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40706423363",
+  "run_id": 40706423363,
+  "job_id": 122879671752,
+  "source_commit": "543686b3478b9603d48f04e2d4dcde779fefb501",
+  "source_file_sha256": {
+    ".github/workflows/duo-telemetry-diagnostic.yml": "7be7eea06ab90d55e59b3f7ec24aa72f1cc39185de4b2f438122e817ae93781b",
+    "tools/diagnose_duo_telemetry.py": "12011a053d1c17d06cd7cf027f6fa2cfbd77b1db03a23fcebe0ebc664b2ea3ba",
+    "tools/duoctl/LICENSE": "bf4972a51edcdfab58288caaf78a43684c7a693d22fbe79db36be6941e89e439",
+    "tools/duoctl/duoctl": "24ca91b084b9b676448baf1f7e4a3d8f742d263f5706873abccdb1f0b23fda02",
+    "tools/duoctl/duoctl-helper.m": "b2d8fb45b0abab1802316ac0c0fa953e9cf644ac54dfbf06281593d4bae28b1f",
+    "tools/test_duo_telemetry.py": "d2d8f99fc78af02c1855c060551a612c06dd68c4167556aaa57a85351872b19e"
+  },
+  "diagnostic_step_conclusion": "failure",
+  "native_process_regression_tests": {
+    "count": 6,
+    "conclusion": "success"
+  },
+  "artifact": {
+    "id": 12824216942,
+    "name": "signal-scout-duo-telemetry",
+    "size_in_bytes": 14513,
+    "sha256": "644efb70f5cd0981748ef4e7cf361972b0f47c662e67eac103216cbec338c4a5"
+  },
+  "observed_commands": {
+    "hinge-before-boot": {
+      "returnCode": 64,
+      "timedOut": false,
+      "timeoutSeconds": 15,
+      "durationSeconds": 0.286
+    },
+    "boot": {
+      "returnCode": 0,
+      "timedOut": false,
+      "timeoutSeconds": 150,
+      "durationSeconds": 2.977
+    },
+    "bootstatus": {
+      "returnCode": -9,
+      "timedOut": true,
+      "timeoutSeconds": 60,
+      "durationSeconds": 60.846
+    }
+  },
+  "legacy_hinge_command_shape": "xcrun devicectl device motion hinge-angle -d <simulator-udid>",
+  "legacy_hinge_stderr": "Error: Unknown option '-d'\nUsage: devicectl device [--verbose] [--quiet] [--timeout <seconds>] [--json-output <path>] [--omit-deprecated-fields-in-json] [--log-output <path>] <subcommand>\n  See 'devicectl device --help' for more information.\n",
+  "advertised_simulate_subcommands": [
+    "biometrics",
+    "location",
+    "statusBar"
+  ],
+  "advertised_info_has_displays": true,
+  "advertised_info_has_hinge_command": false,
+  "finding": "The existing hinge-readback CLI invocation is rejected by the inspected Xcode 27.1 command parser. This prevents that capture path from obtaining verified hinge evidence.",
+  "additional_blocker": "Duo boot returned zero, but boot readiness exceeded its separate 60-second deadline.",
+  "not_run": [
+    "helper build",
+    "close/open/half actions",
+    "pipe-versus-PTY transition observations",
+    "app build",
+    "app tests",
+    "physical BLE validation"
+  ],
+  "scope_limit": "No claim that the operating system lacks all hinge telemetry. Public SwiftUI APIs are separate; no supported replacement CLI was established by the inspected help.",
+  "safe_followup": "Surface nonzero hinge-command exit status and stderr instead of converting all failures to null telemetry; retain verified-pose requirements. A working readback provider must be established before fold verification can pass.",
+  "run_conclusion": "failure",
+  "run_status": "completed"
+}
