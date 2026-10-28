@@ -1,0 +1,30 @@
+{
+  "recorded_at_utc": "2026-10-28T14:19:07.966747+00:00",
+  "run_url": "https://github.com/nickvan23-lang/signal-scout/actions/runs/40636901678",
+  "job_id": 122645841576,
+  "source_commit": "91d4b589762223713c1bf626cded0d1d197b8880",
+  "conclusion": "failure",
+  "portable_regressions_passed": 13,
+  "native_build": "success",
+  "boot_install": "success",
+  "evidence_upload": "success",
+  "failure": {
+    "error": "Hinge telemetry unavailable; the requested pose is unverified",
+    "stage": "cover-portrait",
+    "completedPoses": 0
+  },
+  "state": {
+    "hingeAngle": null,
+    "activeScreen": "cover",
+    "orientation": "portrait",
+    "sizePoints": [
+      466.0,
+      678.0
+    ]
+  },
+  "sdk": "iphonesimulator27.1",
+  "executable_sha256": "6112d61d4159ecc575e1f44e6272fe6060a87bd12af78293bac17197619db7a6",
+  "artifact_sha256": "2e0a193654962d6d9328889d49b2f78a30014728bfba6c72524875b17dee761b",
+  "scope": "Experimental Duo branch with UIRequiresFullScreen removed. This branch does not contain main PR3 app fixes. Build/install success is not fold-pose verification, physical BLE testing, or a signed release.",
+  "next_diagnostic": "A bounded raw telemetry check will distinguish command errors, parser mismatch, buffering, or event-only output. No passing pose has been claimed."
+}

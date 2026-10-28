@@ -6,6 +6,14 @@ struct SignalScoutApp: App {
         WindowGroup {
             RootView()
                 .preferredColorScheme(.dark)
+            #if DUO_DIAGNOSTICS
+                .background {
+                    if #available(iOS 27.1, *) {
+                        DuoHingeDiagnostics()
+                            .allowsHitTesting(false)
+                    }
+                }
+            #endif
         }
     }
 }

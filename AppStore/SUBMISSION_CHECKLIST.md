@@ -1,4 +1,6 @@
-# App Store submission checklist
+# Historical: paid-build App Store submission checklist
+
+> **Historical checklist for September's build 1.3 (4), not the current free release.** Do not restart subscription, banking, or paid-product setup from this list. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for build 8's dated submission record and the current verification backlog. Completed historical actions below are preserved without claiming they were rechecked.
 
 ## Complete locally
 

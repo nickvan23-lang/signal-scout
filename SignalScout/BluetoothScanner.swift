@@ -59,6 +59,13 @@ final class BluetoothScanner: NSObject, ObservableObject {
 
     func startScanning() {
         wantsScanning = true
+        if !isScanning {
+            // Paused readings must not become live guidance when scanning resumes.
+            analyzers.removeAll(keepingCapacity: true)
+            assessment = nil
+            selectedHistory = []
+            lastGuidance = nil
+        }
 #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("-SignalScoutScreenshotMode") {
             isScanning = true

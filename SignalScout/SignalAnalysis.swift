@@ -52,6 +52,9 @@ struct SignalTrendAnalyzer {
     private var smoothedRSSI: Double?
 
     private let maximumSamples = 60
+    // Preserve a useful time span even when duplicate advertisements arrive rapidly.
+    private let minimumSampleInterval: TimeInterval = 0.1
+    private let maximumSampleGap: TimeInterval = 5
     private let smoothingAlpha = 0.24
     private let comparisonWindow: TimeInterval = 2.4
     private let minimumSamplesPerWindow = 3
@@ -63,7 +66,17 @@ struct SignalTrendAnalyzer {
     }
 
     mutating func add(rawRSSI: Int, at time: TimeInterval) -> SignalAssessment? {
-        guard (-110 ... -15).contains(rawRSSI) else { return currentAssessment }
+        guard (-110 ... -15).contains(rawRSSI), time.isFinite else { return currentAssessment }
+
+        if let last = samples.last {
+            let elapsed = time - last.time
+            if elapsed > maximumSampleGap || elapsed < 0 {
+                // A recovered signal (or a changed system clock) needs a fresh baseline.
+                reset()
+            } else if elapsed < minimumSampleInterval {
+                return currentAssessment
+            }
+        }
 
         let filteredInput = median(of: Array(samples.suffix(4).map(\.rawRSSI)) + [rawRSSI])
         let nextSmoothed: Double
@@ -88,8 +101,16 @@ struct SignalTrendAnalyzer {
     private func makeAssessment(now: TimeInterval) -> SignalAssessment? {
         guard let current = smoothedRSSI else { return nil }
 
-        let recentStart = now - comparisonWindow
-        let priorStart = now - comparisonWindow * 2
+        // Slower advertisers still need three observations in each comparison window.
+        // Use recent cadence so a rate change does not leave the whole history calibrating.
+        let cadenceSamples = samples.suffix(minimumSamplesPerWindow * 2 + 1)
+        let intervals = zip(cadenceSamples, cadenceSamples.dropFirst())
+            .map { earlier, later in later.time - earlier.time }.sorted()
+        let typicalInterval = intervals.isEmpty ? 0 : intervals[intervals.count / 2]
+        // Allow a little timing jitter without dropping back into calibration at every boundary.
+        let window = max(comparisonWindow, typicalInterval * (Double(minimumSamplesPerWindow) + 0.5))
+        let recentStart = now - window
+        let priorStart = now - window * 2
         let recent = samples.filter { $0.time > recentStart }
         let prior = samples.filter { $0.time > priorStart && $0.time <= recentStart }
 
@@ -99,7 +120,7 @@ struct SignalTrendAnalyzer {
                 smoothedRSSI: current,
                 guidance: .calibrating,
                 trendDB: 0,
-                confidence: min(1, Double(samples.count) / 10),
+                confidence: 0,
                 sampleCount: samples.count
             )
         }
