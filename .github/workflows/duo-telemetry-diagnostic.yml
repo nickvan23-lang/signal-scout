@@ -1,0 +1,31 @@
+name: Bounded Duo telemetry diagnostic
+on:
+  push:
+    branches: [codex/duo-telemetry-diagnostic-20261028]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  telemetry:
+    runs-on: xcode-27
+    timeout-minutes: 8
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record raw native help and bounded hinge observations
+        timeout-minutes: 7
+        run: python3 tools/diagnose_duo_telemetry.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: signal-scout-duo-telemetry
+          path: evidence
+          retention-days: 3
+      - name: Stop diagnostic simulator
+        if: always()
+        timeout-minutes: 1
+        run: |
+          if [ -f evidence/duo-device.txt ]; then
+            xcrun simctl shutdown "$(cat evidence/duo-device.txt)" || true
+          fi
