@@ -1,10 +1,12 @@
 # Diagnostic evidence
 
-These are deterministic software checks recorded October 27, 2026 Pacific (October 28 UTC). They do not establish iOS UI behavior, live Bluetooth operation, or App Store approval.
+These receipts record software verification performed October 27, 2026 Pacific (October 28 UTC). The portable Swift checks establish algorithm behavior; the separate native CI receipt establishes the listed iPhone simulator test outcomes. None establishes physical Bluetooth operation, a signed distribution release, or App Store approval.
 
 - `swift-results.json`: compiler, source hashes, exit codes, and complete output for the original/patched comparison and full core harness.
 - `signal-regression-main.swift`: the exact same 26-case harness used for both versions of the production analyzer.
 - `apple-us-lookup.json`: the dated public U.S. Apple catalog response for the exact app ID. A zero-result public response does not reveal the private review state.
+- `duo-ci-40636901678.json`: native experimental Duo build/install success followed by an explicit missing-hinge-telemetry failure. This is not passing fold verification or validation of the merged main app fixes.
+- `native-ci-40635520267.json`: public receipt for PR #3's successful native run, with the tested source, environment, 46 production core passes, 24 unit and four UI passes, zero failed/skipped tests, and the uploaded evidence digest. It contains no account credentials or device identifiers.
 
 ## Reproduce the algorithm comparison
 
@@ -36,4 +38,4 @@ python3 scripts/check_seo.py
 
 On a Mac with Xcode, `sh scripts/check_core.sh` runs all **46** production core checks, including the bundled manufacturer registry. The same unmodified Swift inputs were compiled and executed successfully on Linux for the recorded result; the wrapper itself uses Xcode's `xcrun`.
 
-Native unit/UI tests are configured in the pull-request QA workflow. Their execution is a separate result from these portable checks. The separate Duo branch's `python3 tools/test_duo_capture.py` runs 13 subprocess/evidence regressions, with its native capture validation still pending.
+Native unit/UI tests are configured in the pull-request QA workflow. [Run 40635520267](https://github.com/nickvan23-lang/signal-scout/actions/runs/40635520267) passed all **28** cases on Xcode 26.6 with an iPhone 17 Pro Max simulator running iOS 26.5; the receipt above binds that result to PR head `573699002f3c538ccf042f2628c0368dfd5ff75d` and the actual merge checkout. Optional preview recording and additional screenshot sizes were skipped as configured for pull requests, while no test cases were skipped. The separate Duo branch's `python3 tools/test_duo_capture.py` passed all 13 subprocess/evidence regressions. Its native run built and installed the candidate, then stopped because hinge-angle telemetry was unavailable; no fold poses have been verified.

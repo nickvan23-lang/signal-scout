@@ -6,6 +6,8 @@ Version **1.3 (8)** was submitted to App Review on **October 9, 2026 at 10:47 AM
 
 [Reconciled release status and remaining checks](AppStore/RELEASE_STATUS.md) · [October 27 diagnosis](docs/DIAGNOSIS-2026-10-27.md). The October 9 status above is a dated record; current Apple review status still needs verification. Older paid-build documents in `AppStore/` are labeled historical.
 
+**October 27 repair:** calibration across slow/fast advertisements, stale signal recovery, and pause/resume comparison resets are fixed and merged into `main`. [Fresh native verification](https://github.com/nickvan23-lang/signal-scout/actions/runs/40635520267) passed 46 core checks, 24 unit tests, and four UI tests, with no failed or skipped test cases. A new signed iPhone release containing these repairs remains pending.
+
 - [Website, support, and privacy](https://nickvan23-lang.github.io/signal-scout/)
 - [Build 8 iPhone Simulator video](https://nickvan23-lang.github.io/signal-scout/review/build-8/)
 
