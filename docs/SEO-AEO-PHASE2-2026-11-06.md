@@ -2,6 +2,16 @@
 
 Prepared November 6, 2026. This continues the [first SEO/AEO pass](SEO-AEO-2026-11-06.md) for the public [Signal Scout website](https://nickvan23-lang.github.io/signal-scout/). It does not change the native app binary or the published App Store name.
 
+## Observed publication outcome
+
+The [Pages workflow](https://github.com/nickvan23-lang/signal-scout/actions/runs/42278946077) completed successfully for commit [`7baafee`](https://github.com/nickvan23-lang/signal-scout/commit/7baafeea9a89b19396aaec0c7339d9f9f8ff50c0). Its metadata checks, deployment, IndexNow notification, and receipt upload all succeeded.
+
+The public key preflight returned HTTP 200. At **2026-11-06 19:22:15 UTC**, the one POST containing six URLs received **HTTP 202, key validation pending**. This establishes receipt of the notification, not completed validation, indexing, ranking, or AI citations. The [exact emitted receipt and provenance](evidence/2026-11-06/indexnow-live-receipt.json) are preserved here beyond the Actions artifact's seven-day retention. No manual duplicate submission was made.
+
+All **11 checked live paths** returned HTTP 200 and matched the deployed commit byte for byte: six HTML pages, the sitemap, the public key, and three responsive images. See the [live verification record](evidence/2026-11-06/phase2-live-verification.json).
+
+Fresh static extraction read the homepage's product facts, download link, FAQs, and all three responsive image candidates. The troubleshooting guide's title, canonical, direct answer, author, and dates were also extracted; the extractor reported no structured-data parsing issues. The [extraction record](evidence/2026-11-06/phase2-extraction.json) preserves field provenance and limitations. A fresh mobile screenshot at a requested 390 × 844 viewport was visually checked: the page, screenshot, buttons, and navigation rendered without visible clipping or overlap. These checks do not measure search visibility or Core Web Vitals.
+
 ## Website improvements
 
 - The homepage uses responsive WebP screenshots with the original PNG fallback, explicit dimensions, descriptive alternative text, and the existing simulator-data label.
@@ -44,4 +54,4 @@ Consequently, Google property verification, sitemap submission, URL inspection, 
 - Structured data parses, local links resolve, and reviewer pages retain `noindex`.
 - `git diff --check` passes.
 
-Live deployment and notification outcomes must be assessed from the actual workflow run and response receipt; prepared code alone is not proof of a successful external action.
+An independent read-only review found no blockers in the website, notification script, workflow, or ASO manifest. The actual live deployment and response evidence above establish the external actions completed in this pass.

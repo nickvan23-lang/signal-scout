@@ -1,0 +1,127 @@
+{
+  "checked_on": "2026-11-06",
+  "method": "Fresh Seek X static-page extraction, render false, maxAge 0",
+  "homepage": {
+    "metadata": {
+      "sourceURL": "https://nickvan23-lang.github.io/signal-scout/",
+      "url": "https://nickvan23-lang.github.io/signal-scout/",
+      "statusCode": 200,
+      "title": "Free Bluetooth Finder for iPhone | Signal Scout",
+      "description": "Find nearby, broadcasting Bluetooth devices with Signal Scout, a free BLE finder for iPhone. Compare signal strength with no account, subscription, or location tracking.",
+      "canonicalUrl": "https://nickvan23-lang.github.io/signal-scout/",
+      "language": "en",
+      "robots": "index,follow,max-image-preview:large",
+      "ogTitle": "Signal Scout — Free Bluetooth finder for iPhone",
+      "ogDescription": "Find nearby BLE accessories by comparing signal-strength trends. Free on the App Store, with no account, subscription, or location tracking.",
+      "ogSiteName": "Signal Scout",
+      "ogImage": "https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png",
+      "ogUrl": "https://nickvan23-lang.github.io/signal-scout/",
+      "favicon": "https://nickvan23-lang.github.io/signal-scout/assets/favicon.png",
+      "structuredData": {
+        "format": "json-ld",
+        "articleSelection": "none",
+        "scriptsInspected": 1,
+        "articleCandidates": 0,
+        "issues": []
+      },
+      "fieldSources": {
+        "title": "html:title",
+        "description": "meta:description",
+        "canonicalUrl": "link:canonical",
+        "language": "html:lang",
+        "robots": "meta:robots",
+        "ogTitle": "meta:og:title",
+        "ogDescription": "meta:og:description",
+        "ogSiteName": "meta:og:site_name",
+        "ogImage": "meta:og:image",
+        "ogUrl": "meta:og:url",
+        "favicon": "link:icon"
+      },
+      "encoding": "utf-8",
+      "encodingSource": "http"
+    },
+    "pagination": {
+      "offset": 0,
+      "returnedChars": 8007,
+      "totalChars": 8007,
+      "contentHash": "b9369dfba869628f650a4f70ee0c539c3ba313eee14b6057896aa0b517fbd459",
+      "hasMore": false,
+      "nextOffset": null
+    },
+    "imageCoverage": {
+      "returned": 5,
+      "total": 5,
+      "discoveredAtLeast": 5,
+      "truncated": false
+    },
+    "images": [
+      "https://nickvan23-lang.github.io/signal-scout/assets/app-icon-96.webp",
+      "https://nickvan23-lang.github.io/signal-scout/assets/device-names-490.webp",
+      "https://nickvan23-lang.github.io/signal-scout/assets/device-names-610.webp",
+      "https://nickvan23-lang.github.io/signal-scout/assets/device-names-915.webp",
+      "https://nickvan23-lang.github.io/signal-scout/assets/device-names.png"
+    ],
+    "linkCoverage": {
+      "returned": 10,
+      "total": 10,
+      "truncated": false
+    }
+  },
+  "troubleshooting_guide": {
+    "metadata": {
+      "sourceURL": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html",
+      "url": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html",
+      "statusCode": 200,
+      "title": "Bluetooth Finder Not Finding Your Device? | Signal Scout",
+      "description": "If Signal Scout cannot see your Bluetooth accessory, check permission, scan status, power, and BLE advertising. Learn which problems a finder app can help resolve.",
+      "canonicalUrl": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html",
+      "language": "en",
+      "robots": "index,follow,max-image-preview:large",
+      "ogTitle": "Bluetooth Finder Not Finding Your Device? | Signal Scout",
+      "ogDescription": "If Signal Scout cannot see your Bluetooth accessory, check permission, scan status, power, and BLE advertising. Learn which problems a finder app can help resolve.",
+      "ogSiteName": "Signal Scout",
+      "ogImage": "https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png",
+      "ogUrl": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html",
+      "favicon": "https://nickvan23-lang.github.io/signal-scout/assets/favicon.png",
+      "structuredData": {
+        "format": "json-ld",
+        "articleSelection": "selected",
+        "scriptsInspected": 1,
+        "articleCandidates": 1,
+        "issues": []
+      },
+      "publishedTime": "2026-11-06",
+      "modifiedTime": "2026-11-06",
+      "authors": [
+        "Nicholas Alan Vandervelden"
+      ],
+      "fieldSources": {
+        "title": "html:title",
+        "description": "meta:description",
+        "canonicalUrl": "link:canonical",
+        "language": "html:lang",
+        "robots": "meta:robots",
+        "ogTitle": "meta:og:title",
+        "ogDescription": "meta:og:description",
+        "ogSiteName": "meta:og:site_name",
+        "ogImage": "meta:og:image",
+        "ogUrl": "meta:og:url",
+        "favicon": "link:icon",
+        "publishedTime": "jsonld:script[0].@graph[0].datePublished",
+        "modifiedTime": "jsonld:script[0].@graph[0].dateModified",
+        "authors": "jsonld:script[0].@graph[0].author"
+      },
+      "encoding": "utf-8",
+      "encodingSource": "http"
+    },
+    "pagination": {
+      "offset": 0,
+      "returnedChars": 5083,
+      "totalChars": 5083,
+      "contentHash": "b516c235a94e3ea75fd6c6869efbb30cb54c66d2b8b1e2010a617e3f69ae5ce5",
+      "hasMore": false,
+      "nextOffset": null
+    }
+  },
+  "limits": "Extractor access and parse results do not establish search indexing, ranking, or an AI citation. Source author and date metadata are declarations, not independent identity verification."
+}

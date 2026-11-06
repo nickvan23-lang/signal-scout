@@ -1,0 +1,129 @@
+{
+  "observed_at_utc": "2026-11-06T19:23:13.572704+00:00",
+  "commit": "7baafeea9a89b19396aaec0c7339d9f9f8ff50c0",
+  "checks": [
+    {
+      "path": "index.html",
+      "url": "https://nickvan23-lang.github.io/signal-scout/",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/",
+      "bytes": 15263,
+      "sha256": "498464bfb47bca7668adb8f77cf951ce9c47b95ce5b1bfb27b314256c89db0f9",
+      "matches_commit": true,
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null
+    },
+    {
+      "path": "support.html",
+      "url": "https://nickvan23-lang.github.io/signal-scout/support.html",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/support.html",
+      "bytes": 9421,
+      "sha256": "af418712eb915b9e8723e4100cb7bcb7fbe96f5ede855f33924184560f85770f",
+      "matches_commit": true,
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null
+    },
+    {
+      "path": "privacy.html",
+      "url": "https://nickvan23-lang.github.io/signal-scout/privacy.html",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/privacy.html",
+      "bytes": 6994,
+      "sha256": "64ec1bc30899ab055a5e178e880b411b98d5b0661c9427a72920c07f23e7bb84",
+      "matches_commit": true,
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null
+    },
+    {
+      "path": "find-bluetooth-devices-iphone.html",
+      "url": "https://nickvan23-lang.github.io/signal-scout/find-bluetooth-devices-iphone.html",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/find-bluetooth-devices-iphone.html",
+      "bytes": 8968,
+      "sha256": "93e27b18accb62fbd313a9650f7acad5b63cac0a2bd002d27b8c62595a90a109",
+      "matches_commit": true,
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null
+    },
+    {
+      "path": "bluetooth-finder-not-finding-device.html",
+      "url": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html",
+      "bytes": 9443,
+      "sha256": "daf816abe0c7536166a22526c7a9df32fda77156a6de3090b0d884bed6aa17ed",
+      "matches_commit": true,
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null
+    },
+    {
+      "path": "bluetooth-rssi-signal-strength.html",
+      "url": "https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html",
+      "bytes": 9202,
+      "sha256": "c8b47d5f4a97a3821ef4802005b277c05b1c514cbc8bd1597ffff27682c8a919",
+      "matches_commit": true,
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null
+    },
+    {
+      "path": "sitemap.xml",
+      "url": "https://nickvan23-lang.github.io/signal-scout/sitemap.xml",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/sitemap.xml",
+      "bytes": 843,
+      "sha256": "948dd2cb203c6ef4df1bde25294a2868de225adceab84e88692602736d99ac65",
+      "matches_commit": true,
+      "content_type": "application/xml",
+      "x_robots_tag": null
+    },
+    {
+      "path": "56c50f95908efbee17d74ecdd541366b.txt",
+      "url": "https://nickvan23-lang.github.io/signal-scout/56c50f95908efbee17d74ecdd541366b.txt",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/56c50f95908efbee17d74ecdd541366b.txt",
+      "bytes": 33,
+      "sha256": "2b2d24959ea29e2272b4c1ed9e3f632dc68a1f12e0b3902b7d781148c8ca8367",
+      "matches_commit": true,
+      "content_type": "text/plain; charset=utf-8",
+      "x_robots_tag": null
+    },
+    {
+      "path": "assets/device-names-490.webp",
+      "url": "https://nickvan23-lang.github.io/signal-scout/assets/device-names-490.webp",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/assets/device-names-490.webp",
+      "bytes": 95918,
+      "sha256": "6820df1a95316e139a5ea82e7381576c0cd3895fac56e31178790e5c1aab25c7",
+      "matches_commit": true,
+      "content_type": "image/webp",
+      "x_robots_tag": null
+    },
+    {
+      "path": "assets/device-names-610.webp",
+      "url": "https://nickvan23-lang.github.io/signal-scout/assets/device-names-610.webp",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/assets/device-names-610.webp",
+      "bytes": 136716,
+      "sha256": "da8804796d8800cdbc5976a8267a50715ca023e7d090fbd455eb09ccdb3dff09",
+      "matches_commit": true,
+      "content_type": "image/webp",
+      "x_robots_tag": null
+    },
+    {
+      "path": "assets/device-names-915.webp",
+      "url": "https://nickvan23-lang.github.io/signal-scout/assets/device-names-915.webp",
+      "status": 200,
+      "final_url": "https://nickvan23-lang.github.io/signal-scout/assets/device-names-915.webp",
+      "bytes": 225266,
+      "sha256": "552b1a42ad3f86e4f22264b6c108e5055e5a353bb9c22ed02d323611de2f8c69",
+      "matches_commit": true,
+      "content_type": "image/webp",
+      "x_robots_tag": null
+    }
+  ],
+  "all_passed": true,
+  "workflow_run_url": "https://github.com/nickvan23-lang/signal-scout/actions/runs/42278946077"
+}
