@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-11-06",
+  "locale": "en-US",
+  "status": "draft_not_applied",
+  "applied": false,
+  "purpose": "Field values and readiness manifest for review and entry in App Store Connect. This is not an App Store Connect API request.",
+  "app": {
+    "apple_id": 6810531496,
+    "bundle_id": "com.nicholasvandervelden.SignalScout",
+    "public_listing_url": "https://apps.apple.com/us/app/signal-scout-ble-finder/id6810531496",
+    "website_url": "https://nickvan23-lang.github.io/signal-scout/"
+  },
+  "current_public": {
+    "observed_at_utc": "2026-11-06T16:50:24.831687+00:00",
+    "storefront": "us",
+    "catalog_source_url": "https://itunes.apple.com/lookup?id=6810531496&country=us&entity=software",
+    "evidence_file": "docs/evidence/2026-11-06/app-store-public.json",
+    "name": "Signal Scout - BLE Finder",
+    "subtitle": "Device Names & Signal Strength",
+    "subtitle_source": "US App Store listing, as recorded in ASO-2026-11-06.md; not exposed by the lookup API.",
+    "version": "1.3",
+    "minimum_os_version": "17.0",
+    "formatted_price": "Free",
+    "description": "Compare nearby Bluetooth Low Energy signal strength while searching for an accessory you own or have permission to locate. The accessory must be actively advertising and visible to your iPhone.\n\nA CLEARER WAY TO SEARCH\nStart with the in-app guide: wake your accessory, choose by Bluetooth name and advertised manufacturer, then move a few slow steps and wait for fresh readings. A stronger signal alone does not identify your item.\n\nLIVE MAP AND SIGNAL LIST\nSee device names, advertised manufacturers, and measured RSSI. When these details are unavailable, clear unnamed-device and manufacturer-unavailable labels explain what is missing. Stronger signals sit nearer the map center. Expand, pan, zoom, or choose a signal from the list. Dot angles are visual spacing, not compass directions.\n\nCOMPARE WITH CONFIDENCE\nFollow smoothed strength, recent readings, and warmer-or-colder trends. Clear freshness and paused/lost states distinguish a live reading from historical data. Reset the comparison for another position. Pause, resume, and return to the signal list with direct controls. Haptic feedback can be switched off.\n\nFREE AND PRIVATE\nAll features are free, without an account, subscription, or time limit. Scanning and analysis happen on your phone. Names and manufacturer identifiers are processed in memory on your phone. There is no location tracking, analytics, advertising, or signal upload.\n\nUNDERSTAND THE LIMITS\nRSSI is approximate relative signal strength, not exact distance. Walls, reflections, orientation, and transmit power affect results. Headphones, earbuds, and other accessories may stop advertising while asleep, connected, or in a closed case. Silent and powered-off devices cannot appear. Signal Scout does not verify people, device owners, or broadcast identity and does not replace an accessory maker's finding network.\n\nSupport: https://nickvan23-lang.github.io/signal-scout/support.html\nPrivacy: https://nickvan23-lang.github.io/signal-scout/privacy.html\nTerms: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+    "keywords": null,
+    "promotional_text": null,
+    "unknown_fields_note": "Current backend keywords and promotional text were not verified. Null means unknown, not empty.",
+    "verification_limit": "Public catalog only. Does not identify the shipped binary source commit or establish private App Store Connect state."
+  },
+  "proposed": {
+    "name": {
+      "value": "Signal Scout: Bluetooth Finder",
+      "character_count": 30,
+      "utf8_byte_count": 30,
+      "limit": 30,
+      "limit_unit": "characters",
+      "remaining": 0,
+      "within_limit": true,
+      "editability": "Editable before submission to App Review; after submission, changes require an eligible app-version status or a new version. Confirm name availability in App Store Connect.",
+      "readiness": "Copy validated; name availability and editable status unverified. Not applied."
+    },
+    "subtitle": {
+      "value": "BLE Scanner & Signal Strength",
+      "character_count": 29,
+      "utf8_byte_count": 29,
+      "limit": 30,
+      "limit_unit": "characters",
+      "remaining": 1,
+      "within_limit": true,
+      "editability": "For a published app, coordinate with the next eligible version submission; confirm the actual editable app-version status in App Store Connect.",
+      "readiness": "Copy validated; editable version and localization unverified. Not applied."
+    },
+    "keywords": {
+      "value": "accessories,earbuds,headphones,speaker,device,rssi,lost,nearby,warmer,colder,wireless",
+      "character_count": 85,
+      "utf8_byte_count": 85,
+      "limit": 100,
+      "limit_unit": "UTF-8 bytes",
+      "remaining": 15,
+      "within_limit": true,
+      "editability": "Version metadata. Coordinate with the next eligible version submission and confirm the actual editable app-version status in App Store Connect.",
+      "readiness": "Copy validated; editable version and localization unverified; current backend keywords unavailable. Not applied."
+    },
+    "promotional_text": {
+      "value": "See nearby Bluetooth device names, compare signal strength, and follow warmer-or-colder changes. For accessories actively broadcasting BLE. Free and private.",
+      "character_count": 157,
+      "utf8_byte_count": 157,
+      "limit": 170,
+      "limit_unit": "characters",
+      "remaining": 13,
+      "within_limit": true,
+      "editability": "Apple permits updates at any time without submitting a new app version.",
+      "readiness": "Copy validated; can be updated independently of a new version when authorized App Store Connect access is available. Not applied."
+    },
+    "description": {
+      "value": "Find your way toward a nearby Bluetooth Low Energy accessory by comparing its signal strength. Signal Scout helps you search for an item you own or have permission to locate, while it is powered on and actively advertising to your iPhone.\n\nSEE WHAT IS NEARBY\nScan for BLE signals and see advertised device names, manufacturers, and measured signal strength (RSSI). Names and manufacturer information are clues, not verified identities. Some devices appear without these details.\n\nCOMPARE AS YOU MOVE\nChoose a signal, take a few slow steps, and wait for fresh readings. Follow smoothed strength and warmer-or-colder trends. Clear paused, stale, and lost states help you distinguish current readings from historical data. Reset your comparison when you change position.\n\nEXPLORE THE SIGNAL MAP\nStronger signals appear nearer the center. Expand, pan, zoom, or choose a device from the signal list. Dot angles provide visual spacing; they do not show compass direction.\n\nPRIVATE AND SIMPLE\nAll features are available without an account, subscription, or time limit. Scanning and analysis happen on your iPhone. There is no location tracking, advertising, analytics, or signal upload. Optional haptic feedback can be switched off.\n\nKNOW WHAT BLUETOOTH CAN TELL YOU\nSignal strength is a relative clue, not exact distance. Walls, reflections, device orientation, and transmit power affect readings. A stronger signal alone does not identify your accessory.\n\nEarbuds, headphones, speakers, and other accessories appear only when they advertise a compatible BLE signal. They may stop advertising while asleep, connected, or in a closed case. Silent and powered-off devices cannot appear.\n\nSignal Scout does not provide GPS tracking, a finding network, or verified device ownership. It does not replace your accessory maker's finding service.\n\nRequires an iPhone with iOS 17.0 or later and Bluetooth permission.\n\nSupport: https://nickvan23-lang.github.io/signal-scout/support.html\nPrivacy: https://nickvan23-lang.github.io/signal-scout/privacy.html\nTerms: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+      "character_count": 2111,
+      "utf8_byte_count": 2111,
+      "limit": 4000,
+      "limit_unit": "characters",
+      "remaining": 1889,
+      "within_limit": true,
+      "editability": "For a published app, update with a new app version. Plain text and line breaks are supported; HTML is not supported.",
+      "readiness": "Copy validated; requires an eligible new-version workflow. No new version has been created. Not applied."
+    }
+  },
+  "counting_method": "Character counts use Unicode code points and include spaces, punctuation, and LF line breaks in the exact value. No field has a trailing newline. Keyword length is also measured in UTF-8 bytes; its ASCII value is 85 characters and 85 bytes.",
+  "readiness": {
+    "copy_and_length_validation": "passed",
+    "authenticated_app_store_connect_access": "unavailable_in_this_session",
+    "access_note": "No dedicated App Store Connect tools are available. The Browser connector requires an originating browser context, which is unavailable in this session.",
+    "private_version_state": "not_verified",
+    "name_availability": "not_verified",
+    "localization_ids": "not_retrieved",
+    "next_step": "Use authorized App Store Connect access to inspect the actual app and version status, check name availability, and apply only fields editable in that state. Promotional text does not require a new version. Coordinate remaining fields with an eligible version; do not treat public version 1.3 as an editable draft.",
+    "new_version_created": false,
+    "submitted_for_review": false,
+    "published_to_app_store": false,
+    "website_name_changed": false
+  },
+  "sources": [
+    {
+      "title": "Apple App Store Connect Help: App information",
+      "url": "https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/",
+      "verified_on": "2026-11-06",
+      "supports": "Name and subtitle limits; app name editability."
+    },
+    {
+      "title": "Apple App Store Connect Help: Platform version information",
+      "url": "https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/",
+      "verified_on": "2026-11-06",
+      "supports": "170-character promotional text; 4,000-character description; 100-byte keywords; version metadata and editability."
+    },
+    {
+      "title": "Apple: Creating your product page",
+      "url": "https://developer.apple.com/app-store/product-page/",
+      "verified_on": "2026-11-06",
+      "supports": "Product-page copy guidance and updating promotional text independently of a new version."
+    }
+  ],
+  "keyword_evidence_note": "Keywords reflect published features and relevant accessory terms. No search-volume data or ranking improvement has been measured."
+}

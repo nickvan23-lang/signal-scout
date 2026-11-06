@@ -19,6 +19,10 @@ class Page(HTMLParser):
         if tag=='link' and a.get('rel')=='canonical':self.canonical.append(a.get('href'))
         if tag in ('a','link') and a.get('href'):self.links.append(a['href'])
         if tag in ('img','source') and a.get('src'):self.links.append(a['src'])
+        if tag in ('img','source'):
+            for candidate in a.get('srcset','').split(','):
+                parts=candidate.strip().split()
+                if parts:self.links.append(parts[0])
         if tag=='img':self.images.append(a)
         if tag=='script' and a.get('type')=='application/ld+json':self.injson=True;self.jsons.append('')
     def handle_data(self,data):

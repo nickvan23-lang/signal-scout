@@ -6,6 +6,8 @@ on:
     paths:
       - "Web/**"
       - ".github/workflows/pages.yml"
+      - "scripts/check_seo.py"
+      - "scripts/submit_indexnow.py"
   workflow_dispatch:
 
 permissions:
@@ -26,6 +28,10 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - name: Validate public search metadata
+        run: python3 scripts/check_seo.py
+      - name: Validate search notification configuration
+        run: python3 scripts/submit_indexnow.py
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
@@ -35,3 +41,15 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Notify participating search engines
+        id: indexnow
+        continue-on-error: true
+        run: python3 scripts/submit_indexnow.py --submit --output "$RUNNER_TEMP/indexnow-receipt.json"
+      - name: Save search notification receipt
+        if: ${{ always() && steps.deployment.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: indexnow-receipt
+          path: ${{ runner.temp }}/indexnow-receipt.json
+          if-no-files-found: warn
+          retention-days: 7
