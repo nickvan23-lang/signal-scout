@@ -1,5 +1,7 @@
 # Signal Scout SEO readiness
 
+> Historical October 9 preparation note. For the November 6 availability check and new SEO/AEO work, see [SEO-AEO-2026-11-06.md](SEO-AEO-2026-11-06.md). The pending-review and undeployed statements below are dated observations, not current status.
+
 Prepared October 9, 2026. These changes are on the local website branch and are not deployed. Existing build-6 reviewer video routes are preserved.
 
 ## Search intent and pages

@@ -1,6 +1,12 @@
 # Signal Scout release status
 
-Updated October 28, 2026 (Pacific). The native app verification completed October 27 at approximately 10:09 PM Pacific. This page separates dated evidence from live Apple status. It does not claim a new upload, approval, or release.
+Public storefront addendum November 6, 2026 (Pacific); native verification record updated October 28, 2026 (Pacific). The native app verification completed October 27 at approximately 10:09 PM Pacific. This page separates dated evidence from live Apple status. It does not claim a new upload, approval, or release.
+
+## Public storefront addendum — November 6, 2026
+
+Apple’s [public U.S. catalog](https://itunes.apple.com/lookup?id=6810531496&country=us&entity=software) returned this exact app with price **0 USD**, version **1.3**, and minimum iOS **17.0**. The current-version release timestamp is **November 5, 2026 at 9:32:58 PM Pacific** (`2026-11-06T05:32:58Z`). The [App Store product page](https://apps.apple.com/us/app/signal-scout-ble-finder/id6810531496) and [captured public facts](../docs/evidence/2026-11-06/app-store-public.json) now support a real download link on the website.
+
+This updates public availability only. No authenticated App Store Connect session, upload, build number, or binary-to-source match was established in this SEO/AEO work. The prior repair/signing limitations and dated evidence below remain relevant.
 
 ## Repair integration
 

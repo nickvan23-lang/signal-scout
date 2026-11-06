@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bluetooth RSSI and Signal Strength Explained | Signal Scout</title>
+<meta name="description" content="Understand Bluetooth RSSI, negative dBm values, and signal-strength trends in Signal Scout. Compare nearby BLE readings without treating them as exact distance.">
+<link rel="canonical" href="https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="apple-itunes-app" content="app-id=6810531496">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Signal Scout">
+<meta property="og:title" content="Bluetooth RSSI and Signal Strength Explained | Signal Scout">
+<meta property="og:description" content="Understand Bluetooth RSSI, negative dBm values, and signal-strength trends in Signal Scout. Compare nearby BLE readings without treating them as exact distance.">
+<meta property="og:url" content="https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html">
+<meta property="og:image" content="https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png">
+<meta property="og:image:alt" content="Signal Scout app icon">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bluetooth RSSI and Signal Strength Explained | Signal Scout">
+<meta name="twitter:description" content="Understand Bluetooth RSSI, negative dBm values, and signal-strength trends in Signal Scout. Compare nearby BLE readings without treating them as exact distance.">
+<meta name="twitter:image" content="https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html#article",
+      "headline": "What do Bluetooth RSSI and dBm readings mean?",
+      "description": "Understand Bluetooth RSSI, negative dBm values, and signal-strength trends in Signal Scout. Compare nearby BLE readings without treating them as exact distance.",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html"
+      },
+      "isPartOf": {
+        "@id": "https://nickvan23-lang.github.io/signal-scout/#website"
+      },
+      "about": {
+        "@id": "https://nickvan23-lang.github.io/signal-scout/#app"
+      },
+      "author": {
+        "@type": "Person",
+        "@id": "https://nickvan23-lang.github.io/signal-scout/#developer",
+        "name": "Nicholas Alan Vandervelden",
+        "url": "https://apps.apple.com/us/developer/nicholas-alan-vandervelden/id6777812575"
+      },
+      "datePublished": "2026-11-06",
+      "dateModified": "2026-11-06",
+      "inLanguage": "en",
+      "image": "https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Signal Scout",
+          "item": "https://nickvan23-lang.github.io/signal-scout/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "What do Bluetooth RSSI and dBm readings mean?",
+          "item": "https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html"
+        }
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<main class="document" id="main" tabindex="-1">
+<a class="back" href="./">← Signal Scout home</a>
+<article>
+<header><p class="eyebrow">SIGNAL SCOUT GUIDE</p><h1>What do Bluetooth RSSI and dBm readings mean?</h1><p class="article-meta">By <a href="https://apps.apple.com/us/developer/nicholas-alan-vandervelden/id6777812575">Nicholas Alan Vandervelden</a> · <time datetime="2026-11-06">November 6, 2026</time></p><p class="callout">RSSI means received signal strength indicator. Signal Scout displays Bluetooth signal strength in dBm: −50 dBm is stronger than −80 dBm. Use changes from the same accessory as a search clue. A signal-strength reading is not an exact distance, compass direction, or confirmed device identity.</p></header>
+<section><h2>How to read negative dBm values</h2><p>A value closer to zero is stronger. For example, −50 is greater than −80, so −50 dBm represents a stronger received signal. Compare the same accessory over time while keeping your phone’s orientation as consistent as possible.</p><table><caption>Illustrative readings, not distance estimates</caption><thead><tr><th scope="col">Example reading</th><th scope="col">Relative comparison</th></tr></thead><tbody><tr><th scope="row">−45 dBm</th><td>Stronger than the other two example readings.</td></tr><tr><th scope="row">−65 dBm</th><td>Weaker than −45 dBm; stronger than −85 dBm.</td></tr><tr><th scope="row">−85 dBm</th><td>Weaker than the other two example readings.</td></tr></tbody></table><p>These are examples, not fixed quality bands or a conversion to feet or meters. Different accessories use different transmit powers, so the strongest device in a list is not necessarily the closest physical object.</p></section>
+<section><h2>Why does the signal change while I stand still?</h2><p>Walls, reflections, people, phone orientation, and accessory transmit power can affect received strength. A single reading can change without proving that you moved toward or away from the item. Signal Scout smooths readings and shows recent history to make a comparison easier to follow.</p><p>Look for a repeated trend across fresh observations instead of reacting to one jump. If conditions change, begin another comparison before drawing a conclusion.</p></section>
+<section><h2>What does the Signal Scout map show?</h2><p>Dots nearer the center represent stronger signals. Their angles are visual spacing, not compass bearings. A dot on the right does not tell you to walk right, and a centered dot does not establish a measured distance.</p><p>Use the map to compare signal strengths, or select a candidate from the device list to inspect its trend. Names and advertised manufacturers can help choose a candidate, but broadcast details do not prove identity or ownership.</p></section>
+<section><h2>A useful comparison routine</h2><ol><li>Select a possible match and check that its readings are fresh.</li><li>Hold your iPhone the same way and move a few slow steps.</li><li>Stop walking while leaving the scanner running, then wait for more readings.</li><li>Compare the recent trend with the previous position.</li><li>Use <strong>Reset comparison</strong> when testing another position, and repeat one change at a time.</li></ol><p>“Warmer” and “colder” describe the signal trend. They do not provide turn-by-turn navigation. If no consistent trend emerges, test another position or consider whether you selected the wrong candidate.</p></section>
+<section><h2>What if the reading is paused or lost?</h2><p>A paused scanner is not collecting new observations. Choose <strong>Resume scanning</strong> before interpreting a new trend. A lost signal may mean the accessory stopped advertising or moved out of range. An old value only describes an earlier observation.</p><p>If the accessory no longer appears, use the <a href="bluetooth-finder-not-finding-device.html">missing-device checklist</a>. No RSSI calculation can locate a powered-off device that is not broadcasting.</p></section>
+<section><h2>Try Signal Scout</h2><p>Signal Scout is free on iPhone with iOS 17.0 or later. All features work without an account, subscription, or time limit. Bluetooth scanning and analysis run on your phone.</p><a class="button primary" href="https://apps.apple.com/us/app/signal-scout-ble-finder/id6810531496">Get Signal Scout free</a></section>
+<section><h2>Related guides</h2><ul><li><a href="find-bluetooth-devices-iphone.html">How to find nearby Bluetooth devices with an iPhone</a></li><li><a href="bluetooth-finder-not-finding-device.html">Why is a Bluetooth finder not finding my device?</a></li><li><a href="support.html">Signal Scout help and support</a></li></ul></section>
+<section class="source-list" aria-label="Sources"><h2>Sources</h2><p>Product features and requirements: <a href="https://apps.apple.com/us/app/signal-scout-ble-finder/id6810531496">Signal Scout’s official App Store listing</a> and <a href="support.html">product support</a>. Bluetooth scanning framework: <a href="https://developer.apple.com/documentation/corebluetooth">Apple Core Bluetooth documentation</a>. Privacy details: <a href="privacy.html">Signal Scout privacy policy</a>.</p></section>
+</article>
+<footer class="site-footer"><nav aria-label="Footer navigation"><a href="./">Home</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a></nav><p>© 2026 Nicholas Alan Vandervelden</p></footer>
+</main>
+</body>
+</html>

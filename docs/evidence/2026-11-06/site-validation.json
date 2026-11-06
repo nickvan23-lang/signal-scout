@@ -1,0 +1,62 @@
+{
+  "pages": [
+    {
+      "page": "bluetooth-finder-not-finding-device.html",
+      "title": "Bluetooth Finder Not Finding Your Device? | Signal Scout",
+      "title_chars": 56,
+      "description_chars": 163,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html"
+    },
+    {
+      "page": "bluetooth-rssi-signal-strength.html",
+      "title": "Bluetooth RSSI and Signal Strength Explained | Signal Scout",
+      "title_chars": 59,
+      "description_chars": 160,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html"
+    },
+    {
+      "page": "find-bluetooth-devices-iphone.html",
+      "title": "How to Find Bluetooth Devices on iPhone | Signal Scout",
+      "title_chars": 54,
+      "description_chars": 161,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/find-bluetooth-devices-iphone.html"
+    },
+    {
+      "page": "index.html",
+      "title": "Free Bluetooth Finder for iPhone | Signal Scout",
+      "title_chars": 47,
+      "description_chars": 169,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/"
+    },
+    {
+      "page": "privacy.html",
+      "title": "Privacy Policy \u00b7 Signal Scout",
+      "title_chars": 29,
+      "description_chars": 180,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/privacy.html"
+    },
+    {
+      "page": "support.html",
+      "title": "Bluetooth Finder Help & Troubleshooting | Signal Scout",
+      "title_chars": 54,
+      "description_chars": 173,
+      "h1": 1,
+      "canonical": "https://nickvan23-lang.github.io/signal-scout/support.html"
+    }
+  ],
+  "sitemap_urls": [
+    "https://nickvan23-lang.github.io/signal-scout/",
+    "https://nickvan23-lang.github.io/signal-scout/support.html",
+    "https://nickvan23-lang.github.io/signal-scout/privacy.html",
+    "https://nickvan23-lang.github.io/signal-scout/find-bluetooth-devices-iphone.html",
+    "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html",
+    "https://nickvan23-lang.github.io/signal-scout/bluetooth-rssi-signal-strength.html"
+  ],
+  "errors": [],
+  "passed": true
+}

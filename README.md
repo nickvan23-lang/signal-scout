@@ -2,9 +2,11 @@
 
 Signal Scout is a free iPhone Bluetooth Low Energy utility for comparing nearby signal strength while searching for an accessory you own or have permission to locate.
 
-Version **1.3 (8)** was submitted to App Review on **October 9, 2026 at 10:47 AM Pacific**. App Store Connect confirmed **Waiting for Review**, with **automatic release after approval**. This is a submission receipt, not approval or a live App Store release.
+**Available free on the [U.S. App Store](https://apps.apple.com/us/app/signal-scout-ble-finder/id6810531496).** Apple’s public catalog was checked on **November 6, 2026** and reports version **1.3**, price **$0.00 USD**, and **iOS 17.0 or later**. [Public catalog evidence](docs/evidence/2026-11-06/app-store-public.json). This confirms public storefront availability; it does not establish which source commit is in the distributed binary.
 
-[Reconciled release status and remaining checks](AppStore/RELEASE_STATUS.md) · [October 27 diagnosis](docs/DIAGNOSIS-2026-10-27.md). The October 9 status above is a dated record; current Apple review status still needs verification. Older paid-build documents in `AppStore/` are labeled historical.
+Version **1.3 (8)** was submitted to App Review on **October 9, 2026 at 10:47 AM Pacific**, with automatic release after approval. The earlier waiting-for-review note is retained as a dated submission record.
+
+[Reconciled release status and remaining checks](AppStore/RELEASE_STATUS.md) · [October 27 diagnosis](docs/DIAGNOSIS-2026-10-27.md). The private App Store Connect review/build state has not been rechecked; the public storefront is verified separately above. Older paid-build documents in `AppStore/` are labeled historical.
 
 **October 27 repair:** calibration across slow/fast advertisements, stale signal recovery, and pause/resume comparison resets are fixed and merged into `main`. [Fresh native verification](https://github.com/nickvan23-lang/signal-scout/actions/runs/40635520267) passed 46 core checks, 24 unit tests, and four UI tests, with no failed or skipped test cases. A new signed iPhone release containing these repairs remains pending.
 

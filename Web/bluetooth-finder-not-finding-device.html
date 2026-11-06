@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bluetooth Finder Not Finding Your Device? | Signal Scout</title>
+<meta name="description" content="If Signal Scout cannot see your Bluetooth accessory, check permission, scan status, power, and BLE advertising. Learn which problems a finder app can help resolve.">
+<link rel="canonical" href="https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="apple-itunes-app" content="app-id=6810531496">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Signal Scout">
+<meta property="og:title" content="Bluetooth Finder Not Finding Your Device? | Signal Scout">
+<meta property="og:description" content="If Signal Scout cannot see your Bluetooth accessory, check permission, scan status, power, and BLE advertising. Learn which problems a finder app can help resolve.">
+<meta property="og:url" content="https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html">
+<meta property="og:image" content="https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png">
+<meta property="og:image:alt" content="Signal Scout app icon">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bluetooth Finder Not Finding Your Device? | Signal Scout">
+<meta name="twitter:description" content="If Signal Scout cannot see your Bluetooth accessory, check permission, scan status, power, and BLE advertising. Learn which problems a finder app can help resolve.">
+<meta name="twitter:image" content="https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html#article",
+      "headline": "Why is a Bluetooth finder not finding my device?",
+      "description": "If Signal Scout cannot see your Bluetooth accessory, check permission, scan status, power, and BLE advertising. Learn which problems a finder app can help resolve.",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html"
+      },
+      "isPartOf": {
+        "@id": "https://nickvan23-lang.github.io/signal-scout/#website"
+      },
+      "about": {
+        "@id": "https://nickvan23-lang.github.io/signal-scout/#app"
+      },
+      "author": {
+        "@type": "Person",
+        "@id": "https://nickvan23-lang.github.io/signal-scout/#developer",
+        "name": "Nicholas Alan Vandervelden",
+        "url": "https://apps.apple.com/us/developer/nicholas-alan-vandervelden/id6777812575"
+      },
+      "datePublished": "2026-11-06",
+      "dateModified": "2026-11-06",
+      "inLanguage": "en",
+      "image": "https://nickvan23-lang.github.io/signal-scout/assets/app-icon.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Signal Scout",
+          "item": "https://nickvan23-lang.github.io/signal-scout/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Why is a Bluetooth finder not finding my device?",
+          "item": "https://nickvan23-lang.github.io/signal-scout/bluetooth-finder-not-finding-device.html"
+        }
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<main class="document" id="main" tabindex="-1">
+<a class="back" href="./">← Signal Scout home</a>
+<article>
+<header><p class="eyebrow">SIGNAL SCOUT GUIDE</p><h1>Why is a Bluetooth finder not finding my device?</h1><p class="article-meta">By <a href="https://apps.apple.com/us/developer/nicholas-alan-vandervelden/id6777812575">Nicholas Alan Vandervelden</a> · <time datetime="2026-11-06">November 6, 2026</time></p><p class="callout">A missing device may be silent, out of range, or unavailable to iOS. First enable Bluetooth, allow Signal Scout’s Bluetooth permission, and resume scanning. Then test with a nearby BLE accessory you can wake. A powered-off or non-advertising device cannot provide a signal to measure.</p></header>
+<section><h2>Check the symptom first</h2><table><caption>Common symptoms and the next useful check</caption><thead><tr><th scope="col">What you see</th><th scope="col">What to check</th></tr></thead><tbody><tr><th scope="row">No devices at all</th><td>Bluetooth, app permission, scan status, and a known nearby broadcasting accessory.</td></tr><tr><th scope="row">Other devices, but not yours</th><td>Your accessory’s power and advertising state; the missing item may not be visible through iOS.</td></tr><tr><th scope="row">A reading that never changes</th><td>Whether the scanner is paused or the displayed reading is old.</td></tr><tr><th scope="row">An unnamed device</th><td>The accessory may omit its name; missing metadata does not mean the scan failed.</td></tr></tbody></table></section>
+<section><h2>1. Check iPhone and app permission separately</h2><p>Turn on Bluetooth in iPhone Settings. Then open Settings → Privacy &amp; Security → Bluetooth and allow Signal Scout. Having Bluetooth enabled does not by itself grant every app permission to scan. Return to Signal Scout after changing the permission.</p><p>If the screen says scanning is paused, choose <strong>Resume scanning</strong>. Pausing the scanner stops new observations, so the last displayed value should not be treated as a live trend.</p></section>
+<section><h2>2. Test with an accessory you can control</h2><p>Bring a known BLE accessory close to your iPhone and wake it if possible. If other signals appear, the scanner is receiving advertisements; focus on the missing accessory’s state rather than assuming every nearby Bluetooth device should appear.</p><p>Do not disconnect or change settings on someone else’s device to test detection. A controlled comparison with your own accessory is more useful than guessing from the strongest anonymous signal.</p></section>
+<section><h2>3. Check whether the missing device can broadcast</h2><p>Signal Scout receives Bluetooth Low Energy advertisements that iOS exposes to apps. Accessories can stop advertising when asleep, connected, or inside a closed case. A device using only Classic Bluetooth or Wi-Fi may not appear at all.</p><p>If the missing item has no power or is silent, moving closer cannot create a broadcast. Use the accessory maker’s finding service for any other supported recovery options. Signal Scout has no remote finding network or stored geographic location.</p></section>
+<section><h2>4. Treat missing names and lost signals differently</h2><p>An unnamed-device or manufacturer-unavailable label means a broadcast detail was not available. It does not establish that the accessory is broken. Advertised names can also be generic or misleading, so they are clues rather than verified identity.</p><p>A lost signal means new readings are unavailable. Return toward the last useful position and wait for fresh data. Keep the phone oriented consistently, and use <strong>Reset comparison</strong> when starting another comparison. See the <a href="bluetooth-rssi-signal-strength.html">RSSI guide</a> for interpreting changing numbers.</p></section>
+<section><h2>Still need help?</h2><p>Open the <a href="support.html#contact">support contact section</a> with your iPhone model, iOS version, Signal Scout version, and the steps you tried. Mention whether any other devices appear and whether the app says fresh, paused, or lost. These details help distinguish permission, scan-state, and accessory-visibility problems.</p></section>
+<section><h2>Try Signal Scout</h2><p>Signal Scout is free on iPhone with iOS 17.0 or later. All features work without an account, subscription, or time limit. Bluetooth scanning and analysis run on your phone.</p><a class="button primary" href="https://apps.apple.com/us/app/signal-scout-ble-finder/id6810531496">Get Signal Scout free</a></section>
+<section><h2>Related guides</h2><ul><li><a href="find-bluetooth-devices-iphone.html">How to find nearby Bluetooth devices with an iPhone</a></li><li><a href="bluetooth-rssi-signal-strength.html">What do Bluetooth RSSI and dBm readings mean?</a></li><li><a href="support.html">Signal Scout help and support</a></li></ul></section>
+<section class="source-list" aria-label="Sources"><h2>Sources</h2><p>Product features and requirements: <a href="https://apps.apple.com/us/app/signal-scout-ble-finder/id6810531496">Signal Scout’s official App Store listing</a> and <a href="support.html">product support</a>. Bluetooth scanning framework: <a href="https://developer.apple.com/documentation/corebluetooth">Apple Core Bluetooth documentation</a>. Privacy details: <a href="privacy.html">Signal Scout privacy policy</a>.</p></section>
+</article>
+<footer class="site-footer"><nav aria-label="Footer navigation"><a href="./">Home</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a></nav><p>© 2026 Nicholas Alan Vandervelden</p></footer>
+</main>
+</body>
+</html>
